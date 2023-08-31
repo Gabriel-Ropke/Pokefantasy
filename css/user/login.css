@@ -1,0 +1,167 @@
+body {
+  display: grid;
+  place-items: center;
+  background: url(../../img/general/forest_background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+main {
+  display: flex;
+  flex-flow: column;
+  width: 300px;
+  height: auto;
+  padding: 20px;
+  gap: 15px;
+  border-radius: 10px;
+  background: white;
+}
+main div {
+  --inputName-color: var(--black-light-color);
+  --inputPassword-color: var(--black-light-color);
+  position: relative;
+  margin: 5px 0;
+  width: 100%;
+  height: 35px;
+}
+main input {
+  width: 100%;
+  height: 100%;
+  padding: 0 50px 0 15px;
+  border-radius: 5px;
+  border: 2px solid;
+  outline: none;
+  transition: 0.2s ease;
+}
+main input:focus,
+main input.active {
+  border: 2px solid black;
+}
+main div#nameContainer input#name {
+  border-color: var(--inputName-color);
+}
+main div#nameContainer label {
+  color: var(--inputName-color);
+}
+main div#passwordContainer input#password {
+  border-color: var(--inputPassword-color);
+}
+main div#passwordContainer label {
+  color: var(--inputPassword-color);
+}
+main label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--black-light-color);
+  user-select: none;
+  cursor: text;
+  transition: 0.2s ease;
+}
+main label span {
+  color: var(--black-light-color);
+  font-size: 10px;
+}
+main input:focus ~ label,
+main input.active ~ label {
+  font-size: 12px;
+  color: black;
+  top: 0;
+  left: 10px;
+  background: white;
+  padding: 3px;
+}
+main input:focus ~ label span,
+main input.active ~ label span {
+  display: none;
+}
+main div svg {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  fill: var(--black-light-color);
+  transition: 0.2s ease;
+}
+main div input:focus ~ svg,
+main div input.active ~ svg {
+  fill: black;
+}
+main button {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  background: rgba(var(--grass));
+  border: none;
+  font-size: 20px;
+  border-radius: 15px;
+  transition: 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+main button.login-button {
+  border-bottom: 4px solid rgba(var(--grass));
+  margin-bottom: 20px;
+}
+main button.login-button::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--black-light-color);
+}
+main button.login-button::after {
+  content: "ou";
+  position: absolute;
+  top: calc(100% + 20px);
+  left: 50%;
+  padding: 0 5px;
+  line-height: 25px;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black-light-color);
+  transform: translate(-50%, -50%);
+  background: white;
+}
+main button:disabled {
+  background: rgba(var(--grass), 0.5);
+  cursor: context-menu;
+}
+main button.socialMediaContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+main button.socialMediaContainer.google {
+  background: rgb(255, 42, 35);
+}
+main button.socialMediaContainer.apple {
+  background: black;
+}
+main button.socialMediaContainer.facebook {
+  background: rgb(23, 120, 242);
+}
+main button.socialMediaContainer:hover {
+  filter: brightness(0.8);
+}
+main button.socialMediaContainer svg,
+main button.socialMediaContainer img {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+main button.socialMediaContainer span {
+  font-size: 14px;
+}

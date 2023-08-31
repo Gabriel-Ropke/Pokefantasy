@@ -1,0 +1,866 @@
+body {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  --move-range-color: rgba(var(--grass));
+}
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+/* Chrome e outros */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+/* select page (Movedex, Pokedex, Dropdex and Abilitydex) */
+#selection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, auto));
+  gap: 5px;
+  width: 100%;
+  border-radius: 15px 0 0 0;
+  overflow: hidden;
+  z-index: 10;
+}
+#selection h2 {
+  width: 100%;
+  height: 100%;
+  line-height: 60px;
+  border-radius: 5px;
+  text-align: center;
+  transition: 0.25s ease;
+  cursor: pointer;
+  color: var(--black-light-color);
+}
+#selection h2.active,
+#selection h2:hover {
+  background: var(--border-color-header1);
+  color: white;
+}
+/* filter container */
+section#filterContainer {
+  position: absolute;
+  top: 140px;
+  left: 25px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 15px;
+  width: 250px;
+  height: 125px;
+  padding: 15px 0;
+  border-radius: 15px;
+  background: white;
+  user-select: none;
+  transition: 0.25s ease;
+  z-index: 90;
+}
+section#filterContainer h2 {
+  color: black;
+}
+section#filterContainer svg.pokemonShiny {
+  position: absolute;
+  top: -50px;
+  right: 25px;
+  fill: var(--black-light-color);
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+section#filterContainer svg.pokemonShiny:hover,
+section#filterContainer svg.pokemonShiny.active {
+  fill: rgba(255, 255, 38);
+}
+section#filterContainer span#closeFilter {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 35px;
+  font-weight: 700;
+  color: black;
+  cursor: pointer;
+}
+section#filterContainer span#closeFilter svg {
+  width: 70%;
+  height: 70%;
+  fill: var(--black-light-color);
+}
+section#filterContainer span#closeFilter svg:hover {
+  fill: black;
+}
+section#filterContainer.inactive span#closeFilter {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+section#filterContainer.inactive span#closeFilter::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(40%, -50%);
+  border: 10px solid transparent;
+  border-right-color: white;
+  transition: 0.25s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+section#filterContainer.inactive span#closeFilter::after {
+  content: "Filter";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(40%, -50%);
+  padding: 0 7px;
+  border-radius: 5px;
+  line-height: 30px;
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+  background: white;
+  transition: 0.25s ease;
+  opacity: 0;
+  visibility: hidden;
+}
+section#filterContainer.inactive span#closeFilter:hover::before,
+section#filterContainer.inactive span#closeFilter:hover::after {
+  left: 80%;
+  visibility: visible;
+  opacity: 1;
+}
+div#generalSearchInput {
+  display: none;
+  position: relative;
+  width: 80%;
+  height: 40px;
+  margin: 10px auto;
+}
+div#generalSearchInput input {
+  width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 18px;
+  font-weight: 600;
+}
+div#generalSearchInput .placeholderSearch {
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  transform: translate(0, -50%);
+  color: black;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.5s ease;
+}
+div#generalSearchInput input:hover ~ .placeholderSearch,
+div#generalSearchInput input:focus ~ .placeholderSearch,
+div#generalSearchInput .placeholderSearch.minimize {
+  top: 0;
+  left: 15px;
+  padding: 0 5px;
+  background: white;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+section#filterContainer.inactive {
+  width: 45px;
+  height: 50px;
+  border-radius: 0 10px 20px 0;
+  left: 0;
+  box-shadow: 2px 2px 0 1px black;
+}
+section#filterContainer.inactive ~ section#alldex {
+  width: calc(100% - 70px);
+}
+section#filterContainer.inactive:hover {
+  box-shadow: 2px 2px 0 1px rgba(var(--grass));
+}
+section#filterContainer.inactive article,
+section#filterContainer.inactive h2 {
+  visibility: hidden;
+  opacity: 0;
+}
+/* Filter General */
+section#filterContainer article span.filter-reset.disabled {
+  visibility: hidden;
+  opacity: 0;
+}
+section#filterContainer article span.filter-reset {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  line-height: 60px;
+  border-radius: 0 0 20px 20px;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  color: rgb(110, 110, 110);
+  background: white;
+  cursor: pointer;
+  visibility: visible;
+  opacity: 1;
+}
+section#filterContainer article span.filter-reset:hover {
+  color: black;
+}
+/* Filter Container's */
+section#filterContainer article {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px 20px;
+  border-radius: 20px;
+  transition: 0.5s ease;
+  background: white;
+}
+section#filterContainer article.inactive {
+  display: none;
+}
+section#filterContainer article#abilitydexFilter {
+  padding: 0 20px;
+}
+section#filterContainer
+  article#abilitydexFilter
+  div.inputTypeTextContainer.name {
+  border: none;
+  margin: 0;
+}
+/* Filter Content */
+section#filterContainer div {
+  width: 100%;
+  height: 60px;
+  position: relative;
+}
+section#filterContainer div#filtDropPriceContainer.disabled {
+  display: none;
+}
+section div#filtMovePowerContainer,
+section div#filtDropPriceContainer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 30px;
+}
+article#abilitydexFilter div.inputTypeTextContainer.name::after {
+  display: none;
+}
+section#filterContainer div.inputTypeTextContainer.name {
+  margin-bottom: 20px;
+  box-sizing: content-box;
+  padding-bottom: 20px;
+  border-bottom: 2px solid gray;
+}
+section#filterContainer div.inputTypeTextContainer.name::after {
+  content: "OU";
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  font-size: 20px;
+  font-weight: 700;
+  background: white;
+  color: rgba(var(--grass));
+  padding: 0 5px;
+  transform: translate(-50%, -50%);
+}
+/* Filter Span */
+section#filterContainer
+  div.inputTypeTextContainer.name
+  span.placeholderInputText {
+  top: calc(50% - 10px);
+}
+/* Filter Input && Label*/
+/* -- General */
+section#filterContainer div label {
+  text-align: left;
+  width: 100%;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black-light-color);
+}
+section#filterContainer div label input {
+  width: 32.5%;
+  color: black;
+  padding: 0 5px;
+  border-radius: 7px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 800;
+  outline: none;
+  border: 2px solid black;
+  transition: 0.5s ease;
+}
+section#filterContainer div.inputTypeTextContainer input.specific_name {
+  border-color: black;
+  border-radius: 5px;
+  margin-bottom: 40px;
+}
+section#filterContainer div input[type="range"] {
+  position: relative;
+  -webkit-appearance: none;
+  border-radius: 5px;
+  background: rgba(var(--grass));
+  width: 75%;
+  height: 5px;
+  margin-right: 5px;
+}
+section#filterContainer div label input[type="text"]:focus,
+section#filterContainer div label input[type="text"]:hover {
+  width: 50%;
+}
+section#filterContainer div input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid rgba(var(--grass));
+  transition: 0.3s ease;
+}
+section#filterContainer div input[type="range"]::-webkit-slider-thumb:hover {
+  border-radius: 5px;
+}
+section#filterContainer div input[type="range"]::before,
+section#filterContainer div input[type="range"]::after {
+  content: "0";
+  position: absolute;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(var(--grass));
+  top: -30px;
+  left: 5px;
+}
+section#filterContainer div input[type="range"]::after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+section#filterContainer div input[type="text"] {
+  position: relative;
+  border-radius: 20px;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 5px 40px 5px 10px;
+  border: 2px solid var(--black-light-color);
+  transition: 0.2s ease;
+}
+section#filterContainer
+  div.inputTypeTextContainer
+  input[type="text"]:focus
+  ~ span.placeholderInputText {
+  top: 0;
+  font-size: 13px;
+  background: white;
+  color: black;
+  letter-spacing: 1px;
+  padding: 0 3px;
+}
+section#filterContainer div input[type="text"]:hover {
+  border-color: black;
+}
+section#filterContainer
+  div
+  input[type="text"]:hover
+  ~ span.placeholderInputText,
+section#filterContainer
+  div
+  input[type="text"]:focus
+  ~ span.placeholderInputText {
+  color: black;
+}
+section#filterContainer div.inputTypeTextContainer {
+  position: relative;
+  width: 100%;
+  height: 35px;
+}
+section#filterContainer div.inputTypeTextContainer span.placeholderInputText {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: black;
+  transition: 0.5s ease;
+  z-index: 1;
+}
+/* -- Specific (move) */
+section#filterContainer div#filtMovePowerContainer label {
+  color: var(--move-range-color);
+}
+section#filterContainer div#filtMovePowerContainer label input[type="number"] {
+  color: var(--move-range-color);
+  border-color: var(--move-range-color);
+}
+section#filterContainer div input[type="range"]#filtMovePower::after {
+  content: attr(max);
+}
+section#filterContainer
+  div#filtMovePowerContainer
+  input[type="range"]::-webkit-slider-thumb {
+  border-color: var(--move-range-color);
+}
+section#filterContainer div#filtMovePowerContainer input[type="range"]::before,
+section#filterContainer div#filtMovePowerContainer input[type="range"]::after {
+  color: var(--move-range-color);
+}
+section#filterContainer div#filtMovePowerContainer input[type="range"] {
+  background: var(--move-range-color);
+}
+/* -- Specific (drop)*/
+section#filterContainer div#filtDropPriceContainer label {
+  color: var(--drop-range-color);
+}
+section#filterContainer div#filtDropPriceContainer label input[type="number"] {
+  color: var(--drop-range-color);
+  border-color: var(--drop-range-color);
+}
+section#filterContainer
+  div#filtDropPriceContainer
+  input[type="range"]::-webkit-slider-thumb {
+  border-color: var(--drop-range-color);
+}
+section#filterContainer div#filtDropPriceContainer input[type="range"]::before,
+section#filterContainer div#filtDropPriceContainer input[type="range"]::after {
+  color: var(--drop-range-color);
+}
+section#filterContainer div#filtDropPriceContainer input[type="range"] {
+  background: var(--drop-range-color);
+}
+section#filterContainer div#filtDropPriceContainer input[type="range"] {
+  width: 100%;
+}
+section#filterContainer div#filtDropPriceContainer input[type="range"]::after {
+  content: attr(max);
+}
+/* Filter List (ul / li)*/
+section#filterContainer ul {
+  display: grid;
+  grid-template-columns: repeat(2, 160px);
+  gap: 2px;
+  position: absolute;
+  top: 0px;
+  left: 230px;
+  width: auto;
+  height: auto;
+  background: white;
+  border: 2px solid white;
+  overflow: hidden;
+  border-radius: 15px;
+  transition: 0.5s ease;
+}
+section#filterContainer ul.three-items {
+  grid-template-columns: 160px;
+}
+section#filterContainer ul.closed {
+  opacity: 0;
+  visibility: hidden;
+}
+section#filterContainer ul.onlyOne {
+  display: flex;
+}
+section#filterContainer ul.nothing {
+  display: flex;
+  width: 220px;
+  border: none;
+}
+section#filterContainer ul.nothing span.aviso {
+  margin: 15px;
+  font-size: 16px;
+}
+section#filterContainer div span.placeholder {
+  position: relative;
+  display: block;
+  width: 100%;
+  border: 2px solid rgb(37, 37, 37);
+  padding: 5px 10px;
+  color: black;
+  border-radius: 10px;
+  overflow: visible;
+  transition: 0.2s ease;
+  user-select: none;
+  cursor: pointer;
+}
+/* Triangulo */
+section#filterContainer div span.placeholder::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translate(5px, -50%);
+  border: 5px solid transparent;
+  border-left: 5px solid rgb(182, 182, 182);
+  transition: 0.2s ease;
+}
+section#filterContainer div:hover span.placeholder::before {
+  border-left: 5px solid black;
+}
+section#filterContainer ul li:hover {
+  filter: brightness(0.8);
+}
+section#filterContainer ul li {
+  padding: 5px 10px;
+  min-width: 160px;
+  background: rgba(var(--grass));
+  transition: 0.2s ease;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  user-select: none;
+  cursor: pointer;
+}
+/* Section Alldex Container */
+section#alldex {
+  display: flex;
+  flex-flow: column;
+  gap: 25px;
+  width: calc(100% - 300px);
+  margin: 140px 0 40px auto;
+  padding: 0 0 30px;
+  border-radius: 20px 0 0 20px;
+  transition: 0.25s ease;
+  background: white;
+}
+article#pokedex.inactive,
+article#movedex.inactive,
+article#dropdex.inactive,
+article#abilitydex.inactive {
+  display: none;
+}
+/* Article Dex Change */
+article#pokedex,
+article#movedex,
+article#dropdex {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(240px, auto));
+  gap: 10px;
+  padding: 0 15px;
+  width: 100%;
+}
+span.aviso {
+  line-height: 30px;
+  color: var(--black-light-color);
+  text-align: center;
+  margin: 115px 0;
+  font-size: 20px;
+}
+span.aviso span {
+  text-transform: uppercase;
+}
+.poke-card,
+.move-card,
+.drop-card {
+  position: relative;
+  overflow: hidden;
+}
+.poke-card {
+  --poke-card-width: 250px;
+  --poke-card-height: 200px;
+  --poke-card-padding: 10px 0 0 0;
+  --poke-card-transition-duration: 0.5s;
+  --poke-card-transition-mode: cubic-bezier(0, 0.69, 0.58, 1);
+  width: var(--poke-card-width);
+  height: var(--poke-card-height);
+  padding: var(--poke-card-padding);
+  transition: var(--poke-card-transition-duration)
+    var(--poke-card-transition-mode);
+}
+.move-card {
+  --move-card-width: 250px;
+  --move-card-height: 200px;
+  --move-card-padding: 10px 0 0 0;
+  --move-card-transition-duration: 0.5s;
+  --move-card-transition-mode: cubic-bezier(0, 0.69, 0.58, 1);
+  width: var(--move-card-width);
+  height: var(--move-card-height);
+  padding: var(--move-card-padding);
+  transition: var(--move-card-transition-duration)
+    var(--move-card-transition-mode);
+}
+.drop-card::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.drop-card {
+  --drop-card-width: 250px;
+  --drop-card-height: 200px;
+  --drop-card-padding: 10px 0 0 0;
+  --drop-card-transition-duration: 0.5s;
+  --drop-card-transition-mode: cubic-bezier(0, 0.69, 0.58, 1);
+  width: var(--drop-card-width);
+  height: var(--drop-card-height);
+  padding: var(--drop-card-padding);
+  transition: var(--drop-card-transition-duration)
+    var(--drop-card-transition-mode);
+}
+article#pokedex .poke-card:hover,
+article#movedex .move-card:hover,
+article#dropdex .drop-card:hover {
+  animation: cardHover 0.5s;
+}
+.poke-card a,
+.move-card a,
+.drop-card a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.poke-card .name,
+.poke-card .number,
+.move-card .name,
+.move-card .type,
+.drop-card .name,
+.drop-card .number {
+  position: absolute;
+}
+.poke-card .name {
+  --poke-card-name-top: 5px;
+  --poke-card-name-left: 5%;
+  --poke-card-text-transform: capitalize;
+  --poke-card-name-font-size: 16px;
+  --poke-card-name-font-weight: 600;
+  text-transform: var(--poke-card-text-transform);
+  font-size: var(--poke-card-name-font-size);
+  font-weight: var(--poke-card-name-font-weight);
+  top: var(--poke-card-name-top);
+  left: var(--poke-card-name-left);
+}
+.poke-card .number {
+  --poke-card-number-top: 5px;
+  --poke-card-number-left: calc(100% - 5px);
+  --poke-card-number-font-size: 16px;
+  --poke-card-number-font-weight: 600;
+  transform: translate(-100%, 0);
+  font-size: var(--poke-card-number-font-size);
+  font-weight: var(--poke-card-number-font-weight);
+  top: var(--poke-card-number-top);
+  left: var(--poke-card-number-left);
+}
+.move-card .name {
+  --move-card-name-top: 5px;
+  --move-card-name-left: 5%;
+  --move-card-text-transform: capitalize;
+  --move-card-name-font-size: 16px;
+  --move-card-name-font-weight: 600;
+  text-transform: var(--move-card-text-transform);
+  font-size: var(--move-card-name-font-size);
+  font-weight: var(--move-card-name-font-weight);
+  top: var(--move-card-name-top);
+  left: var(--move-card-name-left);
+}
+.move-card .type {
+  --move-card-number-top: 5px;
+  --move-card-number-left: calc(100% - 5px);
+  --move-card-number-font-size: 16px;
+  --move-card-number-font-weight: 600;
+  transform: translate(-100%, 0);
+  font-size: var(--move-card-number-font-size);
+  font-weight: var(--move-card-number-font-weight);
+  top: var(--move-card-number-top);
+  left: var(--move-card-number-left);
+}
+.drop-card .name {
+  --drop-card-name-top: 5px;
+  --drop-card-name-left: 5%;
+  --drop-card-text-transform: capitalize;
+  --drop-card-name-font-size: 16px;
+  --drop-card-name-font-weight: 600;
+  text-transform: var(--drop-card-text-transform);
+  font-size: var(--drop-card-name-font-size);
+  font-weight: var(--drop-card-name-font-weight);
+  top: var(--drop-card-name-top);
+  left: var(--drop-card-name-left);
+}
+.drop-card .number {
+  --drop-card-number-top: 5px;
+  --drop-card-number-left: calc(100% - 5px);
+  --drop-card-number-font-size: 16px;
+  --drop-card-number-font-weight: 600;
+  transform: translate(-100%, 0);
+  font-size: var(--drop-card-number-font-size);
+  font-weight: var(--drop-card-number-font-weight);
+  top: var(--drop-card-number-top);
+  left: var(--drop-card-number-left);
+}
+.poke-card .image,
+.move-card .image,
+.drop-card .image {
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+.poke-card .image {
+  --poke-card-image-width: 100px;
+  --poke-card-image-height: 100px;
+  --poke-card-image-top: 50%;
+  --poke-card-image-left: 50%;
+  width: var(--poke-card-image-width);
+  height: var(--poke-card-image-height);
+  top: var(--poke-card-image-top);
+  left: var(--poke-card-image-left);
+}
+.move-card .image {
+  --move-card-image-width: 100px;
+  --move-card-image-height: 100px;
+  --move-card-image-top: 50%;
+  --move-card-image-left: 50%;
+  width: var(--move-card-image-width);
+  height: var(--move-card-image-height);
+  top: var(--move-card-image-top);
+  left: var(--move-card-image-left);
+}
+.drop-card .image {
+  --drop-card-image-width: 100px;
+  --drop-card-image-height: 100px;
+  --drop-card-image-top: 50%;
+  --drop-card-image-left: 50%;
+  width: var(--drop-card-image-width);
+  height: var(--drop-card-image-height);
+  top: var(--drop-card-image-top);
+  left: var(--drop-card-image-left);
+}
+.poke-card .image img,
+.move-card .image img,
+.drop-card .image img {
+  min-height: 70%;
+  max-height: 90%;
+}
+.poke-card .image::before,
+.move-card .image::before,
+.drop-card .image::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  top: 0;
+  rotate: 45deg;
+  width: 140px;
+  height: 140px;
+  background: url(../../img/general/pokeball.png);
+  background-size: cover;
+}
+.poke-card .image::before {
+  --poke-card-image-before-visibility: visible;
+  visibility: var(--poke-card-image-before-visibility);
+}
+.drop-card .image::before {
+  --drop-card-image-before-visibility: visible;
+  visibility: var(--drop-card-image-before-visibility);
+}
+.drop-card .image::before {
+  --drop-card-image-before-visibility: visible;
+  visibility: var(--drop-card-image-before-visibility);
+}
+/* Diferenças - Movedex */
+.move-card .type {
+  padding: 2px 5px;
+  border-radius: 5px;
+  background: white;
+}
+.move-card .image::before {
+  left: -10px;
+  top: -10px;
+  width: 120px;
+  height: 120px;
+}
+.move-card .image img {
+  position: relative;
+  height: 100px;
+  max-height: none;
+  width: 100px;
+  border: 2px solid white;
+  border-radius: 50%;
+}
+.move-card .bottom {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  top: calc(100% - 2px);
+  left: 1%;
+  transform: translate(0, -100%);
+  width: 98%;
+  padding: 8px 0;
+  background: white;
+  border-radius: 5px;
+}
+.move-card .bottom img {
+  width: 50px;
+  border-radius: 5px;
+}
+/* Diferenças - Pokedex */
+.poke-card .image img {
+  position: relative;
+  min-height: 70px;
+}
+.poke-card .bottom {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  top: calc(100% - 2px);
+  left: 2px;
+  transform: translate(0, -100%);
+  width: calc(100% - 4px);
+  padding: 8px 0;
+  border-radius: 5px;
+  background: white;
+}
+.poke-card .bottom .type {
+  text-transform: capitalize;
+  text-align: center;
+  border-radius: 5px;
+  padding: 2px 0;
+  width: 45%;
+  color: white;
+}
+
+/* Diferenças - Dropdex */
+.drop-card a .image img {
+  position: relative;
+  min-height: 70px;
+  max-height: 100px;
+  max-width: 100px;
+}
+@media (max-width: 600px) {
+  section#filterContainer {
+    display: none;
+  }
+  section#alldex.media {
+    width: 100%;
+    border-radius: 15px;
+  }
+  div#generalSearchInput {
+    display: block;
+  }
+}

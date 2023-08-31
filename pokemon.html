@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/general/reset.css" />
+    <link rel="stylesheet" href="css/general/header.css" />
+    <link rel="stylesheet" href="css/selected/pokemon.css" />
+    <script defer src="js/decoration.js" type="module"></script>
+    <script defer src="js/pokemon.js" type="module"></script>
+    <script defer src="js/pokemonlistener.js"></script>
+    <link rel="stylesheet" href="css/responsive/pokemonResponsive.css" />
+    <link rel="stylesheet" href="css/responsive/general-responsive.css" />
+    <title>Pokémon</title>
+  </head>
+  <body>
+    <header class="pokemon-header"></header>
+    <article id="move" class="closed">
+      <b>x</b>
+      <div id="moveInfo">
+        <span id="moveLevel"></span>
+        <span id="moveName"> </span>
+        <ul></ul>
+        <div id="catType">
+          <img src="" alt="" />
+          <span></span>
+        </div>
+        <p id="description"></p>
+        <p id="effects"></p>
+      </div>
+    </article>
+    <article id="moveset">
+      <p>Moveset</p>
+      <ul></ul>
+    </article>
+    <section id="infos">
+      <div id="top">
+        <div id="preview">
+          <a href="pokemon.html"></a>
+        </div>
+        <h1 id="name">Charmander</h1>
+        <div id="next">
+          <a href="pokemon.html"></a>
+        </div>
+      </div>
+      <div id="general">
+        <h2>Informações Gerais</h2>
+        <div id="pseudo-list">
+          <img src="" alt="" />
+          <ul>
+            <li>Abilities <span class="abilities"></span></li>
+            <li>EV Yields <span class="ev-yield"> </span></li>
+          </ul>
+        </div>
+        <ul>
+          <li>Species <br /><span class="species"></span></li>
+          <li>Catch Rate* <br /><span class="catch-rate"></span></li>
+          <li>Types <br /><span class="types"></span></li>
+          <li>width <br /><span class="width"></span></li>
+          <li>height <br /><span class="height"></span></li>
+        </ul>
+      </div>
+      <div id="weakness">
+        <ul></ul>
+      </div>
+      <div id="alternative">
+        <h2>Formas Alternativas</h2>
+        <img class="normal" src="" alt="" />
+        <img class="shiny" src="" alt="" />
+      </div>
+      <div id="evolutionary">
+        <h2>Linha Evolutiva</h2>
+      </div>
+      <div id="stats">
+        <h2>Status Base</h2>
+        <ul></ul>
+      </div>
+      <div id="drops">
+        <h2>Drops</h2>
+        <ul></ul>
+      </div>
+      <div id="respawn">
+        <h2>Respawns</h2>
+        <article id="respDung">
+          <div id="switchRespDung">
+            <span class="selected">
+              <img src="img/drops/Helix_Fossil.png" alt="" />Respawn</span
+            >
+            <span><img src="img/drops/Helix_Fossil.png" alt="" />Dungeon</span>
+          </div>
+          <ul id="respawnList" class="active"></ul>
+          <ul id="dungeonList"></ul>
+        </article>
+        <article id="showRespDung">
+          <h2 class="title"><a href="#"></a></h2>
+          <ul></ul>
+        </article>
+      </div>
+    </section>
+  </body>
+</html>

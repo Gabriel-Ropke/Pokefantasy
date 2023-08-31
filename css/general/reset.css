@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,300&family=Poppins:wght@300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+}
+:root {
+  /* === Colors === */
+  --border-color-header1: #4dad5b;
+  --border-color-header2: #e6bc2f;
+  --border-color-header3: #ee6b2f;
+  --border-color-header4: #e3350d;
+
+  --text-color: #000;
+  --black-light-color: #707070;
+  --dark-red: #e3350d;
+  --white-color: #ffffff;
+  /* type Colors */
+  --rock: 182, 158, 49;
+  --ghost: 112, 85, 155;
+  --steel: 183, 185, 208;
+  --water: 100, 147, 235;
+  --grass: 76, 203, 72; /* Era 116, 203, 72 */
+  --psychic: 251, 85, 132;
+  --ice: 154, 214, 223;
+  --dark: 117, 87, 76;
+  --fairy: 230, 158, 172;
+  --normal: 170, 166, 127;
+  --fighting: 193, 34, 57;
+  --flying: 168, 145, 236;
+  --poison: 164, 62, 158;
+  --ground: 222, 193, 107;
+  --bug: 167, 183, 35;
+  --fire: 245, 125, 49;
+  --electric: 249, 207, 48;
+  --dragon: 112, 55, 255;
+  /* Rarity Colors */
+  --epic: 171, 17, 209;
+  --rare: 69, 207, 35;
+  --uncommon: 2, 100, 192;
+  --common: 95, 152, 206;
+  /* Principal Color */
+  --principal-color: rgba(var(--water));
+}
+body {
+  width: 100%;
+  background: url(../../img/general/body_background.png);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+body #onlyBg {
+  margin: 0 auto;
+  width: 95%;
+  min-height: 100vh;
+  background: #fff url(../../img/general/background.png);
+  overflow-x: hidden;
+}
+body.to-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+a,
+li,
+span,
+button,
+p,
+h2,
+h1 {
+  font-weight: 600;
+  color: white;
+}
+input[type="range"] {
+  cursor: grab;
+}
+@keyframes cardHover {
+  0% {
+    bottom: 0px;
+  }
+  50% {
+    bottom: 4px;
+  }
+  100% {
+    bottom: 0px;
+  }
+}
+@keyframes rotate {
+  0% {
+    rotate: 45deg;
+  }
+  100% {
+    rotate: 404deg;
+  }
+}

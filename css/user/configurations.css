@@ -1,0 +1,788 @@
+@keyframes rotateGear {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 359deg;
+  }
+}
+@keyframes rotateGearReverse {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: -359deg;
+  }
+}
+@keyframes switchCard {
+  0% {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  20% {
+    left: 100%;
+    top: 50%;
+    transform: translate(100%, -50%);
+  }
+  40% {
+    top: -100%;
+    left: 100%;
+    transform: translate(100%, -100%);
+  }
+  60% {
+    left: 0;
+    top: -100%;
+    transform: translate(-100%, -100%);
+  }
+  80% {
+    left: 0;
+    top: 50%;
+    transform: translate(-100%, -50%);
+  }
+  100% {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+main {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: white;
+}
+/* div#top */
+div#top {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 70px;
+  padding: 0 10px;
+}
+div#top h1 {
+  text-align: center;
+  line-height: 70px;
+  color: var(--black-light-color);
+}
+div#top svg {
+  position: absolute;
+  top: 10px;
+  fill: var(--black-light-color);
+}
+div#top svg.bigger {
+  animation: rotateGear 5s linear infinite;
+}
+div#top svg.left {
+  left: -45px;
+}
+div#top svg.right {
+  right: -45px;
+}
+div#top svg.small-right {
+  animation: rotateGearReverse 5s linear infinite;
+}
+div#top svg.small-left {
+  animation: rotateGearReverse 5s linear infinite;
+}
+div#top svg.small-right.one {
+  right: -35px;
+  top: 37px;
+}
+div#top svg.small-right.two {
+  top: 30px;
+  right: -60px;
+}
+div#top svg.small-left.one {
+  left: -35px;
+  top: 37px;
+}
+div#top svg.small-left.two {
+  top: 30px;
+  left: -60px;
+}
+/* div#body*/
+div#body {
+  display: flex;
+  width: 100%;
+  height: calc(100% - 70px);
+  margin-top: 70px;
+  background: rgb(197, 197, 197);
+}
+/* pageSelector */
+div#body ul#pageSelector {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 60px;
+  height: 100%;
+  background: #18191b;
+  transition: 0.5s ease;
+  z-index: 10;
+}
+div#body ul#pageSelector li {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  padding: 5px 0;
+  text-align: center;
+  border-radius: 5px 0 0 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+div#body ul#pageSelector li.active,
+div#body ul#pageSelector li:hover {
+  background: #252627;
+}
+div#body ul#pageSelector li svg {
+  fill: #7f8289;
+  transition: 0.3s ease;
+  z-index: 1;
+}
+div#body ul#pageSelector li.active svg,
+div#body ul#pageSelector li:hover svg {
+  fill: white;
+}
+div#body ul#pageSelector li span {
+  font-size: 10px;
+  transition: 0.3s ease;
+  color: #7f8289;
+}
+div#body ul#pageSelector li.active span,
+div#body ul#pageSelector li:hover span {
+  color: white;
+}
+.hidden {
+  display: none;
+}
+/* selectorSwitch */
+div#body section#selectorSwitch {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  width: 300px;
+  height: 100%;
+  overflow: hidden;
+}
+div#body section#selectorSwitch ul.active {
+  left: 0;
+}
+div#body section#selectorSwitch ul {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  display: flex;
+  flex-flow: column;
+  background: #252627;
+  transition: 0.5s ease;
+  padding: 10px 5px;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+div#body ul#cardSelector li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+div#body ul#cardSelector li article {
+  height: 150px;
+  width: 100%;
+  max-width: 230px;
+  cursor: pointer;
+}
+div#body ul#cardSelector li article span {
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+}
+div#body ul#cardSelector li article.move-card .image img {
+  width: 80px;
+  height: 80px;
+}
+div#body ul#cardSelector li article.move-card .image::before {
+  width: 100px;
+  height: 100px;
+}
+div#body ul#cardSelector li article .image {
+  width: 80px;
+  height: 80px;
+}
+div#body ul#cardSelector li article .bottom {
+  padding: 3px 0;
+}
+div#body ul#cardSelector li:hover {
+  filter: brightness(0.8);
+}
+div#body div#preview {
+  position: relative;
+  width: calc(100% - 340px);
+  height: 100%;
+  overflow: hidden;
+}
+div#body div#preview ul#elementEditorList {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  width: 100%;
+  height: 80px;
+  padding: 5px;
+  background: white;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.3);
+  transform: translateY(-100%);
+  transition: 0.2s ease;
+  overflow-x: auto;
+}
+div#body div#preview ul#elementEditorList.active {
+  transform: translateY(0);
+}
+div#body div#preview ul#elementEditorList li.elementEditor {
+  position: relative;
+  display: none;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  row-gap: 5px;
+  width: 70px;
+  height: 100%;
+  border-radius: 5px;
+  transition: 0.1s ease-in;
+  cursor: pointer;
+}
+div#body div#preview ul#elementEditorList li.elementEditor.active {
+  display: flex;
+}
+div#body div#preview ul#elementEditorList li.elementEditor:hover {
+  background: rgba(184, 184, 184, 0.5);
+}
+div#body div#preview ul#elementEditorList li.elementEditor svg {
+  fill: gray;
+}
+div#body div#preview ul#elementEditorList li.elementEditor i {
+  width: 35px;
+  height: 35px;
+  background: gray;
+}
+div#body div#preview ul#elementEditorList li.elementEditor i#radius {
+  border-radius: 10px;
+}
+div#body div#preview ul#elementEditorList li.elementEditor i#pentagon {
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+}
+div#body div#preview ul#elementEditorList li.elementEditor i.svg-icon {
+  background: none;
+}
+div#body div#preview ul#elementEditorList li.elementEditor h4 {
+  font-size: 13px;
+  font-weight: 500;
+  color: gray;
+}
+div#body div#preview ul#elementEditorList li.elementEditor::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(1px, -75%);
+  background: gray;
+  width: 1px;
+  height: 50%;
+}
+div#body div#preview article#cardPreview {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  transform: translate(-150%, -50%);
+  width: auto;
+  height: auto;
+  max-width: 90%;
+  border-radius: 10px;
+  user-select: none;
+}
+div#body div#preview article#cardPreview.active {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+div#body div#preview article#cardPreview.active span.active,
+div#body div#preview article#cardPreview.active div.active {
+  border: 1px solid black;
+}
+div#body div#preview button {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  background: #2196f3;
+  transition: 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+}
+div#body div#preview button:hover {
+  filter: brightness(0.8);
+}
+div#body div#preview button.active {
+  opacity: 1;
+  visibility: visible;
+}
+div#body section#editor {
+  position: absolute;
+  top: 70px;
+  left: 53px;
+  display: none;
+  width: 300px;
+  height: calc(100% - 70px);
+  padding-top: 70px;
+  background: white;
+  border-right: 1px solid gray;
+  overflow-x: visible; /* Permite overflow visível na direção horizontal */
+  overflow-y: hidden; /* Oculta o overflow na direção vertical */
+}
+div#body section#editor.active {
+  display: flex;
+  flex-flow: column;
+}
+div#body section#editor h2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 25px;
+  font-size: 20px;
+  font-weight: 500;
+  border-bottom: 1px solid gray;
+  color: black;
+}
+section#editor div h2 {
+  font-size: 23px;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: black;
+}
+section#editor section#borderRadius {
+  width: 100%;
+  flex-flow: column;
+  align-items: center;
+  gap: 10px;
+}
+section#editor section#borderRadius div.borderSide {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+section#editor section#borderRadius div.borderSide label {
+  width: 80%;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  text-align: left;
+}
+section#editor section#borderRadius div.borderSide input[type="range"] {
+  position: relative;
+  width: 80%;
+}
+section#editor section#text {
+  flex-flow: column;
+  gap: 10px;
+  width: 100%;
+}
+section#editor section div.selectorContainer {
+  position: relative;
+  width: 100%;
+  padding: 40px 10px 10px;
+}
+section#editor section div.inputRangeContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 40px 10px 10px;
+}
+section#editor section div h4 {
+  position: absolute;
+  top: 0;
+  left: 25px;
+}
+section#editor section#text div#fontSize {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  writing-mode: horizontal-tb;
+}
+section#editor section#text div#fontSize span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 100%;
+  background: rgb(73, 73, 73);
+  cursor: pointer;
+  border: 2px solid black;
+  border-radius: 5px;
+  transition: 0.2s ease;
+  user-select: none;
+}
+section#editor section#text div#fontSize span:hover {
+  background: black;
+}
+section#editor section#text div#fontSize input[type="number"] {
+  outline: none;
+  border: 2px solid black;
+  border-radius: 5px;
+  text-align: center;
+  width: 110px;
+}
+section#editor section#text div#fontWeight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+section#editor section#text div#fontWeight span.w300 {
+  font-weight: 300;
+}
+section#editor section#text div#fontWeight span.w400 {
+  font-weight: 400;
+}
+section#editor section#text div#fontWeight span.w500 {
+  font-weight: 500;
+}
+section#editor section#text div#fontWeight span.w600 {
+  font-weight: 600;
+}
+section#editor section#text div#fontWeight span.w700 {
+  font-weight: 700;
+}
+section#editor section#text div#fontWeight span.w800 {
+  font-weight: 800;
+}
+section#editor section#text div#fontWeight span.w900 {
+  font-weight: 900;
+}
+section#editor span.span-selector-editor {
+  border-radius: 10px;
+  border: 3px solid black;
+  padding: 5px 10px;
+  color: rgb(73, 73, 73);
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+section#editor span.span-selector-editor:hover,
+section#editor span.span-selector-editor.active {
+  background: rgb(73, 73, 73);
+  color: white;
+}
+section#editor section#text div#writingMode {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  gap: 10px;
+  height: auto;
+}
+section#editor section#borderStyles {
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  transition: 0.3s ease;
+}
+section#editor section#borderStyles div.border {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 85px;
+  height: 85px;
+  padding: 2.5px;
+  border-radius: 5px;
+  background: white;
+  border: 1px solid black;
+  cursor: pointer;
+  transition: 0.1s;
+}
+section#editor section#borderStyles div.border::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 40px;
+  background: var(--border-bg-color);
+  border-radius: var(--border-radius);
+  clip-path: var(--clip-path);
+}
+section#editor section#borderStyles div.border::after {
+  content: attr(data-border-style);
+  width: 100%;
+  color: gray;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: capitalize;
+  letter-spacing: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+section#editor section#borderStyles div.border:hover,
+section#editor section#borderStyles div.border.active {
+  background: #18191b;
+}
+section#editor section#borderStyles div.border:hover::after,
+section#editor section#borderStyles div.border.active::after {
+  color: white;
+}
+div#body div#handles {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+div.pointer {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--pointer-bg-color);
+  transform: translate(-50%, -50%);
+  user-select: none;
+  cursor: grab;
+}
+div.pointer.active {
+  background: none;
+  box-shadow: inset 0 0 0 2px var(--pointer-bg-color);
+  cursor: none;
+}
+section#editor section {
+  display: none;
+}
+section#editor section.active {
+  display: flex;
+}
+section#editor section#size {
+  flex-flow: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  padding: 10px 5px;
+}
+section#editor section#size div {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  height: auto;
+}
+section#editor section#size div input[type="range"] {
+  position: relative;
+  width: 70%;
+  height: 20px;
+  margin: 20px 15% 0;
+  cursor: grab;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: white;
+  border: 3px solid white;
+  transition: 0.3s ease;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  border-radius: 5px;
+}
+section#editor section#size div input[type="range"]::before,
+section#editor section#size div input[type="range"]::after {
+  content: attr(min);
+  position: absolute;
+  top: 50%;
+  left: -10%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  text-shadow: black 1px -1px, black -1px 1px, black 1px 1px, black -1px -1px;
+}
+section#editor section#size div input[type="range"]::after {
+  content: attr(max);
+  left: 110%;
+}
+section#editor section#size div label {
+  width: 100%;
+  text-align: left;
+  padding-left: 20px;
+  font-weight: 700;
+  color: black;
+}
+section#editor section#size div label span {
+  text-shadow: none;
+  margin-left: 20px;
+  color: black;
+}
+/* - Color */
+section#editor section ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 10px;
+}
+section#editor section#color ul li {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid black;
+  box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  overflow: hidden;
+}
+section#editor section ul li:hover {
+  filter: brightness(0.8);
+}
+/* - transform */
+section#editor section#transform {
+  flex-flow: column;
+}
+/* - Filter */
+section#editor section#filter {
+  flex-flow: column;
+}
+section#editor input[type="range"] {
+  position: relative;
+  appearance: none;
+  width: 80%;
+  height: 16px;
+  outline: none;
+  border: none;
+  background: #252627;
+  border-radius: 5px;
+  cursor: context-menu;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 20px;
+  background-color: white;
+  border: 2px solid #252627;
+  border-radius: 5px;
+  cursor: grab;
+}
+section#editor input::before {
+  content: attr(min);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(calc(-100% - 5px));
+  text-align: right;
+  width: 10%;
+  font-size: 14px;
+  font-weight: 600;
+}
+section#editor input::after {
+  content: attr(max);
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(calc(100% + 5px));
+  width: 10%;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+/* -- Inputs */
+/* Inputs - Color */
+section#editor section div#inputColorContainer {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+}
+section#editor section button.save-color-button {
+  position: absolute;
+  top: 30px;
+  left: calc(50% - 50px);
+  background: #2196f3;
+  border: 3px solid #136db6;
+  width: 100px;
+  border-radius: 10px;
+  padding: 5px;
+  cursor: pointer;
+  transform: translate(100px, 10px);
+  rotate: -90deg;
+  z-index: 1;
+  transition: 0.3s ease;
+}
+section#editor section button.save-color-button.active {
+  transform: translate(0, 0);
+  rotate: 0deg;
+}
+section#editor section div#inputColorContainer button.save-color-button:hover {
+  filter: brightness(0.8);
+}
+div#inputColorContainer label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  color: black;
+  font-weight: 800;
+  cursor: pointer;
+}
+input[type="color"] {
+  background-color: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+input[type="color"]:hover,
+input[type="color"]:focus {
+  border-color: #7a7a7a;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 6px;
+}
+@media (max-width: 450px) {
+  div#top svg {
+    display: none;
+  }
+}

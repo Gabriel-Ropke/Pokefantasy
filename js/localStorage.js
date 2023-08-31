@@ -1,0 +1,267 @@
+/* Poke Card */
+// Card
+document.body.style.setProperty(
+  "--poke-card-width",
+  localStorage.getItem("poke-width")
+);
+document.body.style.setProperty(
+  "--poke-card-height",
+  localStorage.getItem("poke-height")
+);
+document.body.style.setProperty(
+  "--poke-card-padding",
+  localStorage.getItem("poke-padding")
+);
+document.body.style.setProperty(
+  "--poke-card-clip-path",
+  localStorage.getItem("poke-clipPath")
+);
+document.body.style.setProperty(
+  "--poke-card-border-radius",
+  localStorage.getItem("poke-borderRadius")
+);
+document.body.style.setProperty(
+  "--poke-card-transition-time",
+  localStorage.getItem("poke-transitionTime")
+);
+document.body.style.setProperty(
+  "--poke-card-transition-mode",
+  localStorage.getItem("poke-transitionMode")
+);
+// Name
+document.body.style.setProperty(
+  "--poke-card-name-top",
+  localStorage.getItem("poke-nameTop")
+);
+document.body.style.setProperty(
+  "--poke-card-name-left",
+  localStorage.getItem("poke-nameLeft")
+);
+document.body.style.setProperty(
+  "--poke-card-text-transform",
+  localStorage.getItem("poke-textTransform")
+);
+document.body.style.setProperty(
+  "--poke-card-name-font-size",
+  localStorage.getItem("poke-nameFontSize")
+);
+document.body.style.setProperty(
+  "--poke-card-name-font-weight",
+  localStorage.getItem("poke-nameFontWeight")
+);
+// Number
+document.body.style.setProperty(
+  "--poke-card-number-top",
+  localStorage.getItem("poke-numberTop")
+);
+document.body.style.setProperty(
+  "--poke-card-number-left",
+  localStorage.getItem("poke-numberRight")
+);
+document.body.style.setProperty(
+  "--poke-card-number-font-size",
+  localStorage.getItem("poke-numberFontSize")
+);
+document.body.style.setProperty(
+  "--poke-card-number-font-weight",
+  localStorage.getItem("poke-numberFontWeight")
+);
+// Image
+document.body.style.setProperty(
+  "--poke-card-image-width",
+  localStorage.getItem("poke-imageWidth")
+);
+document.body.style.setProperty(
+  "--poke-card-image-height",
+  localStorage.getItem("poke-imageHeight")
+);
+document.body.style.setProperty(
+  "--poke-card-image-top",
+  localStorage.getItem("poke-imageTop")
+);
+document.body.style.setProperty(
+  "--poke-card-image-left",
+  localStorage.getItem("poke-imageLeft")
+);
+document.body.style.setProperty(
+  "--poke-card-image-before-visibility",
+  localStorage.getItem("poke-imageBeforeVisibility")
+);
+/* Drop Card */
+// Card
+document.body.style.setProperty(
+  "--drop-card-width",
+  localStorage.getItem("drop-width")
+);
+document.body.style.setProperty(
+  "--drop-card-height",
+  localStorage.getItem("drop-height")
+);
+document.body.style.setProperty(
+  "--drop-card-padding",
+  localStorage.getItem("drop-padding")
+);
+document.body.style.setProperty(
+  "--drop-card-clip-path",
+  localStorage.getItem("drop-clipPath")
+);
+document.body.style.setProperty(
+  "--drop-card-border-radius",
+  localStorage.getItem("drop-borderRadius")
+);
+document.body.style.setProperty(
+  "--drop-card-transition-time",
+  localStorage.getItem("drop-transitionTime")
+);
+document.body.style.setProperty(
+  "--drop-card-transition-mode",
+  localStorage.getItem("drop-transitionMode")
+);
+// Name
+document.body.style.setProperty(
+  "--drop-card-name-top",
+  localStorage.getItem("drop-nameTop")
+);
+document.body.style.setProperty(
+  "--drop-card-name-left",
+  localStorage.getItem("drop-nameLeft")
+);
+document.body.style.setProperty(
+  "--drop-card-text-transform",
+  localStorage.getItem("drop-textTransform")
+);
+document.body.style.setProperty(
+  "--drop-card-name-font-size",
+  localStorage.getItem("drop-nameFontSize")
+);
+document.body.style.setProperty(
+  "--drop-card-name-font-weight",
+  localStorage.getItem("drop-nameFontWeight")
+);
+// Number
+document.body.style.setProperty(
+  "--drop-card-number-top",
+  localStorage.getItem("poke-numberTop")
+);
+document.body.style.setProperty(
+  "--drop-card-number-left",
+  localStorage.getItem("poke-numberRight")
+);
+document.body.style.setProperty(
+  "--drop-card-number-font-size",
+  localStorage.getItem("poke-numberFontSize")
+);
+document.body.style.setProperty(
+  "--drop-card-number-font-weight",
+  localStorage.getItem("poke-numberFontWeight")
+);
+// Image
+document.body.style.setProperty(
+  "--drop-card-image-width",
+  localStorage.getItem("drop-imageWidth")
+);
+document.body.style.setProperty(
+  "--drop-card-image-height",
+  localStorage.getItem("drop-imageHeight")
+);
+document.body.style.setProperty(
+  "--drop-card-image-top",
+  localStorage.getItem("drop-imageTop")
+);
+document.body.style.setProperty(
+  "--drop-card-image-left",
+  localStorage.getItem("drop-imageLeft")
+);
+document.body.style.setProperty(
+  "--drop-card-image-before-visibility",
+  localStorage.getItem("drop-imageBeforeVisibility")
+);
+/* Move Card */
+// Card
+document.body.style.setProperty(
+  "--move-card-width",
+  localStorage.getItem("move-width")
+);
+document.body.style.setProperty(
+  "--move-card-height",
+  localStorage.getItem("move-height")
+);
+document.body.style.setProperty(
+  "--move-card-padding",
+  localStorage.getItem("move-padding")
+);
+document.body.style.setProperty(
+  "--move-card-clip-path",
+  localStorage.getItem("move-clipPath")
+);
+document.body.style.setProperty(
+  "--move-card-border-radius",
+  localStorage.getItem("move-borderRadius")
+);
+document.body.style.setProperty(
+  "--move-card-transition-time",
+  localStorage.getItem("move-transitionTime")
+);
+document.body.style.setProperty(
+  "--move-card-transition-mode",
+  localStorage.getItem("move-transitionMode")
+);
+// Name
+document.body.style.setProperty(
+  "--move-card-name-top",
+  localStorage.getItem("move-nameTop")
+);
+document.body.style.setProperty(
+  "--move-card-name-left",
+  localStorage.getItem("move-nameLeft")
+);
+document.body.style.setProperty(
+  "--move-card-text-transform",
+  localStorage.getItem("move-textTransform")
+);
+document.body.style.setProperty(
+  "--move-card-name-font-size",
+  localStorage.getItem("move-nameFontSize")
+);
+document.body.style.setProperty(
+  "--move-card-name-font-weight",
+  localStorage.getItem("move-nameFontWeight")
+);
+// Number
+document.body.style.setProperty(
+  "--move-card-number-top",
+  localStorage.getItem("poke-numberTop")
+);
+document.body.style.setProperty(
+  "--move-card-number-left",
+  localStorage.getItem("poke-numberRight")
+);
+document.body.style.setProperty(
+  "--move-card-number-font-size",
+  localStorage.getItem("poke-numberFontSize")
+);
+document.body.style.setProperty(
+  "--move-card-number-font-weight",
+  localStorage.getItem("poke-numberFontWeight")
+);
+// Image
+document.body.style.setProperty(
+  "--move-card-image-width",
+  localStorage.getItem("move-imageWidth")
+);
+document.body.style.setProperty(
+  "--move-card-image-height",
+  localStorage.getItem("move-imageHeight")
+);
+document.body.style.setProperty(
+  "--move-card-image-top",
+  localStorage.getItem("move-imageTop")
+);
+document.body.style.setProperty(
+  "--move-card-image-left",
+  localStorage.getItem("move-imageLeft")
+);
+document.body.style.setProperty(
+  "--move-card-image-before-visibility",
+  localStorage.getItem("move-imageBeforeVisibility")
+);

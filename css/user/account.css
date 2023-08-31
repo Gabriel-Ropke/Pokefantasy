@@ -1,0 +1,261 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main {
+  display: grid;
+  grid-template-columns: repeat(3, 33.3%);
+  grid-template-rows: 50% 50%;
+  grid-template-areas:
+    "Image inputText pokemon"
+    "radio radio radio";
+  place-content: center;
+  place-items: center;
+  gap: 15px;
+  width: 90%;
+  max-width: 880px;
+  min-height: 50vh;
+  padding: 25px;
+  border-radius: 10px;
+  border: 4px solid var(--principal-color);
+  background: white;
+  transition: 0.3s ease;
+  user-select: none;
+}
+main div label {
+  position: absolute;
+  top: -20px;
+  left: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  user-select: none;
+}
+/* Image */
+main img#mainUserImg {
+  grid-area: Image;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 5px solid var(--principal-color);
+  transition: 0.3s ease;
+}
+/* Section Text */
+main section#inputText {
+  grid-area: inputText;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px 0;
+}
+main div.divInputContainer {
+  position: relative;
+  width: 100%;
+}
+main div input[type="text"]:read-only {
+  border-bottom: 2px solid var(--black-light-color);
+}
+main div input[type="text"] {
+  width: 90%;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid black;
+  padding: 5px;
+}
+main div.divInputContainer svg {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 10%;
+  transform: translateY(-50%);
+  width: 35px;
+  height: 35px;
+  padding: 5px;
+  border-radius: 50%;
+  fill: var(--black-light-color);
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+main div.divInputContainer svg.active {
+  display: block;
+}
+main div.divInputContainer svg:hover {
+  fill: black;
+  background: rgba(0, 0, 0, 0.5);
+}
+/* Section Pokémon*/
+main section#pokemonContainer {
+  grid-area: pokemon;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20px;
+}
+section#pokemonContainer div#selectPokemon {
+  position: relative;
+  width: 90%;
+  height: 35px;
+}
+section#pokemonContainer div#pokemonSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+  border-radius: 5px;
+  transition: 0.3s ease;
+  background: pink;
+  cursor: pointer;
+}
+section#pokemonContainer span {
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+section#pokemonContainer div#pokemonSelector:hover,
+section#pokemonContainer ul li:hover {
+  filter: brightness(0.8);
+}
+section#pokemonContainer span.pokemonNumber {
+  font-weight: 500;
+}
+section#pokemonContainer ul {
+  position: absolute;
+  display: flex;
+  flex-flow: column;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  height: 0;
+  visibility: hidden;
+  transition: 0.5s ease;
+  border-radius: 0 0 10px 10px;
+  overflow: auto;
+  overflow-x: hidden;
+  z-index: 10;
+}
+section#pokemonContainer ul.active {
+  height: 170px;
+  visibility: visible;
+}
+section#pokemonContainer ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50px;
+  background: rgba(var(--rock));
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+section#pokemonContainer ul li img {
+  width: 50px;
+  height: 50px;
+}
+section#pokemonContainer div#pokemonSpriteContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  height: 120px;
+}
+section#pokemonContainer div#pokemonSpriteContainer::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 10%;
+  width: 80%;
+  height: 200px;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  transform: rotateX(75deg);
+  background: radial-gradient(
+    50% 50%,
+    var(--favoritePokemon-color),
+    white,
+    var(--favoritePokemon-color),
+    white,
+    var(--favoritePokemon-color)
+  );
+}
+section#pokemonContainer div#pokemonSpriteContainer img {
+  min-width: 110px;
+  max-height: 114px;
+  z-index: 2;
+}
+section#pokemonContainer div#pokemonSpriteContainer svg {
+  position: absolute;
+  top: -10px;
+  right: calc(50% - 80px);
+  cursor: pointer;
+  fill: var(--black-light-color);
+}
+section#pokemonContainer div#pokemonSpriteContainer svg:hover,
+section#pokemonContainer div#pokemonSpriteContainer svg.active {
+  fill: rgb(224, 224, 8);
+}
+/* Section Radio */
+main section#inputRadios {
+  grid-area: radio;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 15px;
+  width: calc(100% - 30px);
+  height: 170px;
+  margin-top: 40px;
+  padding: 10px;
+  border-radius: 15px;
+  background: rgba(211, 211, 211, 0.6);
+}
+main div.radioContainer {
+  position: relative;
+  width: calc(100% / 9 - 15px);
+}
+main section#inputRadios h2 {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  color: black;
+}
+main div input[type="radio"] {
+  display: none;
+}
+main div input[type="radio"] + label {
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--inputRadio-color);
+  cursor: pointer;
+  height: 100%;
+  text-transform: capitalize;
+  font-size: 20px;
+}
+main div input[type="radio"] + label::before {
+  content: "";
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px;
+  height: 25px;
+  background: var(--inputRadio-color);
+  border-radius: 50%;
+  border: 3px solid transparent;
+  transition: 0.3s ease;
+}
+main div input[type="radio"] + label:hover::before,
+main div input[type="radio"]:checked + label::before {
+  border-radius: 5px;
+  border-color: white;
+}
