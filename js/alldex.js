@@ -18,11 +18,11 @@ if (localStorage.getItem("UserId")) {
   if (pokecardRef) {
     console.log(pokecardRef);
   }
-  const stylesRef = ref(db, "users/" + userId);
+  const UserRef = ref(db, "users/" + userId);
   const elementoHTML = document.getElementById("elementoAlvo");
 
   // Consulte o Firebase para obter os estilos
-  estilosRef
+  UserRef
     .once("value")
     .then((snapshot) => {
       const estilos = snapshot.val();
