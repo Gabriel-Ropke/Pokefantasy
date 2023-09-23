@@ -4,7 +4,7 @@ import {
   allMoves,
   allPokemon,
 } from "./database/database.js";
-import { db } from "./database/firebase.js";
+import { db, ref } from "./database/firebase.js";
 import {
   createAbility,
   createDrop,
