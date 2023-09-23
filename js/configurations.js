@@ -13,7 +13,6 @@ import {
   createPokemon,
 } from "./functionFilter.js";
 import {
-  acceptedKeys,
   allElementEditorArray,
   closePages,
   mouseDown,
@@ -25,77 +24,205 @@ import {
   verifyEditorString,
   setCardProperties,
 } from "./functions/functionEditor.js";
+import { db, ref, set, update, get, remove } from "./database/firebase.js";
+export function getUser(callback) {
+  get(userRef)
+    .then((snapshot) => {
+      const user = snapshot.val();
+      callback(user);
+    })
+    .catch((error) => {
+      console.error("Erro ao obter o usuário:", error);
+    });
+}
+const acceptedKeys = {
+  ArrowUp(element, elementRect, containerRect) {
+    let top = parseInt(getComputedStyle(element).top);
+    if (top - 2 >= 0) {
+      element.style.top = top - 2 + "px";
+    }
+    UpdateUserEditorCardElements("top", elementToEdit.style.top);
+  },
+  ArrowLeft(element, elementRect, containerRect) {
+    let left = parseInt(getComputedStyle(element).left);
+    if (left - 2 >= 0) {
+      element.style.left = left - 2 + "px";
+    }
+    UpdateUserEditorCardElements("left", elementToEdit.style.left);
+  },
+  ArrowRight(element, elementRect, containerRect) {
+    let left = parseInt(getComputedStyle(element).left);
+    if (left + 2 <= containerRect.width - elementRect.width) {
+      element.style.left = left + 2 + "px";
+    }
+    UpdateUserEditorCardElements("left", elementToEdit.style.left);
+  },
+  ArrowDown(element, elementRect, containerRect) {
+    let top = parseInt(getComputedStyle(element).top);
+    if (top + 2 <= containerRect.height - elementRect.height) {
+      element.style.top = top + 2 + "px";
+    }
+    UpdateUserEditorCardElements("top", elementToEdit.style.top);
+  },
+  Delete(element, elementRect, containerRect) {
+    element.style.display = "none";
+    element = null;
+    UpdateUserEditorCardElements("display", elementToEdit.style.display);
+  },
+};
+async function UpdateUserEditorCardElements(styleName, string) {
+  try {
+    const ObjectRef = ref(
+      db,
+      `users/${localStorage.getItem("activeUser")}/${
+        actualEditorCard.dataset.name
+      }/${elementToEdit.dataset.name}`
+    );
+
+    const styleToUpdate = {};
+    styleToUpdate[styleName] = string;
+
+    await update(ObjectRef, styleToUpdate);
+
+    console.log("Objeto salvo com sucesso.");
+    return "Objeto salvo com sucesso.";
+  } catch (error) {
+    console.error("Erro ao salvar o objeto:", error);
+    throw "Erro ao salvar o objeto.";
+  }
+}
+const userRef = ref(db, "users/" + localStorage.getItem("activeUser"));
+getUser((user) => {
+  console.log(user.editorColors.length);
+  for (let i = 0; i < user.editorColors.length; i++) {
+    createNewColor(user.editorColors[i], ColorEditorColorContainer);
+  }
+});
+// Atualize apenas os campos especificados
+function updateUserEditorColors(colors) {
+  update(userRef, {
+    editorColors: colors,
+  })
+    .then(() => {
+      console.log("Usuário atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao atualizar o usuário:", error);
+    });
+}
+function applyCSSFilter() {
+  const filterString = `blur(${currentFilterValue.blur}px) grayscale(${currentFilterValue.grayscale}) brightness(${currentFilterValue.brightness}) opacity(${currentFilterValue.opacity}) saturate(${currentFilterValue.saturate})`;
+  elementToEdit.style.filter = filterString;
+  UpdateUserEditorCardElements("filter", filterString);
+}
+function applyCSSTransform() {
+  const transformString = `rotateX(${currentTransformValue.rotateX}deg) rotateY(${currentTransformValue.rotateY}deg) rotateZ(${currentTransformValue.rotateZ}deg) skew(${currentTransformValue.skewX}deg, ${currentTransformValue.skewY}deg)`;
+  elementToEdit.style.transform = transformString;
+  UpdateUserEditorCardElements("transform", transformString);
+}
+
 // Const & Let - Pages
-const homeSelector = document.querySelector("ul#homeSelector");
-const cardSelector = document.querySelector("ul#cardSelector");
-const allPageSelector = document.querySelectorAll("ul#pageSelector li");
-const allPages = document.querySelectorAll("section#selectorSwitch ul");
+const todasAsListasLaterais = document.querySelectorAll(
+  "section#selectorSwitch ul"
+);
+const listaDeHomeParaEditar = document.querySelector("ul#homeSelector");
+const listaDeCardsParaEditar = document.querySelector("ul#cardSelector");
+const todosOsSeletoresDePagina =
+  document.querySelectorAll("ul#pageSelector li");
 // Const & Let - Cards
-const allCardSelector = document.querySelectorAll("ul#cardSelector li");
+const todasAsCardsDaListaLateral =
+  document.querySelectorAll("ul#cardSelector li");
 
 // Const & Let - Preview
-const elementEditorList = document.querySelector("ul#elementEditorList");
-const cardPreview = document.querySelector("article#cardPreview");
-const handlePointers = document.querySelector("div#handles");
-const dropCardButton = document.querySelector("li#dropCard-Button");
-const pokeCardButton = document.querySelector("li#pokeCard-Button");
-const moveCardButton = document.querySelector("li#moveCard-Button");
-const abilityRowButton = document.querySelector("li#abilityRow-Button");
-const elementEditorRadius = allElementEditorArray[0];
-const elementEditorClipPath = allElementEditorArray[1];
-const elementEditorResize = allElementEditorArray[2];
-const elementEditorText = allElementEditorArray[3];
-const elementEditorColor = allElementEditorArray[4];
-const elementEditorTransform = allElementEditorArray[5];
-const elementEditorFilter = allElementEditorArray[6];
-let actualCard;
+const ResetEditButton = document.querySelector("span#resetCard");
+const EditionObjectList = document.querySelector("ul#elementEditorList");
+const EditorObjectContainer = document.querySelector("article#cardPreview");
+const PointersToEditClipPath = document.querySelector("div#handles");
+const DropCardToEdit = document.querySelector("li#dropCard-Button");
+const PokeCardToEdit = document.querySelector("li#pokeCard-Button");
+const MoveCardToEdit = document.querySelector("li#moveCard-Button");
+const AbilityRowToEdit = document.querySelector("li#abilityRow-Button");
+const SelectorBorderRadiusEditor = allElementEditorArray[0];
+const SelectorClipPathEditor = allElementEditorArray[1];
+const SelectorResizeEditor = allElementEditorArray[2];
+const SelectorTextEditor = allElementEditorArray[3];
+const SelectorColorEditor = allElementEditorArray[4];
+const SelectorTransformEditor = allElementEditorArray[5];
+const SelectorFilterEditor = allElementEditorArray[6];
+let actualEditorCard;
 // Const & Let - Editor
-const fontSizeInput = document.querySelector(
+ResetEditButton.onclick = () => {
+  const editRef = ref(
+    db,
+    "users/" +
+      localStorage.getItem("activeUser") +
+      "/" +
+      actualEditorCard.dataset.name
+  );
+  remove(editRef)
+    .then(() => {
+      console.log(editRef);
+      console.log(elementToEdit.dataset.name);
+      console.log("Nó excluído com sucesso.");
+    })
+    .catch((error) => {
+      console.error("Erro ao excluir o nó:", error);
+    });
+  elementToEdit.style = "";
+};
+const TextEditorFontSizeInput = document.querySelector(
   "div#fontSize input[type='number']#fontSizeInput"
 );
-const fontSizeMinus = document.querySelector("div#fontSize span#fontSizeMinus");
-const allEditorSection = document.querySelectorAll("section#editor section");
-const widthValue = document.querySelector("label span.valueWidth");
-const heightValue = document.querySelector("label span.valueHeight");
-const editorSizeWidth = document.querySelector("input#editorSizeWidth");
-const editorSizeHeight = document.querySelector("input#editorSizeHeight");
-const editorContainer = document.querySelector("section#editor");
-const borderStyles = document.querySelector("section#borderStyles");
-const buttonSaveEditor = document.querySelector("div#preview button");
-const colorContainer = document.querySelector("section#color ul");
-const colorInput = document.querySelector("section#color input[type='color']");
-const grayscaleInput = document.querySelector("section#filter input#grayscale");
-const brightnessInput = document.querySelector(
+const TextEditorFontSizeInputMinus = document.querySelector(
+  "div#fontSize span#fontSizeMinus"
+);
+const AllEditorSection = document.querySelectorAll("section#editor section");
+const ResizeEditorWidthValue = document.querySelector("label span.valueWidth");
+const ResizeEditorHeightValue = document.querySelector(
+  "label span.valueHeight"
+);
+const ResizeEditorWidthInput = document.querySelector("input#editorSizeWidth");
+const ResizeEditorHeightInput = document.querySelector(
+  "input#editorSizeHeight"
+);
+const EditorContainer = document.querySelector("section#editor");
+const BorderStylesContainer = document.querySelector("section#borderStyles");
+const ColorEditorColorContainer = document.querySelector("section#color ul");
+const ColorEditorColorInput = document.querySelector(
+  "section#color input[type='color']"
+);
+const FilterEditorGrayscaleInput = document.querySelector(
+  "section#filter input#grayscale"
+);
+const FilterEditorBrightnessInput = document.querySelector(
   "section#filter input#brightness"
 );
-const blurInput = document.querySelector("section#filter input#blur");
-const opacityInput = document.querySelector("section#filter input#opacity");
-const saturateInput = document.querySelector("section#filter input#saturate");
-grayscaleInput.oninput = (e) => {
-  currentFilterValue.grayscale = e.target.value;
-  applyFilters();
-};
-
-brightnessInput.oninput = (e) => {
-  currentFilterValue.brightness = e.target.value;
-  applyFilters();
-};
-
-opacityInput.oninput = (e) => {
-  currentFilterValue.opacity = e.target.value;
-  applyFilters();
-};
-
-saturateInput.oninput = (e) => {
-  currentFilterValue.saturate = e.target.value;
-  applyFilters();
-};
-blurInput.oninput = (e) => {
-  currentFilterValue.blur = e.target.value;
-  applyFilters();
-};
-let allColorSelector = document.querySelectorAll("section#color ul li");
-let elementToEdit = cardPreview;
+const FilterEditorBlurInput = document.querySelector(
+  "section#filter input#blur"
+);
+const FilterEditorOpacityInput = document.querySelector(
+  "section#filter input#opacity"
+);
+const FilterEditorSaturateInput = document.querySelector(
+  "section#filter input#saturate"
+);
+const TransformEditorRotateXInput = document.querySelector(
+  "section#transform input#rotateX"
+);
+const TransformEditorRotateYInput = document.querySelector(
+  "section#transform input#rotateY"
+);
+const TransformEditorRotateZInput = document.querySelector(
+  "section#transform input#rotateZ"
+);
+const TransformEditorSkewXInput = document.querySelector(
+  "section#transform input#skewX"
+);
+const TransformEditorSkewYInput = document.querySelector(
+  "section#transform input#skewY"
+);
+let AllColorSelector = document.querySelectorAll("section#color ul li");
+let elementToEdit;
 let currentFilterValue = {
   grayscale: 0,
   brightness: 1,
@@ -110,56 +237,21 @@ let currentTransformValue = {
   skewX: 0,
   skewY: 0,
 };
-const pokeCardStyles = {
-  borderRadius: 0,
-  clipPath: 0,
-  width: 300,
-  height: 300,
-  transform: "",
-};
-document.body.style.setProperty(
-  "--poke-card-borderRadius",
-  pokeCardStyles.borderRadius
-);
-document.body.style.setProperty(
-  "--poke-card-clipPath",
-  pokeCardStyles.clipPath
-);
-function applyFiltersTransform() {
-  const transformString = `rotate(${currentTransformValue.rotateX}deg, ${currentTransformValue.rotateY}deg, ${currentTransformValue.rotateX}deg) skew(${currentTransformValue.skewX}deg, ${currentTransformValue.skewY}deg)`;
-  elementToEdit.style.transform = transformString;
-  actualizeLocalStorage(elementToEdit, transformString);
-}
-function applyFilters() {
-  const filterString = `blur(${currentFilterValue.blur}px) grayscale(${currentFilterValue.grayscale}) brightness(${currentFilterValue.brightness}) opacity(${currentFilterValue.opacity}) saturate(${currentFilterValue.saturate})`;
-  elementToEdit.style.filter = filterString;
-  function actualizeLocalStorage(element, cardStyles) {
-    localStorage.setItem(element.dataset.name, JSON.stringify(cardStyles));
-  }
-  actualizeLocalStorage(elementToEdit, filterString);
-}
-let fontSize;
-let fontWeight;
-let writingMode;
-let borderTopRight;
-let borderTopLeft;
-let borderBottomRight;
-let borderBottomLeft;
 // Code - Pages
-for (let page of allPageSelector) {
+for (let page of todosOsSeletoresDePagina) {
   page.addEventListener("click", () => {
-    editorContainer.classList.remove("active");
+    EditorContainer.classList.remove("active");
     if (page.dataset.page == "pokedex") {
-      closePages(allPages);
-      cardSelector.classList.add("active");
+      closePages(todasAsListasLaterais);
+      listaDeCardsParaEditar.classList.add("active");
     } else {
-      closePages(allPages);
-      homeSelector.classList.add("active");
+      closePages(todasAsListasLaterais);
+      listaDeHomeParaEditar.classList.add("active");
     }
     page.classList.add("active");
 
     // Iteração manual para adicionar/remover a classe "active" nos elementos
-    for (let actualActive of allPageSelector) {
+    for (let actualActive of todosOsSeletoresDePagina) {
       if (actualActive.dataset.page !== page.dataset.page) {
         actualActive.classList.remove("active");
       }
@@ -168,88 +260,90 @@ for (let page of allPageSelector) {
 }
 createDrop(
   allDrops[Math.floor(Math.random() * allDrops.length)],
-  dropCardButton,
+  DropCardToEdit,
   false
 );
 createPokemon(
   allPokemon[Math.floor(Math.random() * allPokemon.length)],
-  pokeCardButton,
+  PokeCardToEdit,
   false
 );
 createMove(
   allMoves[Math.floor(Math.random() * allMoves.length)],
-  moveCardButton,
+  MoveCardToEdit,
   false
 );
 createAbility(
   allAbilities[Math.floor(Math.random() * allAbilities.length)],
-  abilityRowButton,
+  AbilityRowToEdit,
   false
 );
 // Code - Preview
-for (let i = 0; i < allCardSelector.length; i++) {
-  allCardSelector[i].addEventListener("click", () => {
-    handlePointers.innerHTML = "";
-    handlePointers.style = "";
-    cardPreview.style.animation = "switchCard 1s linear";
-    elementEditorList.classList.add("active");
-    elementEditorClipPath.isActive = true;
-    elementEditorColor.isActive = false;
-    elementEditorFilter.isActive = true;
-    elementEditorRadius.isActive = true;
-    elementEditorResize.isActive = true;
-    elementEditorText.isActive = false;
-    elementEditorTransform.isActive = true;
+for (let i = 0; i < todasAsCardsDaListaLateral.length; i++) {
+  todasAsCardsDaListaLateral[i].addEventListener("click", () => {
+    PointersToEditClipPath.innerHTML = "";
+    PointersToEditClipPath.style = "";
+    EditorObjectContainer.style.animation = "switchCard 1s linear";
+    EditionObjectList.classList.add("active");
+    SelectorClipPathEditor.isActive = true;
+    SelectorColorEditor.isActive = false;
+    SelectorFilterEditor.isActive = true;
+    SelectorBorderRadiusEditor.isActive = true;
+    SelectorResizeEditor.isActive = true;
+    SelectorTextEditor.isActive = false;
+    SelectorTransformEditor.isActive = true;
     createElementEditorArray();
-    activeEditor(cardPreview);
+    activeEditor(EditorObjectContainer);
     setTimeout(() => {
-      cardPreview.innerHTML = "";
-      cardPreview.style.clipPath = "";
-      if (allCardSelector[i].dataset.card == "poke") {
+      EditorObjectContainer.innerHTML = "";
+      EditorObjectContainer.style.clipPath = "";
+      if (todasAsCardsDaListaLateral[i].dataset.card == "poke") {
         createPokemon(
           allPokemon[Math.floor(Math.random() * allPokemon.length)],
-          cardPreview,
+          EditorObjectContainer,
           false
         );
-      } else if (allCardSelector[i].dataset.card == "drop") {
+      } else if (todasAsCardsDaListaLateral[i].dataset.card == "drop") {
         createDrop(
           allDrops[Math.floor(Math.random() * allDrops.length)],
-          cardPreview,
+          EditorObjectContainer,
           false
         );
-      } else if (allCardSelector[i].dataset.card == "move") {
+      } else if (todasAsCardsDaListaLateral[i].dataset.card == "move") {
         createMove(
           allMoves[Math.floor(Math.random() * allMoves.length)],
-          cardPreview,
+          EditorObjectContainer,
           false
         );
       } else {
         createAbility(
           allAbilities[Math.floor(Math.random() * allAbilities.length)],
-          cardPreview,
+          EditorObjectContainer,
           false
         );
       }
-      actualCard = cardPreview.children[0];
-      editorSizeWidth.value = actualCard.style.width;
-      editorSizeHeight.value = actualCard.style.height;
-      widthValue.innerText = editorSizeWidth.value;
-      heightValue.innerText = editorSizeHeight.value;
-      elementToEdit = actualCard;
-      return actualCard;
+      actualEditorCard = EditorObjectContainer.children[0];
+      ResizeEditorWidthInput.value = actualEditorCard.style.width;
+      ResizeEditorHeightInput.value = actualEditorCard.style.height;
+      ResizeEditorWidthValue.innerText = ResizeEditorWidthInput.value;
+      ResizeEditorHeightValue.innerText = ResizeEditorHeightInput.value;
+      elementToEdit = actualEditorCard;
+      return actualEditorCard;
     }, 250);
     setTimeout(() => {
-      cardPreview.style.animation = "";
-      let allCardChild = Array.from(actualCard.children[0].children);
+      EditorObjectContainer.style.animation = "";
+      let allCardChild = Array.from(actualEditorCard.children[0].children);
       let activeChild = null;
       function handleMouseMoveChildWrapper(evento) {
-        handleMouseMoveChild(evento, activeChild, actualCard);
+        handleMouseMoveChild(evento, activeChild, actualEditorCard);
+        UpdateUserEditorCardElements("top", activeChild.style.top);
+        UpdateUserEditorCardElements("left", activeChild.style.left);
       }
       function returnActualCardToEditElementWrapper() {
         returnActualCardToEditElement(
           elementToEdit,
-          actualCard,
-          cardPreview,
+          actualEditorCard,
+          EditorObjectContainer,
           returnActualCardToEditElement
         );
       }
@@ -258,26 +352,26 @@ for (let i = 0; i < allCardSelector.length; i++) {
         activeChild = element;
         elementToEdit = element;
         if (element.tagName == "SPAN" || element.tagName == "P") {
-          elementEditorClipPath.isActive = false;
-          elementEditorColor.isActive = true;
-          elementEditorFilter.isActive = true;
-          elementEditorRadius.isActive = false;
-          elementEditorResize.isActive = false;
-          elementEditorText.isActive = true;
-          elementEditorTransform.isActive = true;
+          SelectorClipPathEditor.isActive = false;
+          SelectorColorEditor.isActive = true;
+          SelectorFilterEditor.isActive = true;
+          SelectorBorderRadiusEditor.isActive = false;
+          SelectorResizeEditor.isActive = false;
+          SelectorTextEditor.isActive = true;
+          SelectorTransformEditor.isActive = true;
           createElementEditorArray();
         }
         if (element.tagName == "DIV") {
-          elementEditorClipPath.isActive = true;
-          elementEditorColor.isActive = true;
-          elementEditorFilter.isActive = true;
-          elementEditorRadius.isActive = true;
-          elementEditorResize.isActive = false;
-          elementEditorText.isActive = false;
-          elementEditorTransform.isActive = true;
+          SelectorClipPathEditor.isActive = false;
+          SelectorColorEditor.isActive = true;
+          SelectorFilterEditor.isActive = true;
+          SelectorBorderRadiusEditor.isActive = true;
+          SelectorResizeEditor.isActive = false;
+          SelectorTextEditor.isActive = false;
+          SelectorTransformEditor.isActive = true;
           createElementEditorArray();
         }
-        cardPreview.addEventListener(
+        EditorObjectContainer.addEventListener(
           "click",
           returnActualCardToEditElementWrapper
         );
@@ -293,7 +387,7 @@ for (let i = 0; i < allCardSelector.length; i++) {
             keysFunction(
               element,
               element.getBoundingClientRect(),
-              cardPreview.getBoundingClientRect()
+              EditorObjectContainer.getBoundingClientRect()
             );
           }
         };
@@ -311,6 +405,7 @@ for (let i = 0; i < allCardSelector.length; i++) {
         };
 
         element.onclick = () => {
+          EditorContainer.classList.remove("active");
           closePages(allCardChild);
           if (element.classList.contains("active")) {
             deactivateElement(element);
@@ -321,7 +416,7 @@ for (let i = 0; i < allCardSelector.length; i++) {
         };
       }
     }, 1000);
-    cardPreview.classList.add("active");
+    EditorObjectContainer.classList.add("active");
   });
 }
 function createNewColor(color, container) {
@@ -329,49 +424,33 @@ function createNewColor(color, container) {
   li.dataset.value = color;
   li.style.background = color;
   li.onclick = () => {
+    console.log("mudou a cor");
     elementToEdit.style.color = li.dataset.value;
+    UpdateUserEditorCardElements("color", li.dataset.value);
   };
   container.appendChild(li);
-  allColorSelector = document.querySelectorAll("section#color ul li");
+  AllColorSelector = document.querySelectorAll("section#color ul li");
 }
-if (localStorage.getItem("allColors")) {
-  for (
-    let i = 0;
-    i < JSON.parse(localStorage.getItem("allColors")).length;
-    i++
-  ) {
-    createNewColor(
-      JSON.parse(localStorage.getItem("allColors"))[i],
-      colorContainer
-    );
-  }
-}
-
-console.log(allColorSelector);
-for (let i = 0; i < allColorSelector.length; i++) {
-  allColorSelector[i].style.background = allColorSelector[i].dataset.value;
-  allColorSelector[i].onclick = () => {
-    elementToEdit.style.color = allColorSelector[i].dataset.value;
-  };
+console.log(AllColorSelector);
+for (let i = 0; i < AllColorSelector.length; i++) {
+  AllColorSelector[i].style.background = AllColorSelector[i].dataset.value;
 }
 const buttonSaveColor = document.querySelector(
   "section#color button.save-color-button"
 );
-colorInput.oninput = (e) => {
+ColorEditorColorInput.oninput = (e) => {
   buttonSaveColor.classList.add("active");
   elementToEdit.style.color = e.target.value;
   buttonSaveColor.onclick = () => {
+    UpdateUserEditorCardElements("color", e.target.value);
     buttonSaveColor.classList.remove("active");
-    createNewColor(e.target.value, colorContainer);
-    let allColors = JSON.parse(localStorage.getItem("allColors")) || [];
-
+    createNewColor(e.target.value, ColorEditorColorContainer);
     allColors.push(e.target.value);
-
-    localStorage.setItem("allColors", JSON.stringify(allColors));
+    updateUserEditorColors(allColors);
   };
 };
 function createElementEditorArray() {
-  elementEditorList.innerHTML = "";
+  EditionObjectList.innerHTML = "";
   allElementEditorArray.forEach((elementEditor) => {
     let li = document.createElement("li");
     let i = document.createElement("i");
@@ -389,34 +468,80 @@ function createElementEditorArray() {
     h4.innerText = elementEditor.title;
     li.appendChild(i);
     li.appendChild(h4);
-    elementEditorList.appendChild(li);
+    EditionObjectList.appendChild(li);
     li.addEventListener("click", () => {
-      const dataset = Array.from(allEditorSection).find(
+      const dataset = Array.from(AllEditorSection).find(
         (section) => section.dataset.editor == li.dataset.name
       );
-      closePages(allPageSelector);
-      closePages(allEditorSection);
-      editorContainer.classList.add("active");
+      closePages(todosOsSeletoresDePagina);
+      closePages(AllEditorSection);
+      EditorContainer.classList.add("active");
       dataset.classList.add("active");
     });
   });
 }
 createElementEditorArray();
 // Code - Editor
+// String Editors
+FilterEditorGrayscaleInput.value = "0";
+FilterEditorBrightnessInput.value = "1";
+FilterEditorOpacityInput.value = "1";
+FilterEditorBlurInput.value = "0";
+FilterEditorSaturateInput.value = "1";
+TransformEditorRotateXInput.oninput = (e) => {
+  currentTransformValue.rotateX = e.target.value;
+  applyCSSTransform();
+};
+TransformEditorRotateYInput.oninput = (e) => {
+  currentTransformValue.rotateY = e.target.value;
+  applyCSSTransform();
+};
+TransformEditorRotateZInput.oninput = (e) => {
+  currentTransformValue.rotateZ = e.target.value;
+  applyCSSTransform();
+};
+TransformEditorSkewXInput.oninput = (e) => {
+  currentTransformValue.skewX = e.target.value;
+  applyCSSTransform();
+};
+TransformEditorSkewYInput.oninput = (e) => {
+  currentTransformValue.skewY = e.target.value;
+  applyCSSTransform();
+};
+FilterEditorGrayscaleInput.oninput = (e) => {
+  currentFilterValue.grayscale = e.target.value;
+  applyCSSFilter();
+};
+FilterEditorBrightnessInput.oninput = (e) => {
+  currentFilterValue.brightness = e.target.value;
+  applyCSSFilter();
+};
+FilterEditorOpacityInput.oninput = (e) => {
+  currentFilterValue.opacity = e.target.value;
+  applyCSSFilter();
+};
+
+FilterEditorSaturateInput.oninput = (e) => {
+  currentFilterValue.saturate = e.target.value;
+  applyCSSFilter();
+};
+FilterEditorBlurInput.oninput = (e) => {
+  currentFilterValue.blur = e.target.value;
+  applyCSSFilter();
+};
 // Clip Path
 for (let i = 0; i < allClipPathBorder.length; i++) {
   let newBorder = document.createElement("div");
   newBorder.classList.add("border");
   newBorder.id = allClipPathBorder[i].name;
   newBorder.dataset.borderStyle = allClipPathBorder[i].name;
-  borderStyles.appendChild(newBorder);
+  BorderStylesContainer.appendChild(newBorder);
   newBorder.style.setProperty("--clip-path", allClipPathBorder[i].clipPath);
   newBorder.style.setProperty(
     "--border-bg-color",
     `rgb(var(--${allWeakness[i].name.toLowerCase()}))`
   );
   newBorder.addEventListener("click", () => {
-    buttonSaveEditor.classList.add("active");
     elementToEdit.dataset.clipPath = newBorder.id;
     let allPointers;
     let allBorder = document.querySelectorAll(
@@ -429,13 +554,14 @@ for (let i = 0; i < allClipPathBorder.length; i++) {
         border.classList.remove("active");
       }
     }
-    handlePointers.style = "";
-    handlePointers.innerHTML = "";
-    handlePointers.style.display = "block";
-    handlePointers.style.border = "1px solid orange";
-    handlePointers.style.width = `${elementRect.width}px`;
-    handlePointers.style.height = `${elementRect.height}px`;
+    PointersToEditClipPath.style = "";
+    PointersToEditClipPath.innerHTML = "";
+    PointersToEditClipPath.style.display = "block";
+    PointersToEditClipPath.style.border = "1px solid orange";
+    PointersToEditClipPath.style.width = `${elementRect.width}px`;
+    PointersToEditClipPath.style.height = `${elementRect.height}px`;
     elementToEdit.style.clipPath = allClipPathBorder[i].clipPath;
+    UpdateUserEditorCardElements("clipPath", allClipPathBorder[i].clipPath);
     for (const allClipPathPointers of allClipPathBorder[i].pointers) {
       let newPointer = document.createElement("div");
       newPointer.style.setProperty(
@@ -445,7 +571,7 @@ for (let i = 0; i < allClipPathBorder.length; i++) {
       newPointer.classList.add("pointer");
       newPointer.style.left = allClipPathPointers.left;
       newPointer.style.top = allClipPathPointers.top;
-      handlePointers.appendChild(newPointer);
+      PointersToEditClipPath.appendChild(newPointer);
       newPointer.addEventListener("mousedown", () =>
         mouseDown(newPointer, handleMouseMoveWrapper)
       );
@@ -455,7 +581,16 @@ for (let i = 0; i < allClipPathBorder.length; i++) {
       allPointers = document.querySelectorAll("div#handles div.pointer");
     }
     function handleMouseMoveWrapper(evento) {
-      handleMouseMove(evento, elementToEdit, allPointers, handlePointers);
+      handleMouseMove(
+        evento,
+        elementToEdit,
+        allPointers,
+        PointersToEditClipPath
+      );
+      UpdateUserEditorCardElements(
+        "clipPath",
+        `polygon(${elementToEdit.style.clipPath})`
+      );
     }
   });
 }
@@ -474,41 +609,71 @@ const borderBottomRightInput = document.querySelector(
 );
 borderTopRightInput.oninput = () => {
   elementToEdit.style.borderTopRightRadius = borderTopRightInput.value + "px";
+  UpdateUserEditorCardElements(
+    "borderTopRight",
+    borderTopRightInput.value + "px"
+  );
 };
 borderTopLeftInput.oninput = () => {
   elementToEdit.style.borderTopLeftRadius = borderTopLeftInput.value + "px";
+  UpdateUserEditorCardElements(
+    "borderTopLeft",
+    borderTopLeftInput.value + "px"
+  );
 };
 borderBottomRightInput.oninput = () => {
   elementToEdit.style.borderBottomRightRadius =
     borderBottomRightInput.value + "px";
+  UpdateUserEditorCardElements(
+    "borderBottomRight",
+    borderBottomRightInput.value + "px"
+  );
 };
 borderBottomLeftInput.oninput = () => {
   elementToEdit.style.borderBottomLeftRadius =
     borderBottomLeftInput.value + "px";
+  UpdateUserEditorCardElements(
+    "borderBottomLeft",
+    borderBottomLeftInput.value + "px"
+  );
 };
 // Resize
-editorSizeWidth.oninput = () => {
-  handlePointers.style.width = `${editorSizeWidth.value}px`;
-  elementToEdit.style.width = `${editorSizeWidth.value}px`;
-  widthValue.innerText = editorSizeWidth.value;
+ResizeEditorWidthInput.oninput = () => {
+  PointersToEditClipPath.style.width = `${ResizeEditorWidthInput.value}px`;
+  elementToEdit.style.width = `${ResizeEditorWidthInput.value}px`;
+  ResizeEditorWidthValue.innerText = ResizeEditorWidthInput.value;
+  UpdateUserEditorCardElements("width", `${ResizeEditorWidthInput.value}px`);
 };
-editorSizeHeight.oninput = () => {
-  handlePointers.style.height = `${editorSizeHeight.value}px`;
-  elementToEdit.style.height = `${editorSizeHeight.value}px`;
-  heightValue.innerText = editorSizeHeight.value;
+ResizeEditorHeightInput.oninput = () => {
+  PointersToEditClipPath.style.height = `${ResizeEditorHeightInput.value}px`;
+  elementToEdit.style.height = `${ResizeEditorHeightInput.value}px`;
+  ResizeEditorHeightValue.innerText = ResizeEditorHeightInput.value;
+  UpdateUserEditorCardElements("height", `${ResizeEditorHeightInput.value}px`);
 };
 // Text
 const fontSizePlus = document.querySelector("div#fontSize span#fontSizePlus");
-fontSizeInput.oninput = () => {
-  elementToEdit.style.fontSize = fontSizeInput.value + "px";
+TextEditorFontSizeInput.oninput = () => {
+  elementToEdit.style.fontSize = TextEditorFontSizeInput.value + "px";
+  UpdateUserEditorCardElements(
+    "fontSize",
+    TextEditorFontSizeInput.value + "px"
+  );
 };
-fontSizeMinus.onclick = () => {
-  fontSizeInput.value--;
-  elementToEdit.style.fontSize = fontSizeInput.value + "px";
+TextEditorFontSizeInputMinus.onclick = () => {
+  TextEditorFontSizeInput.value--;
+  elementToEdit.style.fontSize = TextEditorFontSizeInput.value + "px";
+  UpdateUserEditorCardElements(
+    "fontSize",
+    TextEditorFontSizeInput.value + "px"
+  );
 };
 fontSizePlus.onclick = () => {
-  fontSizeInput.value++;
-  elementToEdit.style.fontSize = fontSizeInput.value + "px";
+  TextEditorFontSizeInput.value++;
+  elementToEdit.style.fontSize = TextEditorFontSizeInput.value + "px";
+  UpdateUserEditorCardElements(
+    "fontSize",
+    TextEditorFontSizeInput.value + "px"
+  );
 };
 const allFontWeightOptions = document.querySelectorAll("div#fontWeight span");
 for (let i = 0; i < allFontWeightOptions.length; i++) {
@@ -516,6 +681,10 @@ for (let i = 0; i < allFontWeightOptions.length; i++) {
     closePages(allFontWeightOptions);
     allFontWeightOptions[i].classList.add("active");
     elementToEdit.style.fontWeight = allFontWeightOptions[i].dataset.value;
+    UpdateUserEditorCardElements(
+      "fontWeight",
+      allFontWeightOptions[i].dataset.value
+    );
   };
 }
 const allWritingModeOptions = document.querySelectorAll("div#writingMode span");
@@ -525,76 +694,51 @@ for (let i = 0; i < allWritingModeOptions.length; i++) {
     closePages(allWritingModeOptions);
     allWritingModeOptions[i].classList.add("active");
     elementToEdit.style.writingMode = allWritingModeOptions[i].dataset.value;
+    UpdateUserEditorCardElements(
+      "writingMode",
+      allWritingModeOptions[i].dataset.value
+    );
   };
 }
-// Save Button
-buttonSaveEditor.addEventListener("click", () => {
-  handlePointers.innerHTML = "";
-  handlePointers.style = "";
-  buttonSaveEditor.classList.remove("active");
-});
-
 function activeEditor(elementToEdit) {
+  console.log(elementToEdit);
   const elementStylesCSS = window.getComputedStyle(elementToEdit);
   const actualElementStyles = elementToEdit.style;
-  const pokecardd = {
-    width: "350px",
-    height: "250px",
-    color: "gray",
-    writingMode: "horizontal-tb",
-  };
-  const propertyNames = Object.keys(pokecardd);
-
-  for (let i = 0; i < propertyNames.length; i++) {
-    const propertyName = propertyNames[i];
-    const propertyValue = pokecardd[propertyName];
-    document.documentElement.style.setProperty(
-      `--${elementToEdit.dataset.name}-${propertyName}`,
-      propertyValue
-    );
-  }
-  console.log(elementToEdit);
   // Text
-  fontSize = verifyEditorNumber(
+  TextEditorFontSizeInput.value = verifyEditorNumber(
     actualElementStyles.fontSize,
     elementStylesCSS.fontSize
   );
-  fontSizeInput.value = fontSize;
-  fontWeight = verifyEditorNumber(
-    actualElementStyles.fontWeight,
-    elementStylesCSS.fontWeight
-  );
   const activeFontWeightOption = Array.from(allFontWeightOptions).find(
-    (option) => parseInt(option.dataset.value) == fontWeight
-  );
-  writingMode = verifyEditorString(
-    actualElementStyles.writingMode,
-    "horizontal-tb"
+    (option) =>
+      parseInt(option.dataset.value) ==
+      verifyEditorNumber(
+        actualElementStyles.fontWeight,
+        elementStylesCSS.fontWeight
+      )
   );
   const activeWritingModeOption = Array.from(allWritingModeOptions).find(
-    (option) => option.dataset.value == writingMode
+    (option) =>
+      option.dataset.value ==
+      verifyEditorString(actualElementStyles.writingMode, "horizontal-tb")
   );
   // Border Radius
-  borderTopLeft = verifyEditorNumber(
+  borderTopLeftInput.value = verifyEditorNumber(
     actualElementStyles.borderTopLeftRadius,
     elementStylesCSS.borderTopLeftRadius
   );
-  borderTopRight = verifyEditorNumber(
+  borderTopRightInput.value = verifyEditorNumber(
     actualElementStyles.borderTopRightRadius,
     elementStylesCSS.borderTopRightRadius
   );
-  borderBottomRight = verifyEditorNumber(
-    actualElementStyles.borderBottomRightRadius,
-    elementStylesCSS.borderBottomRightRadius
-  );
-  borderBottomLeft = verifyEditorNumber(
+  borderBottomLeftInput.value = verifyEditorNumber(
     actualElementStyles.borderBottomLeftRadius,
     elementStylesCSS.borderBottomLeftRadius
   );
-  borderTopRightInput.value = borderTopRight;
-  borderTopLeftInput.value = borderTopLeft;
-  borderBottomLeftInput.value = borderBottomLeft;
-  borderBottomRightInput.value = borderBottomRight;
+  borderBottomRightInput.value = verifyEditorNumber(
+    actualElementStyles.borderBottomRightRadius,
+    elementStylesCSS.borderBottomRightRadius
+  );
   // Clip Path
   const activeClipPath = Array.from(
     document.querySelectorAll("section#borderStyles div.border")
@@ -611,5 +755,3 @@ function activeEditor(elementToEdit) {
     activeWritingModeOption.classList.add("active");
   }
 }
-const card = document.querySelector("article.poke-card");
-setCardProperties(card, pokeCardStyles);

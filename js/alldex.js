@@ -4,6 +4,7 @@ import {
   allMoves,
   allPokemon,
 } from "./database/database.js";
+import { db } from "./database/firebase.js";
 import {
   createAbility,
   createDrop,
@@ -11,9 +12,34 @@ import {
   createPokemon,
   filterByName,
 } from "./functionFilter.js";
-if (!localStorage.getItem("pokedexIsShiny")) {
-  localStorage.setItem("pokedexIsShiny", false);
+if (localStorage.getItem("UserId")) {
+  const userId = parseInt(localStorage.getItem("UserId"));
+  const pokecardRef = ref(db, "users/" + userId + "/pokecard");
+  if (pokecardRef) {
+    console.log(pokecardRef);
+  }
+  const stylesRef = ref(db, "users/" + userId);
+  const elementoHTML = document.getElementById("elementoAlvo");
+
+  // Consulte o Firebase para obter os estilos
+  estilosRef
+    .once("value")
+    .then((snapshot) => {
+      const estilos = snapshot.val();
+      console.log(estilos);
+      // Verifique se há estilos no objeto recebido
+      if (estilos) {
+        // Aplique os estilos ao elemento HTML
+        for (const propriedade in estilos) {
+          elementoHTML.style[propriedade] = estilos[propriedade];
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar estilos do Firebase:", error);
+    });
 }
+
 import { selectedPage } from "./importantConsts.js";
 /* Switch Pages - Poké, Move, Drop & Ability */
 export const abilitydex = document.querySelector("#abilitydex ul");
@@ -26,6 +52,7 @@ const pokemonFilter = document.getElementById("pokedexFilter");
 const movesFilter = document.getElementById("movedexFilter");
 const dropsFilter = document.getElementById("dropdexFilter");
 const abilitiesFilter = document.getElementById("abilitydexFilter");
+
 function closePages() {
   pokedex.classList.add("inactive");
   movedex.classList.add("inactive");

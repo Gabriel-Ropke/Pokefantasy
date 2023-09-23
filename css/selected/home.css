@@ -2,62 +2,67 @@
   user-select: none;
 }
 section#home {
-  display: flex;
-  flex-flow: column;
-  gap: 10px;
-  margin: 140px auto 0;
-  width: 80%;
-  min-height: 100vh;
-  padding: 25px 15px 40px;
-  border-radius: 20px 20px 0 0;
-  background: white;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.2);
-}
-section#home article#principal {
-  position: static;
-  width: 100%;
-}
-section#home #wrapper {
-  display: flex;
-  gap: 5px;
-}
-section#home article {
   position: relative;
-  width: 33%;
-  border-radius: 5px;
-  overflow: hidden;
-  transition: 0.2s ease;
-}
-section#home article:hover {
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.6);
-  animation: cardHover 0.5s;
+  margin: 95px auto 0;
 }
 section#home article a {
+  position: relative;
   display: flex;
   flex-flow: column;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 section#home article img {
-  height: 200px;
-}
-section#home #principal img {
-  height: 350px;
+  width: 100%;
+  transition: 0.3s ease;
 }
 section#home article span {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: block;
   width: 100%;
-  height: calc(100% - 200px);
-  background: var(--border-color-header1);
-  padding: 10px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  transition: 0.3s ease;
 }
-section#home article span p {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+section#home article a:hover img {
+  scale: 1.12;
 }
+section#home article a:hover span {
+  background: rgba(0, 0, 0, 0.8);
+}
+section#home article span h2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  border: 3px solid white;
+  padding: 10px 20px;
+  font-size: 30px;
+  font-weight: 500;
+}
+section#home div#radios {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(-100%);
+  display: flex;
+  width: 100%;
+  height: 50px;
+  background: pink;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+section#home div#radios input[type="radio"] {
+  width: 25px;
+  background: orange;
+  cursor: pointer;
+}
+/* Carrousel of Pokemon */
 #onlyBg #carouselWrapper {
   position: relative;
 }

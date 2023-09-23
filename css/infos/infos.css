@@ -1,16 +1,20 @@
-main {
+section {
   display: flex;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
   margin: 140px auto 40px;
-  padding: 25px;
+  padding: 25px 50px;
+  gap: 20px;
   width: 95%;
   min-height: 100vh;
   border-radius: 15px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.6);
   background: white;
 }
-main table {
+section table {
+  position: relative;
+  margin: 50px 0 0 50px;
   border-collapse: collapse;
   width: 100%;
   font-size: 16px;
@@ -37,7 +41,55 @@ table tr td:first-child {
 }
 table tr td {
   border: 1px solid black;
-  width: calc(100% / 18);
+  width: calc(100% / 19);
   text-align: center;
   background: white;
+}
+table tr td.tabletop {
+  position: absolute;
+  top: -50px;
+  left: 8.9%;
+  width: 91.1%;
+  height: 50px;
+  border: 1px solid black;
+  border-bottom: 0;
+  text-align: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  text-shadow: none;
+  color: white;
+  line-height: 50px;
+  letter-spacing: 2px;
+  background: var(--principal-color);
+}
+table tr td.tableleft {
+  position: absolute;
+  top: 14%;
+  left: -50px;
+  height: 86.2%;
+  width: 50px;
+  border: 1px solid black;
+  border-right: 0;
+  line-height: 50px;
+  writing-mode: vertical-rl;
+  transform: rotateX(180deg) rotateY(180deg);
+  text-align: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: 2px;
+  background: var(--principal-color);
+}
+table#NatureTable tr th {
+  writing-mode: horizontal-tb;
+}
+table#NatureTable tr td.tableleft {
+  font-weight: 500;
+  top: 19%;
+  height: 81%;
+}
+table#NatureTable tr td.tabletop {
+  font-weight: 500;
+  left: 18%;
+  width: 82.2%;
 }

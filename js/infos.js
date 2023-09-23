@@ -1,27 +1,50 @@
-import { allWeakness } from "./database/database.js";
+import { allStatus, allWeakness } from "./database/database.js";
 console.log(allWeakness);
-const natureTable = document.getElementById("natureTable");
-const weaknessTable = document.getElementById("weaknessTable");
-let firstRow = document.getElementById("firstRow");
-allWeakness.forEach((weak) => {
-  let tableRow = document.createElement("tr");
-  let firstData = document.createElement("td");
-  let tableHeader = document.createElement("th");
-  tableHeader.innerText = weak.name;
-  firstData.innerText = weak.name;
-  firstData.style.background = `rgba(var(--${weak.name}))`;
-  tableHeader.style.background = `rgba(var(--${weak.name}))`;
-  tableRow.appendChild(firstData);
-  firstRow.appendChild(tableHeader);
-  for (let i = 0; i < weak.Weakness.length; i++) {
+const NatureTable = document.getElementById("NatureTable");
+const WeaknessTable = document.getElementById("WeaknessTable");
+let WeaknessFirstRow = document.getElementById("WeaknessFirstRow");
+let NatureFirstRow = document.getElementById("NatureFirstRow");
+for (let i = 0; i < allWeakness.length; i++) {
+  let TableRows = document.createElement("tr");
+  let TableLeftName = document.createElement("td");
+  let TableHeaderName = document.createElement("th");
+  TableHeaderName.innerText = allWeakness[i].name;
+  TableLeftName.innerText = allWeakness[i].name;
+  TableLeftName.style.background = `rgba(var(--${allWeakness[i].name}))`;
+  TableHeaderName.style.background = `rgba(var(--${allWeakness[i].name}))`;
+  TableRows.appendChild(TableLeftName);
+  WeaknessFirstRow.appendChild(TableHeaderName);
+  for (let ii = 0; ii < allWeakness[i].Weakness.length; ii++) {
     let tableData = document.createElement("td");
-    tableData.innerText = weak.Weakness[i] + "x";
-    if (weak.Weakness[i] > 1) {
+    tableData.innerText = allWeakness[i].Weakness[ii] + "x";
+    if (allWeakness[i].Weakness[ii] > 1) {
       tableData.style.background = `rgba(var(--grass))`;
-    } else if (weak.Weakness[i] < 1) {
+    } else if (allWeakness[i].Weakness[ii] < 1) {
       tableData.style.background = `rgba(var(--fire))`;
     }
-    tableRow.appendChild(tableData);
+    TableRows.appendChild(tableData);
   }
-  weaknessTable.appendChild(tableRow);
-});
+  WeaknessTable.appendChild(TableRows);
+}
+for (let i = 0; i < allStatus.length; i++) {
+  let TableRows = document.createElement("tr");
+  let TableLeftName = document.createElement("td");
+  let TableHeaderName = document.createElement("th");
+  TableHeaderName.innerHTML =
+    allStatus[i].name + "</br>" + allStatus[i].preferency;
+  TableHeaderName.style.background = allStatus[i].color;
+  TableLeftName.innerHTML =
+    allStatus[i].name + "</br>" + allStatus[i].preferency;
+  TableLeftName.style.background = allStatus[i].color;
+  TableRows.appendChild(TableLeftName);
+  NatureFirstRow.appendChild(TableHeaderName);
+  for (let ii = 0; ii < allStatus[i].natures.length; ii++) {
+    let tableData = document.createElement("td");
+    tableData.innerText = allStatus[i].natures[ii];
+    if (i == ii) {
+      tableData.style.background = "#dddddd";
+    }
+    TableRows.appendChild(tableData);
+  }
+  NatureTable.appendChild(TableRows);
+}

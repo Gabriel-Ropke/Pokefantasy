@@ -1,126 +1,110 @@
+import { db, get, orderByChild, query, ref } from "./database/firebase.js";
 import { RandomTypeColor, principalColor } from "./importantConsts.js";
-let userLogin;
-let username;
-let userImg;
+let userLogin = parseInt(localStorage.getItem("activeUser")) || "";
+console.log(localStorage.getItem("activeUser"));
+const user = ref(db, "users/" + userLogin);
+let userImg = "img/general/logo.png";
 if (localStorage.getItem("principalColor")) {
   document.body.style.setProperty("--principal-color", principalColor);
 }
-if (localStorage.getItem("name")) {
-  username = localStorage.getItem("name");
-  userImg = "img/moves/flamethrower.jpg";
-  userLogin = true;
-} else {
-  userLogin = false;
-}
 
 /* Array to create li */
-const notUserInnertext = ["Fazer Login"];
-const notUserLinks = ["login.html"];
-const userAccessInnertext = ["conta", "configurações", "sair"];
-const userAccessLinks = ["account.html", "configurations.html", "index.html"];
-const headerListArray = ["index", "pokedex", "infos"];
-const footerSocial = ["discord", "twitter", "youtube"];
-const footerLinks = ["FAQ", "Sobre Nós", "Sei lá", "Sei lá"];
+const NotUserPages = ["Log In", "Sign Up"];
+const NotUserLinks = ["login.html", "createaccount.html"];
+const ActiveUserPages = ["conta", "configurações", "sair"];
+const ActiveUserLinks = ["account.html", "configurations.html", "index.html"];
+const HeaderNavbarPages = ["index", "pokedex", "infos"];
+const FooterSocialPages = ["discord", "twitter", "youtube"];
+const FooterLinks = ["FAQ", "Sobre Nós", "Entre em Contato", "Não sei"];
 /* Header Create Items */
-const header = document.querySelector("header");
-if (header) {
-  /* Only User == True */
-  const headerUserImg = document.createElement("img");
-  const userImageContainer = document.createElement("div");
-  const headerUserName = document.createElement("span");
-  const headerUserAccess = document.createElement("ul");
-  /* Only User == False */
-  const headerLoginLink = document.createElement("a");
+const Header = document.querySelector("header");
+if (Header) {
   /* Header Elements */
+  const HeaderUserContainer = document.createElement("div");
   const navbarSwitchButton = document.createElement("button");
   const headerNavbar = document.createElement("nav");
   const headerLogoLink = document.createElement("a");
   const headerLogoImg = document.createElement("img");
   const headerNavbarCover = document.createElement("div");
   /* Header Items id */
+  HeaderUserContainer.id = "userImgContainer";
   navbarSwitchButton.id = "navbarSwitch";
   headerLogoLink.id = "imgLogoLink";
   headerLogoLink.href = "index.html";
   headerLogoImg.src = "img/general/logo.png";
   headerLogoImg.id = "headerLogoImg";
-  headerUserImg.id = "headerUserImg";
-  headerUserAccess.id = "userAccess";
   headerNavbarCover.id = "navbarCover";
   /* Check for create User Access Pages */
-  if (userLogin == true) {
-    headerUserImg.src = userImg;
-  } else {
-    headerUserImg.src = "img/moves/bubblebeam.jpg";
-  }
-  if (userLogin == true) {
-    for (let i = 0; i < userAccessInnertext.length; i++) {
+  console.log(userLogin);
+  if (userLogin != "") {
+    const HeaderUserImg = document.createElement("img");
+    const HeaderUserName = document.createElement("span");
+    const HeaderUserAccessPage = document.createElement("ul");
+    Header.appendChild(HeaderUserAccessPage);
+    HeaderUserContainer.appendChild(HeaderUserImg);
+    HeaderUserContainer.appendChild(HeaderUserName);
+    HeaderUserName.innerText = localStorage.getItem("name");
+    HeaderUserAccessPage.id = "userAccess";
+    HeaderUserImg.src = userImg;
+    HeaderUserImg.id = "headerUserImg";
+    HeaderUserImg.onclick = () => {
+      HeaderUserAccessPage.classList.toggle("active");
+    };
+    for (let i = 0; i < ActiveUserPages.length; i++) {
       let li = document.createElement("li");
       let aHref = document.createElement("a");
-      aHref.innerText = userAccessInnertext[i];
-      aHref.href = userAccessLinks[i];
-      if (userAccessLinks[i] == "index.html") {
-        console.log("batata");
+      aHref.innerText = ActiveUserPages[i];
+      aHref.href = ActiveUserLinks[i];
+      if (ActiveUserLinks[i] == "index.html") {
         li.onclick = () => {
-          localStorage.removeItem("favoritePokemon");
-          localStorage.removeItem("isShiny");
-          localStorage.removeItem("name");
-          localStorage.removeItem("pokedexIsShiny");
-          localStorage.removeItem("password");
-          localStorage.removeItem("principalColor");
+          localStorage.removeItem("activeUser");
+          localStorage.removeItem("UserId");
         };
       }
       li.appendChild(aHref);
-      headerUserAccess.appendChild(li);
+      HeaderUserAccessPage.appendChild(li);
     }
   } else {
-    for (let i = 0; i < notUserInnertext.length; i++) {
-      let li = document.createElement("li");
-      let aHref = document.createElement("a");
-      aHref.innerText = notUserInnertext[i];
-      aHref.href = notUserLinks[i];
-      li.appendChild(aHref);
-      headerUserAccess.appendChild(li);
+    for (let i = 0; i < NotUserPages.length; i++) {
+      let NewHeaderLink = document.createElement("a");
+      NewHeaderLink.href = NotUserLinks[i];
+      NewHeaderLink.innerText = NotUserPages[i];
+      NewHeaderLink.style.color = `rgba(var(--${RandomTypeColor}))`;
+      HeaderUserContainer.appendChild(NewHeaderLink);
+      HeaderUserContainer.style.columnGap = "10px";
+      NewHeaderLink.style.padding = "5px 10px";
+      if (i == 0) {
+        NewHeaderLink.style.border = `2px solid rgba(var(--${RandomTypeColor}))`;
+        NewHeaderLink.style.borderRadius = "5px";
+      }
     }
   }
   /* Header AppendChild() */
-  header.appendChild(navbarSwitchButton);
-  header.appendChild(headerNavbar);
-  header.appendChild(headerLogoLink);
+  Header.appendChild(navbarSwitchButton);
+  Header.appendChild(headerNavbar);
+  Header.appendChild(headerLogoLink);
   headerLogoLink.appendChild(headerLogoImg);
-  if (userLogin == true) {
-    header.appendChild(userImageContainer);
-    userImageContainer.appendChild(headerUserImg);
-    userImageContainer.appendChild(headerUserName);
-    userImageContainer.id = "userImgContainer";
-    headerUserName.innerText = localStorage.getItem("name");
-  } else {
-    header.appendChild(headerLoginLink);
-    headerLoginLink.innerText = "Fazer Login";
-    headerLoginLink.href = "login.html";
-    headerLoginLink.id = "loginLink";
-    headerLoginLink.style.color = `rgba(var(--${RandomTypeColor}))`;
-  }
-  header.appendChild(headerUserAccess);
-  header.appendChild(headerNavbarCover);
+  Header.appendChild(HeaderUserContainer);
+  Header.appendChild(headerNavbarCover);
   /* Header Style & Function */
-  header.style.borderColor = `rgba(var(--${RandomTypeColor}))`;
+  Header.style.borderColor = `rgba(var(--${RandomTypeColor}))`;
   navbarSwitchButton.onclick = () => {
     headerNavbar.classList.toggle("active");
     navbarSwitchButton.classList.toggle("active");
   };
-  headerUserImg.onclick = () => {
-    headerUserAccess.classList.toggle("active");
-  };
   window.addEventListener("scroll", () => {
     if (scrollY >= 30) {
-      header.classList.add("closed");
+      Header.classList.add("closed");
     } else {
-      header.classList.remove("closed");
+      Header.classList.remove("closed");
     }
   });
   /* Create Header navbar */
   headerNavbar.innerHTML = "";
-  headerListArray.forEach((newLink) => {
+  for (let i; i < HeaderNavbarPages.length; i++) {
+    console.log(HeaderNavbarPages);
+  }
+  HeaderNavbarPages.forEach((newLink) => {
     let liNav = document.createElement("li");
     let aHref = document.createElement("a");
     headerNavbar.appendChild(liNav);
@@ -148,7 +132,7 @@ if (footer) {
   /* Footer Social (Discord, Youtube, Twitter) */
   let ulFooterSocial = document.createElement("ul");
   ulFooterSocial.id = "footerSocial";
-  footerSocial.forEach((e) => {
+  FooterSocialPages.forEach((e) => {
     let buttonSocial = document.createElement("button");
     let iconSocial = document.createElement("i");
     ulFooterSocial.appendChild(buttonSocial);
@@ -167,7 +151,7 @@ if (footer) {
   /* Footer Links */
   let ulFooterLinks = document.createElement("ul");
   ulFooterLinks.id = "footerLinks";
-  footerLinks.forEach((e) => {
+  FooterLinks.forEach((e) => {
     let liFooterLink = document.createElement("li");
     let aHref = document.createElement("a");
     ulFooterLinks.appendChild(liFooterLink);

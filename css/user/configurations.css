@@ -298,6 +298,23 @@ div#body div#preview ul#elementEditorList li.elementEditor::before {
   width: 1px;
   height: 50%;
 }
+div#body div#preview span#resetCard {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 20px;
+  background: white;
+  border: 3px solid black;
+  padding: 0 10px;
+  border-top: 2px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  user-select: none;
+}
 div#body div#preview article#cardPreview {
   position: absolute;
   top: 50%;

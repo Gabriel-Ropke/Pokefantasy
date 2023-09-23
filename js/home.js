@@ -1,32 +1,21 @@
 import { allPokemon } from "./database/database.js";
 import { allNotices } from "./database/notices.js";
-const sectionHome = document.getElementById("home");
-const idWrapper = document.createElement("div");
-for (let i = 0; i < allNotices.length; i++) {
+const CarrouselContainer = document.getElementById("carrouselContainer");
+for (let i = 0; i < 1; i++) {
   let articleNotice = document.createElement("article");
   let aHref = document.createElement("a");
   let img = document.createElement("img");
   let spanNotice = document.createElement("span");
   let h2Title = document.createElement("h2");
-  let pText = document.createElement("p");
-  if (i == 0) {
-    sectionHome.appendChild(articleNotice);
-    sectionHome.appendChild(idWrapper);
-    articleNotice.id = "principal";
-  }
-  if (i > 0) {
-    idWrapper.appendChild(articleNotice);
-  }
+  CarrouselContainer.appendChild(articleNotice);
+  articleNotice.id = "principal";
   articleNotice.appendChild(aHref);
   aHref.appendChild(img);
   aHref.appendChild(spanNotice);
   spanNotice.appendChild(h2Title);
-  spanNotice.appendChild(pText);
   aHref.href = `news.html?id=${allNotices[i].id}`;
-  idWrapper.id = "wrapper";
   img.src = allNotices[i].source;
   h2Title.innerText = allNotices[i].title;
-  pText.innerHTML = allNotices[i].demo;
 }
 /* Create Carousel */
 const pokemonCarousel = document.getElementById("pokemonCarousel");

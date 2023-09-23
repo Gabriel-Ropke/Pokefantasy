@@ -580,30 +580,16 @@ span.aviso span {
 .drop-card {
   position: relative;
   overflow: hidden;
+  width: 250px;
+  height: 200px;
 }
 .poke-card {
-  --poke-card-width: 250px;
-  --poke-card-height: 200px;
-  --poke-card-padding: 10px 0 0 0;
-  --poke-card-transition-duration: 0.5s;
-  --poke-card-transition-mode: cubic-bezier(0, 0.69, 0.58, 1);
-  width: var(--poke-card-width);
-  height: var(--poke-card-height);
-  padding: var(--poke-card-padding);
-  transition: var(--poke-card-transition-duration)
-    var(--poke-card-transition-mode);
+  width: 250px;
+  height: 200px;
 }
 .move-card {
-  --move-card-width: 250px;
-  --move-card-height: 200px;
-  --move-card-padding: 10px 0 0 0;
-  --move-card-transition-duration: 0.5s;
-  --move-card-transition-mode: cubic-bezier(0, 0.69, 0.58, 1);
-  width: var(--move-card-width);
-  height: var(--move-card-height);
-  padding: var(--move-card-padding);
-  transition: var(--move-card-transition-duration)
-    var(--move-card-transition-mode);
+  width: 250px;
+  height: 200px;
 }
 .drop-card::after {
   content: "";
@@ -612,16 +598,12 @@ span.aviso span {
 }
 
 .drop-card {
-  --drop-card-width: 250px;
-  --drop-card-height: 200px;
-  --drop-card-padding: 10px 0 0 0;
-  --drop-card-transition-duration: 0.5s;
-  --drop-card-transition-mode: cubic-bezier(0, 0.69, 0.58, 1);
-  width: var(--drop-card-width);
-  height: var(--drop-card-height);
-  padding: var(--drop-card-padding);
-  transition: var(--drop-card-transition-duration)
-    var(--drop-card-transition-mode);
+  clip-path: var(--dropcard-clipPath);
+  border-radius: var(--dropcard-borderRadiusTopLeft)
+    var(--dropcard-borderRadiusTopRight) var(--dropcard-borderRadiusBottomRight)
+    var(--dropcard-borderRadiusBottomLeft);
+  filter: var(--dropcard-filter);
+  transform: var(--dropcard-transform);
 }
 article#pokedex .poke-card:hover,
 article#movedex .move-card:hover,
@@ -723,6 +705,7 @@ article#dropdex .drop-card:hover {
   border-radius: 50%;
 }
 .poke-card .image {
+  border-radius: 0;
   --poke-card-image-width: 100px;
   --poke-card-image-height: 100px;
   --poke-card-image-top: 50%;
@@ -758,7 +741,6 @@ article#dropdex .drop-card:hover {
   min-height: 70%;
   max-height: 90%;
 }
-.poke-card .image::before,
 .move-card .image::before,
 .drop-card .image::before {
   content: "";
@@ -770,10 +752,6 @@ article#dropdex .drop-card:hover {
   height: 140px;
   background: url(../../img/general/pokeball.png);
   background-size: cover;
-}
-.poke-card .image::before {
-  --poke-card-image-before-visibility: visible;
-  visibility: var(--poke-card-image-before-visibility);
 }
 .drop-card .image::before {
   --drop-card-image-before-visibility: visible;

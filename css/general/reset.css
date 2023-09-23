@@ -73,6 +73,10 @@ h1 {
   font-weight: 600;
   color: white;
 }
+img,
+button {
+  user-select: none;
+}
 input[type="range"] {
   cursor: grab;
 }

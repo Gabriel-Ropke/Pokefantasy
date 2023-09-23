@@ -5,152 +5,147 @@ import {
   switchTextAndColor,
   filtPokemon,
   createAll,
-  filterByNameTimeOut,
   filterByName,
-  createSpanAviso,
+  createAlertMessage,
 } from "./functionFilter.js";
-let pokedexIsShiny = false;
+let PokedexIsShiny = false;
 /* Local Function */
 function resetPokemonFilter() {
   pokedex.innerHTML = "";
   createAll(allPokemon, createPokemon, pokedex, true);
-  stagesPlaceholder.innerText = "Estágio";
-  stagesPlaceholder.style = "";
-  typesPlaceholder.innerText = "Tipos";
-  typesPlaceholder.style = "";
-  abilityPlaceholder.innerText = "Abilities";
-  abilityPlaceholder.style = "";
-  abilityInput.style = "";
-  pokemonReset.classList.add("disabled");
-  typesContainer.classList.add("closed");
-  stagesContainer.classList.add("closed");
+  PokemonFilterStagesPlaceholder.innerText = "Estágio";
+  PokemonFilterStagesPlaceholder.style = "";
+  PokemonFilterTypesPlaceholder.innerText = "Tipos";
+  PokemonFilterTypesPlaceholder.style = "";
+  PokemonFilterAbilityPlaceholder.innerText = "Abilities";
+  PokemonFilterAbilityPlaceholder.style = "";
+  PokemonFilterAbilityInput.style = "";
+  PokemonFilterResetButton.classList.add("disabled");
+  PokemonFilterTypesContainer.classList.add("closed");
+  PokemonFilterStagesContainer.classList.add("closed");
 }
 /* Start Page */
 createAll(allPokemon, createPokemon, pokedex, true);
 /* Query Filter Pokedéx  */
-const pokemonShinyIcon = document.querySelector("svg.pokemonShiny");
-const pokemonReset = document.getElementById("pokeReset");
-const pokemonInputName = document.getElementById("pokeName");
-const typesContainer = document.getElementById("filtTypes");
-const stagesContainer = document.getElementById("filtStages");
-const typesPlaceholder = document.querySelector(
+const PokemonFilterShinyIcon = document.querySelector("svg.pokemonShiny");
+const PokemonFilterResetButton = document.getElementById("pokeReset");
+const PokemonFilterNameInput = document.getElementById("pokeName");
+const PokemonFilterTypesContainer = document.getElementById("filtTypes");
+const PokemonFilterStagesContainer = document.getElementById("filtStages");
+const PokemonFilterTypesPlaceholder = document.querySelector(
   "#filtPokeTypeContainer span.placeholder"
 );
-const stagesPlaceholder = document.querySelector(
+const PokemonFilterStagesPlaceholder = document.querySelector(
   "#filtPokeStageContainer span.placeholder"
 );
-const abilityPlaceholder = document.querySelector(
+const PokemonFilterAbilityPlaceholder = document.querySelector(
   "#filtPokeAbilityContainer .placeholderInputText"
 );
-const abilityInput = document.querySelector("#filtPokeAbilityContainer input");
-const abilitiesContainer = document.getElementById("filtPokeAbility");
-const allStages = document.querySelectorAll("#filtStages li");
+const PokemonFilterAbilityInput = document.querySelector(
+  "#filtPokeAbilityContainer input"
+);
+const PokemonFilterAbilitiesContainer =
+  document.getElementById("filtPokeAbility");
+const PokemonFilterAllStages = document.querySelectorAll("#filtStages li");
 if (eval(localStorage.getItem("pokedexIsShiny")) == true) {
-  pokemonShinyIcon.classList.add("active");
+  PokemonFilterShinyIcon.classList.add("active");
 }
-pokemonShinyIcon.onclick = () => {
-  pokemonShinyIcon.classList.toggle("active");
+PokemonFilterShinyIcon.onclick = () => {
+  PokemonFilterShinyIcon.classList.toggle("active");
   pokedex.innerHTML = "";
-  if (pokedexIsShiny == true) {
-    pokedexIsShiny = false;
+  if (PokedexIsShiny == true) {
+    PokedexIsShiny = false;
   } else {
-    pokedexIsShiny = true;
+    PokedexIsShiny = true;
   }
-  localStorage.setItem("pokedexIsShiny", pokedexIsShiny);
+  localStorage.setItem("pokedexIsShiny", PokedexIsShiny);
   createAll(allPokemon, createPokemon, pokedex, true);
 };
 function abilityLengthChecker(searchLength, abilities) {
   if (searchLength < 1) {
-    createSpanAviso(
-      `Não existem Habilidades com o nome <span style='color: red'>${abilityInput.value}</span>`,
-      abilitiesContainer,
+    createAlertMessage(
+      `Não existem Habilidades com o nome <span style='color: red'>${PokemonFilterAbilityInput.value}</span>`,
+      PokemonFilterAbilitiesContainer,
       "rgba(255, 0, 0)"
     );
-    abilitiesContainer.classList.add("nothing");
+    PokemonFilterAbilitiesContainer.classList.add("nothing");
   } else if (searchLength == 1) {
     abilities.classList.remove("nothing");
-    abilitiesContainer.classList.add("onlyOne");
+    PokemonFilterAbilitiesContainer.classList.add("onlyOne");
   } else {
     abilities.classList.remove("nothing");
     abilities.classList.remove("onlyOne");
   }
 }
-pokemonInputName.addEventListener("click", () => {
+PokemonFilterNameInput.addEventListener("click", () => {
   resetPokemonFilter();
 });
-pokemonInputName.oninput = () => {
+PokemonFilterNameInput.oninput = () => {
   filterByName(
     pokedex,
-    pokemonInputName,
+    PokemonFilterNameInput,
     allPokemon,
     createPokemon,
     "Pokémon",
     true
   );
 };
-pokemonInputName.addEventListener("focusout", () => {
-  filterByNameTimeOut(
-    pokedex,
-    pokemonInputName,
-    allPokemon,
-    createPokemon,
-    true
-  );
-});
-abilityInput.oninput = () => {
-  abilitiesContainer.innerHTML = "";
-  let actualLength = abilityInput.value.length;
+PokemonFilterAbilityInput.oninput = () => {
+  PokemonFilterAbilitiesContainer.innerHTML = "";
+  let actualLength = PokemonFilterAbilityInput.value.length;
   if (actualLength < 1) {
-    abilitiesContainer.classList.add("closed");
+    PokemonFilterAbilitiesContainer.classList.add("closed");
   } else if (actualLength >= 1) {
-    abilitiesContainer.classList.remove("closed");
+    PokemonFilterAbilitiesContainer.classList.remove("closed");
   }
   let searchAbility = allAbilities.filter((ability) =>
-    ability.name.toLowerCase().includes(abilityInput.value.toLowerCase())
+    ability.name
+      .toLowerCase()
+      .includes(PokemonFilterAbilityInput.value.toLowerCase())
   );
-  abilityLengthChecker(searchAbility.length, abilitiesContainer);
+  abilityLengthChecker(searchAbility.length, PokemonFilterAbilitiesContainer);
   searchAbility.forEach((e) => {
     let liAbility = document.createElement("li");
     liAbility.innerText = e.name;
     liAbility.style.background = `rgba(var(--${e.type.toLowerCase()}))`;
-    abilitiesContainer.appendChild(liAbility);
-    abilityInput.addEventListener("click", () => {
-      if (abilityPlaceholder.innerText != "Abilities") {
-        abilityPlaceholder.innerText = "Abilities";
-        abilityPlaceholder.style = "";
-        abilityInput.style = "";
+    PokemonFilterAbilitiesContainer.appendChild(liAbility);
+    PokemonFilterAbilityInput.addEventListener("click", () => {
+      if (PokemonFilterAbilityPlaceholder.innerText != "Abilities") {
+        PokemonFilterAbilityPlaceholder.innerText = "Abilities";
+        PokemonFilterAbilityPlaceholder.style = "";
+        PokemonFilterAbilityInput.style = "";
       }
     });
     liAbility.addEventListener("click", () => {
-      abilityPlaceholder.innerText = liAbility.innerText;
-      abilityPlaceholder.style.color = "white";
-      abilityInput.style.background = liAbility.style.background;
-      abilityInput.style.border = "none";
-      abilitiesContainer.classList.add("closed");
+      PokemonFilterAbilityPlaceholder.innerText = liAbility.innerText;
+      PokemonFilterAbilityPlaceholder.style.color = "white";
+      PokemonFilterAbilityInput.style.background = liAbility.style.background;
+      PokemonFilterAbilityInput.style.border = "none";
+      PokemonFilterAbilitiesContainer.classList.add("closed");
       filtPokemon(
-        stagesPlaceholder,
-        typesPlaceholder,
+        PokemonFilterStagesPlaceholder,
+        PokemonFilterTypesPlaceholder,
         liAbility,
         pokedex,
         true
       );
-      pokemonReset.classList.remove("disabled");
+      PokemonFilterResetButton.classList.remove("disabled");
     });
   });
 };
 function abilityRemoveAll() {
-  abilitiesContainer.classList.remove("nothing");
-  abilitiesContainer.classList.remove("onlyOne");
-  abilitiesContainer.classList.remove("closed");
+  PokemonFilterAbilitiesContainer.classList.remove("nothing");
+  PokemonFilterAbilitiesContainer.classList.remove("onlyOne");
+  PokemonFilterAbilitiesContainer.classList.remove("closed");
 }
-abilityInput.addEventListener("focusout", () => {
+PokemonFilterAbilityInput.addEventListener("focusout", () => {
   abilityRemoveAll();
-  abilitiesContainer.classList.add("closed");
-  abilityInput.value = "";
+  PokemonFilterAbilitiesContainer.classList.add("closed");
+  PokemonFilterAbilityInput.value = "";
   filtPokemon(
-    stagesPlaceholder,
-    typesPlaceholder,
-    abilityPlaceholder,
+    PokemonFilterStagesPlaceholder,
+    PokemonFilterTypesPlaceholder,
+    PokemonFilterAbilityPlaceholder,
     pokedex,
     true
   );
@@ -160,41 +155,64 @@ allWeakness.forEach((thisType) => {
   let liFiltType = document.createElement("li");
   liFiltType.innerText = thisType.name;
   liFiltType.style.background = `rgba(var(--${thisType.name}))`;
-  typesContainer.appendChild(liFiltType);
+  PokemonFilterTypesContainer.appendChild(liFiltType);
 });
 const allTypes = document.querySelectorAll("#filtTypes li");
 
-typesPlaceholder.addEventListener("click", () => {
-  typesContainer.classList.toggle("closed");
-  if (!stagesContainer.classList.contains("closed")) {
-    stagesContainer.classList.add("closed");
+PokemonFilterTypesPlaceholder.addEventListener("click", () => {
+  PokemonFilterTypesContainer.classList.toggle("closed");
+  if (!PokemonFilterStagesContainer.classList.contains("closed")) {
+    PokemonFilterStagesContainer.classList.add("closed");
   }
 });
 
-stagesPlaceholder.addEventListener("click", () => {
-  stagesContainer.classList.toggle("closed");
-  if (!typesContainer.classList.contains("closed")) {
-    typesContainer.classList.add("closed");
+PokemonFilterStagesPlaceholder.addEventListener("click", () => {
+  PokemonFilterStagesContainer.classList.toggle("closed");
+  if (!PokemonFilterTypesContainer.classList.contains("closed")) {
+    PokemonFilterTypesContainer.classList.add("closed");
   }
 });
 /* addEvent Listener in AllFilt li's */
-allStages.forEach((stages) => {
+PokemonFilterAllStages.forEach((stages) => {
   stages.addEventListener("click", () => {
-    switchTextAndColor(stagesPlaceholder, stages, stagesContainer);
-    stagesPlaceholder.setAttribute("data-stage", stages.dataset.stage);
-    filtPokemon(stages, typesPlaceholder, abilityPlaceholder, pokedex, true);
-    stagesPlaceholder.style.background = "rgba(var(--grass))";
-    pokemonReset.classList.remove("disabled");
+    switchTextAndColor(
+      PokemonFilterStagesPlaceholder,
+      stages,
+      PokemonFilterStagesContainer
+    );
+    PokemonFilterStagesPlaceholder.setAttribute(
+      "data-stage",
+      stages.dataset.stage
+    );
+    filtPokemon(
+      stages,
+      PokemonFilterTypesPlaceholder,
+      PokemonFilterAbilityPlaceholder,
+      pokedex,
+      true
+    );
+    PokemonFilterStagesPlaceholder.style.background = "rgba(var(--grass))";
+    PokemonFilterResetButton.classList.remove("disabled");
   });
 });
-pokemonReset.addEventListener("click", () => {
+PokemonFilterResetButton.addEventListener("click", () => {
   resetPokemonFilter();
 });
 allTypes.forEach((types) => {
   types.addEventListener("click", () => {
-    switchTextAndColor(typesPlaceholder, types, typesContainer);
-    filtPokemon(stagesPlaceholder, types, abilityPlaceholder, pokedex, true);
-    typesPlaceholder.style.background = `rgba(var(--${types.innerText.toLowerCase()}))`;
-    pokemonReset.classList.remove("disabled");
+    switchTextAndColor(
+      PokemonFilterTypesPlaceholder,
+      types,
+      PokemonFilterTypesContainer
+    );
+    filtPokemon(
+      PokemonFilterStagesPlaceholder,
+      types,
+      PokemonFilterAbilityPlaceholder,
+      pokedex,
+      true
+    );
+    PokemonFilterTypesPlaceholder.style.background = `rgba(var(--${types.innerText.toLowerCase()}))`;
+    PokemonFilterResetButton.classList.remove("disabled");
   });
 });

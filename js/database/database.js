@@ -1767,10 +1767,42 @@ export const allResps = [
     appears: ["Charmander", "Bulbasaur", "Squirtle"],
   },
 ];
+export const allStatus = [
+  {
+    name: "Attack",
+    preferency: "Spicy",
+    color: "#ffee8b",
+    natures: ["Hardy", "Lonely", "Adamant", "Naughty", "Brave"],
+  },
+  {
+    name: "Defense",
+    preferency: "Sour",
+    color: "#ffb48b",
+    natures: ["Bold", "Docile", "Impish", "Lax", "Relaxed"],
+  },
+  {
+    name: "Sp.Atk",
+    preferency: "Dry",
+    color: "#8bfffe",
+    natures: ["Modest", "Mild", "Bashful", "Rash", "Quiet"],
+  },
+  {
+    name: "Sp.Def",
+    preferency: "Bitter",
+    color: "#8aa2fe",
+    natures: ["Calm", "Gentle", "Careful", "Quirky", "Sassy"],
+  },
+  {
+    name: "Speed",
+    preferency: "Sweet",
+    color: "#fc8cff",
+    natures: ["Timid", "Hasty", "Jolly", "Naive", "Serious"],
+  },
+];
 export const allWeakness = [
   {
     name: "normal",
-    Weakness: [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1],
+    Weakness: [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
   },
   {
     name: "fire",

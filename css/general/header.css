@@ -219,6 +219,8 @@ header #headerUserImg:hover {
 }
 header div#userImgContainer {
   position: relative;
+  display: flex;
+  gap: 10px;
 }
 header div#userImgContainer span {
   position: absolute;

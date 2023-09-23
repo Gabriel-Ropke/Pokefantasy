@@ -1,33 +1,3 @@
-export const acceptedKeys = {
-  ArrowUp(element, elementRect, containerRect) {
-    let top = parseInt(getComputedStyle(element).top);
-    if (top - 2 >= 0) {
-      element.style.top = top - 2 + "px";
-    }
-  },
-  ArrowLeft(element, elementRect, containerRect) {
-    let left = parseInt(getComputedStyle(element).left);
-    if (left - 2 >= 0) {
-      element.style.left = left - 2 + "px";
-    }
-  },
-  ArrowRight(element, elementRect, containerRect) {
-    let left = parseInt(getComputedStyle(element).left);
-    if (left + 2 <= containerRect.width - elementRect.width) {
-      element.style.left = left + 2 + "px";
-    }
-  },
-  ArrowDown(element, elementRect, containerRect) {
-    let top = parseInt(getComputedStyle(element).top);
-    if (top + 2 <= containerRect.height - elementRect.height) {
-      element.style.top = top + 2 + "px";
-    }
-  },
-  Delete(element, elementRect, containerRect) {
-    element.style.display = "none";
-    element = null;
-  },
-};
 export function onDragPercentToPointers(evento, pointer, containerToRect) {
   const containerRect = containerToRect.getBoundingClientRect();
   const pointerRect = pointer.getBoundingClientRect();
@@ -115,12 +85,32 @@ export function mouseDown(pointer, documentAddFunction) {
 
 export function mouseUp(pointer, documentAddFunction) {
   pointer.isDragging = false;
-  pointer.classList.remove("active");
   document.removeEventListener("mousemove", documentAddFunction);
 }
 export function closePages(array) {
   for (let i = 0; i < array.length; i++) {
     array[i].classList.remove("active");
+  }
+}
+
+// Exemplo de detecção de edição e salvamento atrasado
+let objetoEditado = {
+  /* Seu objeto editado */
+};
+
+// Função para lidar com a edição e o salvamento
+async function editarEAtualizar(objeto) {
+  objetoEditado = objeto; // Atualize o objeto editado
+
+  // Aguarde 2 segundos antes de iniciar o salvamento
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
+  try {
+    // Inicie o processo de salvamento
+    const resultado = await UpdateUserEditorCardElements(objetoEditado);
+    console.log(resultado);
+  } catch (erro) {
+    console.error(erro);
   }
 }
 export function returnActualCardToEditElement(

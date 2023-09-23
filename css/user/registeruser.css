@@ -3,7 +3,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #b08159;
+  background: #a5cfd4;
 }
 section {
   display: flex;
@@ -22,25 +22,7 @@ section h1 {
   font-family: "Montserrat", sans-serif;
 }
 section #DecorativeImg {
-  width: 120px;
-  margin: 10px 0;
-}
-section div.passwordContainer {
-  position: relative;
-  width: 100%;
-  max-width: 350px;
-}
-section div.passwordContainer svg {
-  position: absolute;
-  top: 50%;
-  left: calc(100% - 15px);
-  transform: translate(-100%, -50%);
-  cursor: pointer;
-  fill: rgb(201, 201, 201);
-  transition: 0.1s ease-in;
-}
-section div.passwordContainer svg:hover {
-  fill: rgb(80, 80, 80);
+  width: 200px;
 }
 section input {
   width: 100%;
@@ -51,15 +33,12 @@ section input {
   border: 2px solid transparent;
   outline: none;
 }
-section input[type="password"] {
-  padding-right: 40px;
-}
 section button {
   width: 100%;
   max-width: 350px;
   height: 40px;
   border: none;
-  background: #d4ae8c;
+  background: #ffd473;
   cursor: pointer;
   transition: 0.2s ease;
   border-radius: 5px;
@@ -67,8 +46,8 @@ section button {
 }
 section button:disabled {
   opacity: 0.9;
-  background: rgb(253, 231, 178);
-  cursor: context-menu;
+  background: #ffdf96;
+  color: rgb(221, 221, 221);
 }
 section button:hover {
   filter: brightness(0.9);

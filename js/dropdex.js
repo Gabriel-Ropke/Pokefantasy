@@ -9,74 +9,78 @@ import {
 } from "./functionFilter.js";
 /* Local Functions */
 function resetDropFilter() {
-  placeDropCategory.style = "";
-  placeDropCategory.innerText = "Categorias";
-  dropPrice.value = 0;
-  dropPriceValue.value = 0;
-  dropPriceContainer.classList.add("disabled");
-  dropReset.classList.add("disabled");
-  filtDrop(placeDropCategory, dropPrice);
+  DropFilterCategoryPlaceholder.style = "";
+  DropFilterCategoryPlaceholder.innerText = "Categorias";
+  DropFilterPriceInput.value = 0;
+  DropFilterPriceLabel.value = 0;
+  DropFilterPriceContainer.classList.add("disabled");
+  DropFilterResetButton.classList.add("disabled");
+  filtDrop(DropFilterCategoryPlaceholder, DropFilterPriceInput);
 }
 /* Query Filter Elements */
-const dropReset = document.getElementById("dropReset");
-const dropName = document.getElementById("dropName");
-const placeDropCategory = document.querySelector(
+const DropFilterResetButton = document.getElementById("dropReset");
+const DropFilterNameInput = document.getElementById("dropName");
+const DropFilterCategoryPlaceholder = document.querySelector(
   "#filtDropCatContainer span.placeholder"
 );
-const dropPriceContainer = document.getElementById("filtDropPriceContainer");
-const dropCategory = document.getElementById("filtDropCat");
-const allDropCategories = document.querySelectorAll("#filtDropCat li");
-const dropPrice = document.getElementById("filtDropPrice");
-const dropPriceValue = document.getElementById("dropPriceValue");
+const DropFilterPriceContainer = document.getElementById(
+  "filtDropPriceContainer"
+);
+const DropFilterCategoriesContainer = document.getElementById("filtDropCat");
+const AllDropFilterCategories = document.querySelectorAll("#filtDropCat li");
+const DropFilterPriceInput = document.getElementById("filtDropPrice");
+const DropFilterPriceLabel = document.getElementById("dropPriceValue");
 /* Start Page */
-createAll(allDrops, createDrop);
+createAll(allDrops, createDrop, dropdex, true);
 /* Add Event Listener */
-dropName.onclick = () => {
+DropFilterNameInput.onclick = () => {
   resetDropFilter();
 };
-dropName.oninput = () => {
-  filterByName(dropdex, dropName, allDrops, createDrop, "Drops");
+DropFilterNameInput.oninput = () => {
+  filterByName(
+    dropdex,
+    DropFilterNameInput,
+    allDrops,
+    createDrop,
+    "Drops",
+    true
+  );
 };
-dropName.addEventListener("focusout", () => {
-  setTimeout(() => {
-    dropdex.innerHTML = "";
-    dropName.value = "";
-    allDrops.forEach((e) => {
-      createDrop(e);
-    });
-  }, 750);
+DropFilterCategoryPlaceholder.addEventListener("click", () => {
+  DropFilterCategoriesContainer.classList.toggle("closed");
 });
-placeDropCategory.addEventListener("click", () => {
-  dropCategory.classList.toggle("closed");
-});
-allDropCategories.forEach((cat) => {
+AllDropFilterCategories.forEach((cat) => {
   cat.addEventListener("click", () => {
-    dropReset.classList.remove("disabled");
-    dropPriceContainer.classList.remove("disabled");
-    dropPriceValue.value = 0;
-    dropPrice.value = 0;
-    dropPriceContainer.style.setProperty(
+    DropFilterResetButton.classList.remove("disabled");
+    DropFilterPriceContainer.classList.remove("disabled");
+    DropFilterPriceLabel.value = 0;
+    DropFilterPriceInput.value = 0;
+    DropFilterPriceContainer.style.setProperty(
       "--drop-range-color",
       `rgba(var(--${cat.innerText.toLowerCase()}))`
     );
-    filtDrop(cat, dropPrice);
-    switchTextAndColor(placeDropCategory, cat, dropCategory);
-    placeDropCategory.style.background = `rgba(var(--${cat.innerText.toLowerCase()}))`;
+    filtDrop(cat, DropFilterPriceInput);
+    switchTextAndColor(
+      DropFilterCategoryPlaceholder,
+      cat,
+      DropFilterCategoriesContainer
+    );
+    DropFilterCategoryPlaceholder.style.background = `rgba(var(--${cat.innerText.toLowerCase()}))`;
   });
   cat.style.background = `rgba(var(--${cat.innerText.toLowerCase()}))`;
 });
-dropPriceValue.oninput = () => {
-  if (dropPriceValue.value == "") {
-    dropPrice.value == 0;
+DropFilterPriceLabel.oninput = () => {
+  if (DropFilterPriceLabel.value == "") {
+    DropFilterPriceInput.value == 0;
   } else {
-    dropPrice.value = dropPriceValue.value;
+    DropFilterPriceInput.value = DropFilterPriceLabel.value;
   }
-  filtDrop(placeDropCategory, dropPrice);
+  filtDrop(DropFilterCategoryPlaceholder, DropFilterPriceInput);
 };
-dropPrice.oninput = () => {
-  dropPriceValue.value = dropPrice.value;
-  filtDrop(placeDropCategory, dropPrice);
+DropFilterPriceInput.oninput = () => {
+  DropFilterPriceLabel.value = DropFilterPriceInput.value;
+  filtDrop(DropFilterCategoryPlaceholder, DropFilterPriceInput);
 };
-dropReset.addEventListener("click", () => {
+DropFilterResetButton.addEventListener("click", () => {
   resetDropFilter();
 });

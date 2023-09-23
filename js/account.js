@@ -1,17 +1,78 @@
 import { allPokemon, allWeakness } from "./database/database.js";
-let pokemonIsShiny = false;
+import { db, ref, set, update, get } from "./database/firebase.js";
+const userRef = ref(db, "users/" + localStorage.getItem("activeUser"));
+function getUser(callback) {
+  get(userRef)
+    .then((snapshot) => {
+      const user = snapshot.val();
+      callback(user);
+    })
+    .catch((error) => {
+      console.error("Erro ao obter o usuário:", error);
+    });
+}
+// Atualize apenas os campos especificados
+function updateUserFavouriteColor(color) {
+  update(userRef, {
+    favouriteColor: color,
+  })
+    .then(() => {
+      console.log("Usuário atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao atualizar o usuário:", error);
+    });
+}
+function updateUserFavouritePokemonIsShiny(bool) {
+  update(userRef, {
+    isShiny: bool,
+  })
+    .then(() => {
+      console.log("Usuário atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao atualizar o usuário:", error);
+    });
+}
+function updateUserFavouritePokemon(pokemon) {
+  update(userRef, {
+    favouritePokemon: pokemon,
+  })
+    .then(() => {
+      console.log("Usuário atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao atualizar o usuário:", error);
+    });
+}
+function updateUserName(name) {
+  update(userRef, {
+    name: name,
+  })
+    .then(() => {
+      console.log("Usuário atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao atualizar o usuário:", error);
+    });
+}
+function updateUserPassword(password) {
+  update(userRef, {
+    password: password,
+  })
+    .then(() => {
+      console.log("Usuário atualizado com sucesso!");
+    })
+    .catch((error) => {
+      console.error("Erro ao atualizar o usuário:", error);
+    });
+}
+let pokemonIsShiny;
 let favoritePokemon;
 let sprite;
 let shinySprite;
 const pokemonShinyIcon = document.querySelector("svg.pokemonShiny");
-if (localStorage.getItem("isShiny")) {
-  pokemonIsShiny = eval(localStorage.getItem("isShiny"));
-  if (pokemonIsShiny == true) {
-    pokemonShinyIcon.classList.add("active");
-  }
-} else {
-  pokemonIsShiny = false;
-}
+
 /* Input Name & Password */
 const inputName = document.querySelector("input#name");
 const editNameIcon = document.querySelector("svg.nameIcon");
@@ -19,21 +80,43 @@ const submitNameIcon = document.querySelector("svg.submitName");
 const inputPassword = document.querySelector("input#password");
 const editPasswordIcon = document.querySelector("svg.passwordIcon");
 const submitPasswordIcon = document.querySelector("svg.submitPassword");
-inputName.value = localStorage.getItem("name");
-inputPassword.value = localStorage.getItem("password");
+getUser((user) => {
+  inputName.value = user.name;
+  inputPassword.value = user.password;
+  favoritePokemon = allPokemon.find(
+    (pokemon) =>
+      pokemon.name.toLowerCase() == user.favouritePokemon.toLowerCase()
+  );
+  pokemonIsShiny = user.isShiny;
+  if (pokemonIsShiny == true) {
+    pokemonShinyIcon.classList.add("active");
+  }
+  let pokemonColor = `rgba(var(--${favoritePokemon.types[0].toLowerCase()}))`;
+  document.body.style.setProperty("--favoritePokemon-color", pokemonColor);
+  pokemonName.innerText = favoritePokemon.name;
+  pokemonNumber.innerText = "#" + favoritePokemon.numberDex;
+  sprite = favoritePokemon.animated;
+  shinySprite = favoritePokemon.shinyAnimated;
+  pokemonSelector.style.background = pokemonColor;
+  if (pokemonIsShiny == false) {
+    pokemonSprite.src = favoritePokemon.animated;
+  } else {
+    pokemonSprite.src = favoritePokemon.shinyAnimated;
+  }
+});
 editNameIcon.addEventListener("click", () => {
   editInput(inputName, editNameIcon, submitNameIcon, false);
 });
 submitNameIcon.addEventListener("click", () => {
   editInput(inputName, editNameIcon, submitNameIcon, true);
-  localStorage.setItem("name", inputName.value);
+  updateUserName(inputName.value);
 });
 editPasswordIcon.addEventListener("click", () => {
   editInput(inputPassword, editPasswordIcon, submitPasswordIcon, false);
 });
 submitPasswordIcon.addEventListener("click", () => {
   editInput(inputPassword, editPasswordIcon, submitPasswordIcon, true);
-  localStorage.setItem("password", inputPassword.value);
+  updateUserPassword(inputPassword.value);
 });
 function editInput(input, iconEdit, iconSubmit, inputReadValue) {
   input.readOnly = inputReadValue;
@@ -69,7 +152,7 @@ allPokemon.forEach((pokemon) => {
   li.appendChild(spanNumber);
   selectPokemonList.appendChild(li);
   li.addEventListener("click", () => {
-    localStorage.setItem("favoritePokemon", name);
+    updateUserFavouritePokemon(name);
     selectPokemonList.classList.remove("active");
     pokemonSelector.style.background = li.style.background;
     pokemonName.innerText = spanName.innerText;
@@ -89,31 +172,6 @@ allPokemon.forEach((pokemon) => {
 });
 /* Pokémon Sprite & Sprite Apresentation */
 const pokemonSprite = document.querySelector("img.pokemonSprite");
-if (localStorage.getItem("favoritePokemon")) {
-  favoritePokemon = allPokemon.find(
-    (pokemon) =>
-      pokemon.name.toLowerCase() ==
-      localStorage.getItem("favoritePokemon").toLocaleLowerCase()
-  );
-} else {
-  favoritePokemon = allPokemon.find(
-    (pokemon) => pokemon.name.toLowerCase() == "bulbasaur"
-  );
-}
-let pokemonColor = `rgba(var(--${favoritePokemon.types[0].toLowerCase()}))`;
-document.body.style.setProperty("--favoritePokemon-color", pokemonColor);
-pokemonSelector.style.background = pokemonColor;
-pokemonName.innerText = favoritePokemon.name;
-pokemonNumber.innerText = "#" + favoritePokemon.numberDex;
-console.log(pokemonIsShiny);
-if (pokemonIsShiny == false) {
-  pokemonSprite.src = favoritePokemon.animated;
-} else {
-  pokemonSprite.src = favoritePokemon.shinyAnimated;
-}
-console.log(pokemonIsShiny);
-sprite = favoritePokemon.animated;
-shinySprite = favoritePokemon.shinyAnimated;
 pokemonShinyIcon.onclick = () => {
   pokemonShinyIcon.classList.toggle("active");
   if (pokemonIsShiny == true) {
@@ -123,7 +181,7 @@ pokemonShinyIcon.onclick = () => {
     pokemonIsShiny = true;
     pokemonSprite.src = shinySprite;
   }
-  localStorage.setItem("isShiny", pokemonIsShiny);
+  updateUserFavouritePokemonIsShiny(pokemonIsShiny);
 };
 /* Select Colors ( radios ) */
 const inputRadioContainer = document.getElementById("inputRadios");
@@ -146,10 +204,12 @@ allWeakness.forEach((type) => {
       "--principal-color",
       `rgba(var(--${color}))`
     );
-    localStorage.setItem("principalColor", `${color}`);
+    updateUserFavouriteColor(color);
   });
-  if (inputRadio.id == localStorage.getItem("principalColor")) {
-    inputRadio.checked = true;
-  }
+  getUser((user) => {
+    if (inputRadio.id == user.favouriteColor) {
+      inputRadio.checked = true;
+    }
+  });
   div.style.setProperty("--inputRadio-color", `rgba(var(--${color}))`);
 });
