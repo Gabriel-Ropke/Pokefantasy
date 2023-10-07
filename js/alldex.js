@@ -4,6 +4,7 @@ import {
   allMoves,
   allPokemon,
 } from "./database/database.js";
+import { userRef } from "./database/fiebaseconsts.js";
 import { db, ref } from "./database/firebase.js";
 import {
   createAbility,
@@ -12,32 +13,6 @@ import {
   createPokemon,
 } from "./functions/functionCreatePokedex.js";
 import { filterByName } from "./functions/functionFilter.js";
-if (localStorage.getItem("UserId")) {
-  const userId = parseInt(localStorage.getItem("UserId"));
-  const pokecardRef = ref(db, "users/" + userId + "/pokecard");
-  if (pokecardRef) {
-    console.log(pokecardRef);
-  }
-  const UserRef = ref(db, "users/" + userId);
-  const elementoHTML = document.getElementById("elementoAlvo");
-
-  // Consulte o Firebase para obter os estilos
-  UserRef.once("value")
-    .then((snapshot) => {
-      const estilos = snapshot.val();
-      console.log(estilos);
-      // Verifique se há estilos no objeto recebido
-      if (estilos) {
-        // Aplique os estilos ao elemento HTML
-        for (const propriedade in estilos) {
-          elementoHTML.style[propriedade] = estilos[propriedade];
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Erro ao buscar estilos do Firebase:", error);
-    });
-}
 const URLInfo = new URLSearchParams(window.location.search);
 const selectedDex = URLInfo.get("page");
 
