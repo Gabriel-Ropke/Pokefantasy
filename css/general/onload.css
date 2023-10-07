@@ -1,0 +1,56 @@
+@keyframes onLoadAnimation {
+  0% {
+    rotate: 0deg;
+    border-color: rgba(var(--fighting));
+  }
+  12.5% {
+    rotate: 180deg;
+    border-color: rgba(var(--fire));
+  }
+  25% {
+    rotate: 360deg;
+    border-color: rgba(var(--water));
+  }
+  37.5% {
+    rotate: 540deg;
+    border-color: rgba(var(--ice));
+  }
+  50% {
+    rotate: 720deg;
+    border-color: rgba(var(--psychic));
+  }
+  62.5% {
+    rotate: 900deg;
+    border-color: rgba(var(--fairy));
+  }
+  75% {
+    rotate: 1080deg;
+    border-color: rgba(var(--grass));
+  }
+  87.5% {
+    rotate: 1260deg;
+    border-color: rgba(var(--bug));
+  }
+  100% {
+    rotate: 1440deg;
+    border-color: rgba(var(--fighting));
+  }
+}
+section#onload {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+  gap: 25px;
+  width: 100vw;
+  height: 100vh;
+  background: white;
+}
+section#onload div#onLoadAnimation {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 7px solid black;
+  border-top: 7px solid transparent !important;
+  animation: 6s onLoadAnimation linear infinite;
+}

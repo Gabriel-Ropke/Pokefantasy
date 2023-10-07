@@ -1,12 +1,11 @@
-import { dropdex } from "./alldex.js";
+import { Drops } from "./alldex.js";
 import { allDrops } from "./database/database.js";
 import {
-  createAll,
-  createDrop,
   filtDrop,
   filterByName,
   switchTextAndColor,
-} from "./functionFilter.js";
+} from "./functions/functionFilter.js";
+import { createAll, createDrop } from "./functions/functionCreatePokedex.js";
 /* Local Functions */
 function resetDropFilter() {
   DropFilterCategoryPlaceholder.style = "";
@@ -31,20 +30,16 @@ const AllDropFilterCategories = document.querySelectorAll("#filtDropCat li");
 const DropFilterPriceInput = document.getElementById("filtDropPrice");
 const DropFilterPriceLabel = document.getElementById("dropPriceValue");
 /* Start Page */
-createAll(allDrops, createDrop, dropdex, true);
+if (Drops.classList.contains("active")) {
+  createAll(allDrops, createDrop, Drops, true);
+}
+
 /* Add Event Listener */
 DropFilterNameInput.onclick = () => {
   resetDropFilter();
 };
 DropFilterNameInput.oninput = () => {
-  filterByName(
-    dropdex,
-    DropFilterNameInput,
-    allDrops,
-    createDrop,
-    "Drops",
-    true
-  );
+  filterByName(Drops, DropFilterNameInput, allDrops, createDrop, "Drops", true);
 };
 DropFilterCategoryPlaceholder.addEventListener("click", () => {
   DropFilterCategoriesContainer.classList.toggle("closed");

@@ -13,22 +13,117 @@
     <link rel="stylesheet" href="css/general/footer.css" />
     <link rel="stylesheet" href="css/responsive/general-responsive.css" />
     <link rel="stylesheet" href="css/selected/home.css" />
-    <script defer src="js/decoration.js" type="module"></script>
-    <script defer src="js/home.js" type="module"></script>
+    <link rel="stylesheet" href="css/general/onload.css" />
+    <script defer src="js/onload.js"></script>
+    <script defer type="module" src="js/home.js"></script>
+    <script defer type="module" src="js/decoration.js"></script>
     <title>Home</title>
   </head>
   <body>
     <header></header>
-    <div id="onlyBg">
-      <section id="home">
-        <div id="carrouselContainer"></div>
-        <div style='display: none' id="radios">
-          <input type="radio" name="swiper" id="swiper1" />
-          <input type="radio" name="swiper" id="swiper2" />
-          <input type="radio" name="swiper" id="swiper3" />
-          <input type="radio" name="swiper" id="swiper4" />
-        </div>
-      </section>
+    <section id="wrapper">
+      <div id="slideWrapper">
+        <button id="sliderPreview" class="slider-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="50px"
+            viewBox="0 0 320 512"
+          >
+            <path
+              d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"
+            />
+          </svg>
+        </button>
+        <button id="sliderNext" class="slider-button">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="50px"
+            viewBox="0 0 320 512"
+          >
+            <path
+              d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z"
+            />
+          </svg>
+        </button>
+        <ul id="slideList">
+          <li class="slide-item" data-index="1">
+            <a href="#">
+              <div class="slide-content">
+                <img
+                  src="img/general/cutepikachuwalking-unscreen.gif"
+                  alt="pikacu"
+                />
+                <span>
+                  <h2>Pikacu ualking</h2>
+                </span>
+              </div>
+            </a>
+          </li>
+          <li class="slide-item" data-index="0">
+            <a href="#">
+              <div class="slide-content">
+                <img src="img/general/Eevee.gif" alt="pikacu" />
+                <span>
+                  <h2>Pikacu ualking</h2>
+                </span>
+              </div>
+            </a>
+          </li>
+          <li class="slide-item" data-index="1">
+            <a href="#">
+              <div class="slide-content">
+                <img
+                  src="img/general/cutepikachuwalking-unscreen.gif"
+                  alt="pikacu"
+                />
+                <span>
+                  <h2>Pikacu ualking</h2>
+                </span>
+              </div>
+            </a>
+          </li>
+          <li class="slide-item" data-index="2">
+            <a href="#">
+              <div class="slide-content">
+                <img
+                  src="img/general/cutepikachuwalking-unscreen.gif"
+                  alt="pikacu"
+                />
+                <span>
+                  <h2>Pikacu ualking</h2>
+                </span>
+              </div>
+            </a>
+          </li>
+          <li class="slide-item" data-index="3">
+            <a href="#">
+              <div class="slide-content">
+                <img src="img/general/forest_background.jpg" alt="pikacu" />
+                <span>
+                  <h2>Pikacu ualking</h2>
+                </span>
+              </div>
+            </a>
+          </li>
+          <li class="slide-item" data-index="4">
+            <a href="#">
+              <div class="slide-content">
+                <img
+                  src="img/general/cutepikachuwalking-unscreen.gif"
+                  alt="pikacu"
+                />
+                <span>
+                  <h2>Pikacu ualking</h2>
+                </span>
+              </div>
+            </a>
+          </li>
+        </ul>
+        <div id="inputRadioContainer"></div>
+      </div>
+    </section>
+    <!--
+
       <div id="carouselWrapper">
         <div class="nav-btn prev"></div>
         <ul id="pokemonCarousel"></ul>
@@ -36,5 +131,7 @@
       </div>
     </div>
     <footer></footer>
+
+      -->
   </body>
 </html>

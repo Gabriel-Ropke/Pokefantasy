@@ -83,12 +83,15 @@ header nav.active {
     100px 0 0 0 rgba(var(--water), 0.9);
 }
 header nav li {
+  position: relative;
   text-transform: capitalize;
   width: 100%;
   height: 80px;
   transition: 0.3s ease;
 }
-header nav li a {
+header nav li a.navbar-link,
+header nav li span {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,20 +102,52 @@ header nav li a {
   letter-spacing: 1px;
   color: var(--black-light-color);
   transition: 0.3s ease;
+  cursor: pointer;
 }
-header nav li:hover a,
-header nav li.active a {
+header nav li:hover a.navbar-link,
+header nav li.active a.navbar-link {
   font-size: 25px;
   letter-spacing: 5px;
   color: white;
 }
-header nav #headerindex:hover,
-header nav #headerindex.active {
+header nav li:hover span,
+header nav li.active span {
+  color: white;
+  transform: translateX(-20px);
+}
+header nav li:hover,
+header nav li.active {
   background-color: rgb(150, 150, 150);
 }
-header nav #headerpokedex:hover,
-header nav #headerpokedex.active {
-  background-color: var(--border-color-header1);
+header nav li.nav-list:hover ul {
+  display: flex;
+}
+header nav li.nav-list ul {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  flex-flow: column;
+  transform: translateX(100%);
+  width: 200px;
+  background: var(--primary-background-color);
+  border-radius: 5px;
+  border-top-left-radius: 0;
+  overflow: hidden;
+}
+header nav li.nav-list ul a {
+  width: 100%;
+  height: 40px;
+  font-size: 18px;
+  text-align: center;
+  line-height: 40px;
+  color: rgb(70, 70, 70);
+  transition: 0.2s ease;
+}
+header nav li.nav-list ul a:hover {
+  font-size: 21px;
+  letter-spacing: 3px;
+  background: rgb(221, 219, 219);
 }
 /* Navbar Cover */
 header div#navbarCover {

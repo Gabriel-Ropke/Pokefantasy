@@ -69,6 +69,52 @@ const allPokemon = [
     ],
   },
   {
+    name: "Eevee",
+    numberDex: "128",
+    types: ["normal"],
+    species: "Evolution Pokemon",
+    abilities: ["rock head"],
+    stats: ["80", "105", "65", "60", "75", "130"],
+    catchRate: "0.3%",
+    bestNatures: ["Adamant", "Brave"],
+    width: "59.0kg",
+    height: "1.8m",
+    evYield: ["2 Speed"],
+    sprite: "img/sprites/aerodactyl.png",
+    shinySprite: "img/sprites/aerodactylShiny.png",
+    animated: "img/general/Eevee.gif",
+    shinyAnimated: "img/animated/aerodactylShiny.gif",
+    evolutionary: ["aerodactyl"],
+    evoMode: "Nvl. 1",
+    moves: [
+      {
+        name: "rock throw",
+        level: "5",
+      },
+      {
+        name: "rock slide",
+        level: "12",
+      },
+      {
+        name: "stone edge",
+        level: "17",
+      },
+    ],
+    drops: ["small stone", "strange rock", "straw", "old amber"],
+    routes: [
+      {
+        name: "old rock's lair",
+        minlevel: "53",
+        maxlevel: "65",
+      },
+      {
+        name: "Fossil's Cave",
+        minlevel: "49",
+        maxlevel: "57",
+      },
+    ],
+  },
+  {
     name: "omastar",
     numberDex: "139",
     types: ["rock", "water"],
@@ -1802,79 +1848,1389 @@ export const allStatus = [
 export const allWeakness = [
   {
     name: "normal",
-    Weakness: [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 2,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 0,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "fire",
     Weakness: [
-      1, 0.5, 2, 1, 0.5, 0.5, 1, 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 0.5, 0.5,
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 0.5,
+      },
+      {
+        name: "water",
+        weak: 2,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 0.5,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 2,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 0.5,
+      },
+      {
+        name: "rock",
+        weak: 2,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 0.5,
+      },
+      {
+        name: "fairy",
+        weak: 0.5,
+      },
     ],
   },
   {
     name: "water",
-    Weakness: [1, 0.5, 0.5, 2, 2, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 0.5,
+      },
+      {
+        name: "water",
+        weak: 0.5,
+      },
+      {
+        name: "electric",
+        weak: 2,
+      },
+      {
+        name: "grass",
+        weak: 2,
+      },
+      {
+        name: "ice",
+        weak: 0.5,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 0.5,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "electric",
-    Weakness: [1, 1, 1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 0.5, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 0.5,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 2,
+      },
+      {
+        name: "flying",
+        weak: 0.5,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 0.5,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "grass",
-    Weakness: [1, 2, 0.5, 0.5, 0.5, 2, 1, 2, 0.5, 2, 1, 2, 1, 1, 1, 1, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 2,
+      },
+      {
+        name: "water",
+        weak: 0.5,
+      },
+      {
+        name: "electric",
+        weak: 0.5,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 2,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 2,
+      },
+      {
+        name: "ground",
+        weak: 0.5,
+      },
+      {
+        name: "flying",
+        weak: 2,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 2,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "ice",
-    Weakness: [1, 2, 1, 1, 1, 0.5, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 2,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 0.5,
+      },
+      {
+        name: "fighting",
+        weak: 2,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 2,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 2,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "fighting",
-    Weakness: [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0.5, 0.5, 1, 1, 0.5, 1, 2],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 2,
+      },
+      {
+        name: "psychic",
+        weak: 2,
+      },
+      {
+        name: "bug",
+        weak: 0.5,
+      },
+      {
+        name: "rock",
+        weak: 0.5,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 0.5,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 2,
+      },
+    ],
   },
   {
     name: "poison",
-    Weakness: [1, 1, 1, 1, 0.5, 1, 0.5, 0.5, 2, 1, 2, 0.5, 1, 1, 1, 1, 1, 0.5],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 0.5,
+      },
+      {
+        name: "poison",
+        weak: 0.5,
+      },
+      {
+        name: "ground",
+        weak: 2,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 2,
+      },
+      {
+        name: "bug",
+        weak: 0.5,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 0.5,
+      },
+    ],
   },
   {
     name: "ground",
-    Weakness: [1, 1, 2, 0, 2, 2, 1, 0.5, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 2,
+      },
+      {
+        name: "electric",
+        weak: 0,
+      },
+      {
+        name: "grass",
+        weak: 2,
+      },
+      {
+        name: "ice",
+        weak: 2,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 0.5,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 0.5,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "flying",
-    Weakness: [1, 1, 1, 2, 0.5, 2, 0.5, 1, 0, 1, 1, 0.5, 2, 1, 1, 1, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 2,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 2,
+      },
+      {
+        name: "fighting",
+        weak: 0.5,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 0,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 2,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "psychic",
-    Weakness: [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 0.5, 2, 1, 2, 1, 2, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 0.5,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 0.5,
+      },
+      {
+        name: "bug",
+        weak: 2,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 2,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 2,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "bug",
-    Weakness: [1, 2, 1, 1, 0.5, 1, 0.5, 1, 0.5, 2, 1, 1, 2, 1, 1, 1, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 2,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 0.5,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 0.5,
+      },
+      {
+        name: "flying",
+        weak: 2,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 2,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "rock",
-    Weakness: [0.5, 0.5, 2, 1, 2, 1, 2, 0.5, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 0.5,
+      },
+      {
+        name: "fire",
+        weak: 0.5,
+      },
+      {
+        name: "water",
+        weak: 2,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 2,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 2,
+      },
+      {
+        name: "poison",
+        weak: 0.5,
+      },
+      {
+        name: "ground",
+        weak: 2,
+      },
+      {
+        name: "flying",
+        weak: 0.5,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 2,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "ghost",
-    Weakness: [0, 1, 1, 1, 1, 1, 0, 0.5, 1, 1, 1, 0.5, 1, 2, 1, 2, 1, 1],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 0,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 0,
+      },
+      {
+        name: "poison",
+        weak: 0.5,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 0.5,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 2,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 2,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
   {
     name: "dragon",
-    Weakness: [1, 0.5, 0.5, 0.5, 0.5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 0.5,
+      },
+      {
+        name: "water",
+        weak: 0.5,
+      },
+      {
+        name: "electric",
+        weak: 0.5,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 2,
+      },
+      {
+        name: "fighting",
+        weak: 1,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 1,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 2,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 2,
+      },
+    ],
   },
   {
     name: "dark",
-    Weakness: [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 2, 1, 0.5, 1, 0.5, 1, 2],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 2,
+      },
+      {
+        name: "poison",
+        weak: 1,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 0,
+      },
+      {
+        name: "bug",
+        weak: 2,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 0.5,
+      },
+      {
+        name: "dragon",
+        weak: 1,
+      },
+      {
+        name: "dark",
+        weak: 0.5,
+      },
+      {
+        name: "steel",
+        weak: 1,
+      },
+      {
+        name: "fairy",
+        weak: 2,
+      },
+    ],
   },
   {
     name: "steel",
     Weakness: [
-      0.5, 2, 1, 1, 0.5, 0.5, 2, 0, 2, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 1, 0.5, 0.5,
+      {
+        name: "normal",
+        weak: 0.5,
+      },
+      {
+        name: "fire",
+        weak: 2,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 0.5,
+      },
+      {
+        name: "ice",
+        weak: 0.5,
+      },
+      {
+        name: "fighting",
+        weak: 2,
+      },
+      {
+        name: "poison",
+        weak: 0,
+      },
+      {
+        name: "ground",
+        weak: 2,
+      },
+      {
+        name: "flying",
+        weak: 0.5,
+      },
+      {
+        name: "psychic",
+        weak: 0.5,
+      },
+      {
+        name: "bug",
+        weak: 0.5,
+      },
+      {
+        name: "rock",
+        weak: 0.5,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 0.5,
+      },
+      {
+        name: "dark",
+        weak: 1,
+      },
+      {
+        name: "steel",
+        weak: 0.5,
+      },
+      {
+        name: "fairy",
+        weak: 0.5,
+      },
     ],
   },
   {
     name: "fairy",
-    Weakness: [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 2, 1, 0.5, 1, 0.5, 1, 2],
+    Weakness: [
+      {
+        name: "normal",
+        weak: 1,
+      },
+      {
+        name: "fire",
+        weak: 1,
+      },
+      {
+        name: "water",
+        weak: 1,
+      },
+      {
+        name: "electric",
+        weak: 1,
+      },
+      {
+        name: "grass",
+        weak: 1,
+      },
+      {
+        name: "ice",
+        weak: 1,
+      },
+      {
+        name: "fighting",
+        weak: 0.5,
+      },
+      {
+        name: "poison",
+        weak: 2,
+      },
+      {
+        name: "ground",
+        weak: 1,
+      },
+      {
+        name: "flying",
+        weak: 1,
+      },
+      {
+        name: "psychic",
+        weak: 1,
+      },
+      {
+        name: "bug",
+        weak: 0.5,
+      },
+      {
+        name: "rock",
+        weak: 1,
+      },
+      {
+        name: "ghost",
+        weak: 1,
+      },
+      {
+        name: "dragon",
+        weak: 0,
+      },
+      {
+        name: "dark",
+        weak: 0.5,
+      },
+      {
+        name: "steel",
+        weak: 2,
+      },
+      {
+        name: "fairy",
+        weak: 1,
+      },
+    ],
   },
 ];
 export const allClipPathBorder = [

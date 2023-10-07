@@ -12,9 +12,12 @@ section {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.6);
   background: white;
 }
-section table {
+section div.table-container.table-container {
   position: relative;
-  margin: 50px 0 0 50px;
+  width: 100%;
+  padding: 50px 0 0 50px;
+}
+section table {
   border-collapse: collapse;
   width: 100%;
   font-size: 16px;
@@ -26,70 +29,62 @@ table tr {
 table tr th:first-child {
   border: none;
 }
-table tr th {
-  width: calc(100% / 18);
+.vertical {
   writing-mode: vertical-rl;
-  border: 1px solid black;
+}
+table tr th {
   padding: 5px;
   color: white;
   text-shadow: black 1px -1px, black -1px 1px, black 1px 1px, black -1px -1px;
+  text-transform: capitalize;
+  border-radius: 0 0 2px 2px;
 }
 table tr td:first-child {
   padding: 0 10px;
   color: white;
   text-shadow: black 1px -1px, black -1px 1px, black 1px 1px, black -1px -1px;
+  border-radius: 0 2px 2px 0;
+  text-transform: capitalize;
 }
 table tr td {
-  border: 1px solid black;
   width: calc(100% / 19);
   text-align: center;
   background: white;
+  border-radius: 2px;
 }
-table tr td.tabletop {
+div.table-container span.top-table-title,
+div.table-container span.left-table-title {
   position: absolute;
-  top: -50px;
-  left: 8.9%;
-  width: 91.1%;
+  line-height: 50px;
+  font-size: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background: #2196fe;
+  color: white;
+  text-shadow: black 1px -1px, black -1px 1px, black 1px 1px, black -1px -1px;
+}
+div.table-container span.top-table-title {
+  top: 0;
+  right: 0;
   height: 50px;
-  border: 1px solid black;
-  border-bottom: 0;
-  text-align: center;
-  font-size: 25px;
-  text-transform: uppercase;
-  text-shadow: none;
-  color: white;
-  line-height: 50px;
-  letter-spacing: 2px;
-  background: var(--principal-color);
 }
-table tr td.tableleft {
-  position: absolute;
-  top: 14%;
-  left: -50px;
-  height: 86.2%;
+div.table-container span.left-table-title {
+  bottom: 0;
+  left: 0;
   width: 50px;
-  border: 1px solid black;
-  border-right: 0;
-  line-height: 50px;
-  writing-mode: vertical-rl;
-  transform: rotateX(180deg) rotateY(180deg);
-  text-align: center;
-  font-size: 25px;
-  text-transform: uppercase;
-  color: white;
-  letter-spacing: 2px;
-  background: var(--principal-color);
+  writing-mode: vertical-lr;
+  rotate: 180deg;
 }
-table#NatureTable tr th {
-  writing-mode: horizontal-tb;
+div.table-container span#weaknessTopTitle {
+  width: var(--weakness-left-table-height);
 }
-table#NatureTable tr td.tableleft {
-  font-weight: 500;
-  top: 19%;
-  height: 81%;
+div.table-container span#weaknessLeftTitle {
+  height: var(--weakness-top-table-width);
 }
-table#NatureTable tr td.tabletop {
-  font-weight: 500;
-  left: 18%;
-  width: 82.2%;
+div.table-container span#natureTopTitle {
+  width: var(--nature-left-table-height);
+}
+div.table-container span#natureLeftTitle {
+  height: var(--nature-top-table-width);
 }

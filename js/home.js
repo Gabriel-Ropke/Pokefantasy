@@ -1,78 +1,81 @@
-import { allPokemon } from "./database/database.js";
-import { allNotices } from "./database/notices.js";
-const CarrouselContainer = document.getElementById("carrouselContainer");
-for (let i = 0; i < 1; i++) {
-  let articleNotice = document.createElement("article");
-  let aHref = document.createElement("a");
-  let img = document.createElement("img");
-  let spanNotice = document.createElement("span");
-  let h2Title = document.createElement("h2");
-  CarrouselContainer.appendChild(articleNotice);
-  articleNotice.id = "principal";
-  articleNotice.appendChild(aHref);
-  aHref.appendChild(img);
-  aHref.appendChild(spanNotice);
-  spanNotice.appendChild(h2Title);
-  aHref.href = `news.html?id=${allNotices[i].id}`;
-  img.src = allNotices[i].source;
-  h2Title.innerText = allNotices[i].title;
+const SlideWrapper = document.querySelector("#slideWrapper");
+const SlideButtonPreview = document.querySelector("#sliderPreview");
+const SlideButtonNext = document.querySelector("#sliderNext");
+const allSlideInputRadio = document.querySelectorAll("input[type='radio']");
+const SlideInputRadioContainer = document.querySelector("#inputRadioContainer");
+const allSlideItems = document.querySelectorAll("li.slide-item");
+const SlideList = document.querySelector("ul#slideList");
+let controlButtons;
+const state = {
+  startingPoint: 0, // ver se pode tirar dps
+  LastPosition: 0,
+  CurrentPosition: 0,
+  movement: 0, // ver se pode tirar dps
+  currentSlideIndex: 0,
+};
+function translateSlide({ position }) {
+  SlideList.style.transform = `translateX(${position}px)`;
 }
-/* Create Carousel */
-const pokemonCarousel = document.getElementById("pokemonCarousel");
-for (let i = 0; i < 9; i++) {
-  let liPokemon = document.createElement("li");
-  let aHref = document.createElement("a");
-  let divImage = document.createElement("div");
-  let imgPokemon = document.createElement("img");
-  let spanBgNumber = document.createElement("span");
-  let divInfo = document.createElement("div");
-  let h5NameDex = document.createElement("h5");
-  let spanName = document.createElement("span");
-  let spanNumber = document.createElement("span");
-  let spanTypes = document.createElement("span");
-  pokemonCarousel.appendChild(liPokemon);
-  liPokemon.appendChild(aHref);
-  aHref.appendChild(divImage);
-  divImage.appendChild(imgPokemon);
-  divImage.appendChild(spanBgNumber);
-  aHref.appendChild(divInfo);
-  divInfo.appendChild(h5NameDex);
-  h5NameDex.appendChild(spanName);
-  h5NameDex.appendChild(spanNumber);
-  divInfo.appendChild(spanTypes);
-  liPokemon.classList.add("pokemon");
-  divImage.classList.add("image");
-  divInfo.classList.add("info");
-  spanNumber.classList.add("number");
-  spanTypes.classList.add("types");
-  aHref.href = `pokemon.html?id=${allPokemon[i].numberDex}`;
-  imgPokemon.src = allPokemon[i].shinySprite;
-  spanBgNumber.innerText = allPokemon[i].numberDex;
-  spanName.innerText = allPokemon[i].name;
-  spanNumber.innerText = allPokemon[i].numberDex;
-  for (let t = 0; t < allPokemon[i].types.length; t++) {
-    let pType = document.createElement("p");
-    spanTypes.appendChild(pType);
-    pType.innerText = allPokemon[i].types[t];
-    pType.style.background = `rgba(var(--${allPokemon[i].types[t]}))`;
+function getCenterPosition({ index }) {
+  const slideWidth = allSlideItems[index].clientWidth;
+  const windowWidth = document.body.clientWidth;
+  const margin = (windowWidth - slideWidth) / 2;
+  const position = margin - index * slideWidth;
+  return position;
+}
+function activeControlRadio({ index }) {
+  controlButtons[index].checked = true;
+}
+function setVisibleSlide({ index, animate }) {
+  const position = getCenterPosition({ index: index });
+  state.currentSlideIndex = index;
+  SlideList.style.transition =
+    animate === true ? "transform 0.5s ease" : "none";
+  activeControlRadio({ index: index });
+  translateSlide({ position: position });
+}
+function nextSlide() {
+  setVisibleSlide({ index: state.currentSlideIndex + 1, animate: true });
+}
+function previewSlide() {
+  setVisibleSlide({ index: state.currentSlideIndex - 1, animate: true });
+}
+function createControlRadios() {
+  for (let i = 0; i < allSlideItems.length; i++) {
+    let controlRadio = document.createElement("input");
+    let controlRadioLabel = document.createElement("label");
+    controlRadio.type = "radio";
+    controlRadio.name = "sliderRadio";
+    controlRadio.id = `radio${i}`;
+    controlRadioLabel.setAttribute("for", `radio${i}`);
+    controlRadio.onclick = () => {
+      setVisibleSlide({ index: i, animate: true });
+    };
+    if (i == 1) {
+      controlRadio.checked = true;
+    }
+    SlideInputRadioContainer.appendChild(controlRadio);
+    SlideInputRadioContainer.appendChild(controlRadioLabel);
+  }
+  controlButtons = document.querySelectorAll("#inputRadioContainer input");
+}
+function slideListTranstionEnd() {
+  if (state.currentSlideIndex == SlideList.length - 1) {
+    setVisibleSlide({ index: 1, animate: false });
   }
 }
-
-var pokemon = document.querySelectorAll(".pokemon");
-const carouselPrev = document.querySelector("#carouselWrapper .nav-btn.prev");
-const carouselNext = document.querySelector("#carouselWrapper .nav-btn.next");
-
-carouselPrev.addEventListener("click", () => {
-  pokemonCarousel.insertBefore(pokemon[pokemon.length - 1], pokemon[0]);
-  pokemon = document.querySelectorAll(".pokemon");
-});
-carouselNext.addEventListener("click", () => {
-  pokemonCarousel.appendChild(pokemon[0]);
-  pokemon = document.querySelectorAll(".pokemon");
-});
-if (window.innerWidth <= 500) {
-  setInterval(() => {
-    pokemonCarousel.appendChild(pokemon[0]);
-    pokemon = document.querySelectorAll(".pokemon");
-  }, 3000);
+function setListener() {
+  SlideButtonNext.onclick = () => {
+    nextSlide();
+  };
+  SlideButtonPreview.onclick = () => {
+    previewSlide();
+  };
+  SlideList.addEventListener("transitionend", slideListTranstionEnd);
 }
+function initSlider() {
+  createControlRadios();
+  setListener();
+  setVisibleSlide({ index: 0, animate: true });
+}
+initSlider();

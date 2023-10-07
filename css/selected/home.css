@@ -1,66 +1,109 @@
 * {
   user-select: none;
 }
-section#home {
-  position: relative;
-  margin: 95px auto 0;
+body {
+  width: 100vw;
 }
-section#home article a {
-  position: relative;
+section#wrapper {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+div#slideWrapper {
   display: flex;
   flex-flow: column;
+  gap: 25px;
   width: 100%;
-  height: 100%;
   overflow: hidden;
 }
-section#home article img {
-  width: 100%;
-  transition: 0.3s ease;
+button.slider-button {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  z-index: 10;
+  cursor: pointer;
 }
-section#home article span {
+button.slider-button#sliderPreview {
+  left: 50px;
+  transform: translate(-50%, -50%);
+}
+button.slider-button#sliderNext {
+  right: 50px;
+  transform: translate(50%, -50%);
+}
+button.slider-button svg {
+  fill: white;
+}
+ul#slideList {
+  display: flex;
+  gap: 5%;
+  max-height: 450px;
+  width: 90%;
+  transition: 0.5s ease;
+}
+ul#slideList li.slide-item {
+  flex-shrink: 0;
+  width: 100%;
+}
+li.slide-item div.slide-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+li.slide-item img {
+  width: 90%;
+  max-height: 100%;
+}
+li.slide-item span {
   position: absolute;
   top: 0;
   left: 0;
   display: block;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  transition: 0.3s ease;
+  border: 2px solid black;
+  border-radius: 5px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2));
 }
-section#home article a:hover img {
-  scale: 1.12;
-}
-section#home article a:hover span {
-  background: rgba(0, 0, 0, 0.8);
-}
-section#home article span h2 {
+li.slide-item h2 {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: block;
+  padding: 10px 15px;
   border: 3px solid white;
-  padding: 10px 20px;
-  font-size: 30px;
-  font-weight: 500;
+  font-size: 32px;
 }
-section#home div#radios {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  transform: translateY(-100%);
+div#inputRadioContainer {
   display: flex;
-  width: 100%;
-  height: 50px;
-  background: pink;
-  justify-content: center;
   align-items: center;
-  gap: 15px;
+  justify-content: center;
+  gap: 10px;
 }
-section#home div#radios input[type="radio"] {
-  width: 25px;
-  background: orange;
+div#inputRadioContainer input[type="radio"] {
+  display: none;
+}
+div#inputRadioContainer label {
+  width: 125px;
+  height: 25px;
+  border: 2px solid white;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+div#inputRadioContainer label:hover,
+div#inputRadioContainer input[type="radio"]:checked + label {
+  background: white;
+}
+@media screen and (max-width: 768px) {
+  li.slide-item h2 {
+  }
 }
 /* Carrousel of Pokemon */
 #onlyBg #carouselWrapper {

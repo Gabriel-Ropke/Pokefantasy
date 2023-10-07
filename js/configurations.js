@@ -11,7 +11,7 @@ import {
   createDrop,
   createMove,
   createPokemon,
-} from "./functionFilter.js";
+} from "./functions/functionCreatePokedex.js";
 import {
   allElementEditorArray,
   closePages,
@@ -152,16 +152,16 @@ const SelectorFilterEditor = allElementEditorArray[6];
 let actualEditorCard;
 // Const & Let - Editor
 ResetEditButton.onclick = () => {
-  const editRef = ref(
+  const CardRef = ref(
     db,
     "users/" +
       localStorage.getItem("activeUser") +
       "/" +
       actualEditorCard.dataset.name
   );
-  remove(editRef)
+  remove(CardRef)
     .then(() => {
-      console.log(editRef);
+      console.log(CardRef);
       console.log(elementToEdit.dataset.name);
       console.log("Nó excluído com sucesso.");
     })
@@ -328,6 +328,13 @@ for (let i = 0; i < todasAsCardsDaListaLateral.length; i++) {
       ResizeEditorWidthValue.innerText = ResizeEditorWidthInput.value;
       ResizeEditorHeightValue.innerText = ResizeEditorHeightInput.value;
       elementToEdit = actualEditorCard;
+      const editRef = ref(
+        db,
+        "users/" +
+          localStorage.getItem("activeUser") +
+          "/" +
+          actualEditorCard.dataset.name
+      );
       return actualEditorCard;
     }, 250);
     setTimeout(() => {

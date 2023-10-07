@@ -1,11 +1,12 @@
-import { abilitydex } from "./alldex.js";
+import { Abilities } from "./alldex.js";
 import { allAbilities } from "./database/database.js";
-import { createAbility, createAll, filterByName } from "./functionFilter.js";
+import { filterByName } from "./functions/functionFilter.js";
+import { createAbility, createAll } from "./functions/functionCreatePokedex.js";
 const AbilityInputName = document.querySelector("#abilityName");
-createAll(allAbilities, createAbility, abilitydex, true);
+createAll(allAbilities, createAbility, Abilities, true);
 AbilityInputName.oninput = () => {
   filterByName(
-    abilitydex,
+    Abilities,
     AbilityInputName,
     allAbilities,
     createAbility,

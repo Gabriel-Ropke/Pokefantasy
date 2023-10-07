@@ -1,5 +1,5 @@
 import { allDrops, allPokemon } from "./database/database.js";
-import { createSpanAviso } from "./functionFilter.js";
+import { createSpanAviso } from "./functions/functionFilter.js";
 
 const URLInfo = new URLSearchParams(window.location.search);
 const selectedDrop = allDrops.find((e) => e.name == URLInfo.get("drop"));

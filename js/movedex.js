@@ -1,16 +1,15 @@
-import { movedex } from "./alldex.js";
+import { Moves } from "./alldex.js";
 import { allMoves, allWeakness } from "./database/database.js";
 import {
-  createAll,
-  createMove,
   filtMove,
   filterByName,
   switchTextAndColor,
-} from "./functionFilter.js";
+} from "./functions/functionFilter.js";
+import { createAll, createMove } from "./functions/functionCreatePokedex.js";
 /* Local Functions */
-function resetMoveFilter() {
-  movedex.innerHTML = "";
-  createAll(allMoves, createMove, movedex, true);
+async function resetMoveFilter() {
+  Moves.innerHTML = "";
+  createAll(allMoves, createMove, Moves, true);
   MoveFilterPowerInput.value = 0;
   MoveFilterPowerLabel.value = 0;
   MoveFilterPowerLabel.innerText = "--";
@@ -27,7 +26,10 @@ function resetMoveFilter() {
   MoveFilterPowerContainer.classList.add("closed");
 }
 /* Start Page */
-createAll(allMoves, createMove, movedex, true);
+if (Moves.classList.contains("active")) {
+  createAll(allMoves, createMove, Moves, true);
+}
+
 /* Query Filter Elements */
 const MoveFilterNameInput = document.querySelector("#moveName");
 const MoveFilterResetButton = document.getElementById("moveReset");
@@ -50,23 +52,16 @@ MoveFilterNameInput.onclick = () => {
   resetMoveFilter();
 };
 MoveFilterNameInput.oninput = () => {
-  filterByName(
-    movedex,
-    MoveFilterNameInput,
-    allMoves,
-    createMove,
-    "Moves",
-    true
-  );
+  filterByName(Moves, MoveFilterNameInput, allMoves, createMove, "Moves", true);
 };
 /* Create Move Type Filter li's */
-allWeakness.forEach((thisType) => {
+for (let i = 0; i < allWeakness.length; i++) {
   let liFiltType = document.createElement("li");
-  liFiltType.innerText = thisType.name;
-  liFiltType.style.background = `rgba(var(--${thisType.name}))`;
+  liFiltType.innerText = allWeakness[i].name;
+  liFiltType.style.background = `rgba(var(--${allWeakness[i].name}))`;
   MoveFilterTypesContainer.appendChild(liFiltType);
   AllMoveFilterTypes = document.querySelectorAll("#filtMoveType li");
-});
+}
 /* Placeholder */
 MoveFilterTypesPlaceholder.addEventListener("click", () => {
   MoveFilterTypesContainer.classList.toggle("closed");
@@ -81,34 +76,44 @@ MoveFilterCategoryPlaceholder.addEventListener("click", () => {
   }
 });
 /* Filter li's */
-AllMoveFilterCategories.forEach((moveCat) => {
-  moveCat.addEventListener("click", () => {
-    filtMove(MoveFilterTypesPlaceholder, moveCat, MoveFilterPowerInput);
+for (let i = 0; i < AllMoveFilterCategories.length; i++) {
+  AllMoveFilterCategories[i].addEventListener("click", () => {
+    filtMove(
+      MoveFilterTypesPlaceholder,
+      AllMoveFilterCategories[i],
+      MoveFilterPowerInput
+    );
     switchTextAndColor(
       MoveFilterCategoryPlaceholder,
-      moveCat,
+      AllMoveFilterCategories[i],
       MoveFilterCategoryContainer
     );
     MoveFilterCategoryPlaceholder.style.background = "rgba(var(--grass))";
     MoveFilterResetButton.classList.remove("disabled");
   });
-});
-AllMoveFilterTypes.forEach((moveType) => {
-  moveType.addEventListener("click", () => {
+}
+for (let i = 0; i < AllMoveFilterTypes.length; i++) {
+  AllMoveFilterTypes[i].addEventListener("click", () => {
     MoveFilterPowerContainer.style.setProperty(
       "--move-range-color",
-      `rgba(var(--${moveType.innerText.toLowerCase()}))`
+      `rgba(var(--${AllMoveFilterTypes[i].innerText.toLowerCase()}))`
     );
-    filtMove(moveType, MoveFilterCategoryPlaceholder, MoveFilterPowerInput);
+    filtMove(
+      AllMoveFilterTypes[i],
+      MoveFilterCategoryPlaceholder,
+      MoveFilterPowerInput
+    );
     switchTextAndColor(
       MoveFilterTypesPlaceholder,
-      moveType,
+      AllMoveFilterTypes[i],
       MoveFilterTypesContainer
     );
-    MoveFilterTypesPlaceholder.style.background = `rgba(var(--${moveType.innerText.toLowerCase()}))`;
+    MoveFilterTypesPlaceholder.style.background = `rgba(var(--${AllMoveFilterTypes[
+      i
+    ].innerText.toLowerCase()}))`;
     MoveFilterResetButton.classList.remove("disabled");
   });
-});
+}
 /* Input */
 MoveFilterPowerInput.oninput = () => {
   MoveFilterPowerLabel.value = MoveFilterPowerInput.value;

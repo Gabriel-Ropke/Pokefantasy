@@ -10,8 +10,8 @@ import {
   createDrop,
   createMove,
   createPokemon,
-  filterByName,
-} from "./functionFilter.js";
+} from "./functions/functionCreatePokedex.js";
+import { filterByName } from "./functions/functionFilter.js";
 if (localStorage.getItem("UserId")) {
   const userId = parseInt(localStorage.getItem("UserId"));
   const pokecardRef = ref(db, "users/" + userId + "/pokecard");
@@ -22,8 +22,7 @@ if (localStorage.getItem("UserId")) {
   const elementoHTML = document.getElementById("elementoAlvo");
 
   // Consulte o Firebase para obter os estilos
-  UserRef
-    .once("value")
+  UserRef.once("value")
     .then((snapshot) => {
       const estilos = snapshot.val();
       console.log(estilos);
@@ -39,98 +38,43 @@ if (localStorage.getItem("UserId")) {
       console.error("Erro ao buscar estilos do Firebase:", error);
     });
 }
+const URLInfo = new URLSearchParams(window.location.search);
+const selectedDex = URLInfo.get("page");
 
-import { selectedPage } from "./importantConsts.js";
 /* Switch Pages - Poké, Move, Drop & Ability */
-export const abilitydex = document.querySelector("#abilitydex ul");
+const SelectedPage = document.querySelector(`section#alldex #${selectedDex}`);
+const SelectedFilter = document.querySelector(
+  `article[data-page=${selectedDex}]`
+);
+SelectedPage.classList.add("active");
+if (SelectedFilter) {
+  SelectedFilter.classList.add("active");
+} else {
+  const filterContainer = document.querySelector("section#filterContainer");
+  filterContainer.style.display = "none";
+}
+export const Abilities = document.querySelector("#abilities");
 const selectionPages = document.querySelectorAll("#selection h2");
-export const pokedex = document.getElementById("pokedex");
-export const movedex = document.getElementById("movedex");
-export const dropdex = document.getElementById("dropdex");
-const abilityPage = document.getElementById("abilitydex");
+export const Pokedex = document.getElementById("pokedex");
+export const Moves = document.getElementById("moves");
+export const Drops = document.getElementById("drops");
 const pokemonFilter = document.getElementById("pokedexFilter");
 const movesFilter = document.getElementById("movedexFilter");
 const dropsFilter = document.getElementById("dropdexFilter");
 const abilitiesFilter = document.getElementById("abilitydexFilter");
 
 function closePages() {
-  pokedex.classList.add("inactive");
-  movedex.classList.add("inactive");
-  dropdex.classList.add("inactive");
-  abilityPage.classList.add("inactive");
+  Pokedex.classList.add("inactive");
+  Moves.classList.add("inactive");
+  Drops.classList.add("inactive");
+  Abilities.classList.add("inactive");
   pokemonFilter.classList.add("inactive");
   movesFilter.classList.add("inactive");
   dropsFilter.classList.add("inactive");
   abilitiesFilter.classList.add("inactive");
 }
-selectionPages.forEach((e) => {
-  e.addEventListener("click", () => {
-    e.classList.add("active");
-    console.log(e.id);
-    if (e.id == "pokemonPage") {
-      closePages();
-      pokedex.classList.remove("inactive");
-      pokemonFilter.classList.remove("inactive");
-    }
-    if (e.id == "movePage") {
-      closePages();
-      movedex.classList.remove("inactive");
-      movesFilter.classList.remove("inactive");
-    }
-    if (e.id == "dropPage") {
-      closePages();
-      dropdex.classList.remove("inactive");
-      dropsFilter.classList.remove("inactive");
-    }
-    if (e.id == "abilityPage") {
-      closePages();
-      abilityPage.classList.remove("inactive");
-      abilitiesFilter.classList.remove("inactive");
-    }
-    selectionPages.forEach((elm) => {
-      if (elm.id == e.id) {
-        elm.classList.add("active");
-      } else {
-        elm.classList.remove("active");
-      }
-    });
-  });
-});
-if (selectedPage.pathname == "/pokedex.html") {
-  const closeFilter = document.getElementById("closeFilter");
-  const filterContainer = document.getElementById("filterContainer");
-  closeFilter.onclick = () => {
-    filterContainer.classList.toggle("inactive");
-  };
-  const searchGeneralByInput = document.querySelector(
-    "div#generalSearchInput input"
-  );
-  const searchGeneralPlaceholder = document.querySelector(
-    "div#generalSearchInput .placeholderSearch"
-  );
-  searchGeneralByInput.oninput = () => {
-    filterByName(movedex, searchGeneralByInput, allMoves, createMove, "Moves");
-    filterByName(
-      pokedex,
-      searchGeneralByInput,
-      allPokemon,
-      createPokemon,
-      "Pokémon"
-    );
-    filterByName(dropdex, searchGeneralByInput, allDrops, createDrop, "Drops");
-    filterByName(
-      abilitydex,
-      searchGeneralByInput,
-      allAbilities,
-      createAbility,
-      "Abilities"
-    );
-  };
-  searchGeneralByInput.addEventListener("focusout", () => {
-    if (searchGeneralByInput.value.length >= 1) {
-      searchGeneralPlaceholder.classList.add("minimize");
-    } else {
-      searchGeneralPlaceholder.classList.remove("minimize");
-    }
-  });
-}
+const closeFilter = document.querySelector("span#closeFilter");
+const filterContainer = document.querySelector("section#filterContainer");
+closeFilter.onclick = () => {
+  filterContainer.classList.toggle("active");
+};

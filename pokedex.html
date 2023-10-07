@@ -13,15 +13,18 @@
     <link rel="stylesheet" href="css/general/footer.css" />
     <link rel="stylesheet" href="css/general/header.css" />
     <link rel="stylesheet" href="css/responsive/general-responsive.css" />
+    <link rel="stylesheet" href="css/dex/abilitydex.css" />
+    <link rel="stylesheet" href="css/dex/pokedex.css" />
+    <link rel="stylesheet" href="css/responsive/alldex-responsive.css" />
+    <link rel="stylesheet" href="css/general/onload.css" />
+    <script defer src="js/onload.js"></script>
     <script defer src="js/decoration.js" type="module"></script>
     <script defer type="module" src="js/alldex.js"></script>
     <script defer src="js/pokedex.js" type="module"></script>
     <script defer src="js/movedex.js" type="module"></script>
     <script defer src="js/dropdex.js" type="module"></script>
     <script defer src="js/abilitydex.js" type="module"></script>
-    <link rel="stylesheet" href="css/dex/abilitydex.css" />
-    <link rel="stylesheet" href="css/dex/alldex.css" />
-    <link rel="stylesheet" href="css/responsive/alldex-responsive.css" />
+    <script defer src="js/pokedexTables.js" type="module"></script>
     <title>Pokedéx</title>
   </head>
   <body>
@@ -40,7 +43,7 @@
           ></path>
         </svg>
       </span>
-      <article id="pokedexFilter">
+      <article id="pokedexFilter" data-page="pokedex">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           height="30px"
@@ -77,7 +80,7 @@
           <ul id="filtPokeAbility" class="closed"></ul>
         </div>
       </article>
-      <article id="movedexFilter" class="inactive">
+      <article id="movedexFilter" data-page="moves">
         <span id="moveReset" class="filter-reset disabled">Reset</span>
         <div class="inputTypeTextContainer name">
           <input type="text" class="specific_name" name="" id="moveName" />
@@ -109,7 +112,7 @@
           />
         </div>
       </article>
-      <article id="dropdexFilter" class="inactive">
+      <article id="dropdexFilter" data-page="drops">
         <span id="dropReset" class="filter-reset disabled">Reset</span>
         <div class="inputTypeTextContainer name">
           <input type="text" class="specific_name" name="" id="dropName" />
@@ -138,7 +141,7 @@
           />
         </div>
       </article>
-      <article id="abilitydexFilter" class="inactive">
+      <article id="abilitydexFilter" data-page="abilities">
         <div class="inputTypeTextContainer">
           <input type="text" class="specific_name" name="" id="abilityName" />
           <span class="placeholderInputText">Nome</span>
@@ -146,20 +149,28 @@
       </article>
     </section>
     <section id="alldex" class="media">
-      <div id="selection">
-        <h2 id="pokemonPage" class="active">Pokémon</h2>
-        <h2 id="movePage">Moves</h2>
-        <h2 id="dropPage">Drops</h2>
-        <h2 id="abilityPage">Abilities</h2>
-      </div>
-      <div id="generalSearchInput">
-        <input type="text" name="" id="pokeName" />
-        <span class="placeholderSearch">Nome</span>
-      </div>
       <article id="pokedex"></article>
-      <article id="movedex" class="inactive"></article>
-      <article id="dropdex" class="inactive"></article>
-      <article id="abilitydex" class="inactive"><ul></ul></article>
+      <article id="moves"></article>
+      <article id="drops"></article>
+      <article id="abilities"></article>
+      <div id="weaknesses" class="table-container">
+        <span class="top-table-title" id="weaknessTopTitle">Attack</span>
+        <span class="left-table-title" id="weaknessLeftTitle">Defense</span>
+        <table id="WeaknessTable">
+          <tr id="WeaknessFirstRow">
+            <th></th>
+          </tr>
+        </table>
+      </div>
+      <div id="natures" class="table-container">
+        <span class="top-table-title" id="natureTopTitle">uncreased</span>
+        <span class="left-table-title" id="natureLeftTitle">increased</span>
+        <table id="NatureTable">
+          <tr id="NatureFirstRow">
+            <th></th>
+          </tr>
+        </table>
+      </div>
     </section>
     <footer></footer>
   </body>

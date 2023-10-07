@@ -1,7 +1,7 @@
 import { db, get, orderByChild, query, ref } from "./database/firebase.js";
 import { RandomTypeColor, principalColor } from "./importantConsts.js";
+const ThisPage = new URL(window.location);
 let userLogin = parseInt(localStorage.getItem("activeUser")) || "";
-console.log(localStorage.getItem("activeUser"));
 const user = ref(db, "users/" + userLogin);
 let userImg = "img/general/logo.png";
 if (localStorage.getItem("principalColor")) {
@@ -9,11 +9,67 @@ if (localStorage.getItem("principalColor")) {
 }
 
 /* Array to create li */
-const NotUserPages = ["Log In", "Sign Up"];
-const NotUserLinks = ["login.html", "createaccount.html"];
-const ActiveUserPages = ["conta", "configurações", "sair"];
-const ActiveUserLinks = ["account.html", "configurations.html", "index.html"];
-const HeaderNavbarPages = ["index", "pokedex", "infos"];
+const NotUserLinks = [
+  {
+    text: "Log In",
+    href: "login.html",
+  },
+  {
+    text: "Sign Up",
+    href: "register.html",
+  },
+];
+const UserLinks = [
+  {
+    text: "Conta",
+    href: "account.html",
+  },
+  {
+    text: "Configurações",
+    href: "configurations.html",
+  },
+  {
+    text: "Sair",
+    href: "index.html",
+  },
+];
+const HeaderNavbarLinks = [
+  {
+    text: "Home",
+    href: "index.html",
+    treeOfLinks: "",
+  },
+  {
+    text: "Pokedex",
+    href: "",
+    treeOfLinks: [
+      {
+        text: "Pokedex",
+        href: "pokedex.html?page=pokedex",
+      },
+      {
+        text: "Moves",
+        href: "pokedex.html?page=moves",
+      },
+      {
+        text: "Abilities",
+        href: "pokedex.html?page=abilities",
+      },
+      {
+        text: "Drops",
+        href: "pokedex.html?page=drops",
+      },
+      {
+        text: "Weaknesses",
+        href: "pokedex.html?page=weaknesses",
+      },
+      {
+        text: "Natures",
+        href: "pokedex.html?page=natures",
+      },
+    ],
+  },
+];
 const FooterSocialPages = ["discord", "twitter", "youtube"];
 const FooterLinks = ["FAQ", "Sobre Nós", "Entre em Contato", "Não sei"];
 /* Header Create Items */
@@ -50,12 +106,12 @@ if (Header) {
     HeaderUserImg.onclick = () => {
       HeaderUserAccessPage.classList.toggle("active");
     };
-    for (let i = 0; i < ActiveUserPages.length; i++) {
+    for (let i = 0; i < UserLinks.length; i++) {
       let li = document.createElement("li");
       let aHref = document.createElement("a");
-      aHref.innerText = ActiveUserPages[i];
-      aHref.href = ActiveUserLinks[i];
-      if (ActiveUserLinks[i] == "index.html") {
+      aHref.innerText = UserLinks[i].text;
+      aHref.href = UserLinks[i].href;
+      if (UserLinks[i].href == "index.html") {
         li.onclick = () => {
           localStorage.removeItem("activeUser");
           localStorage.removeItem("UserId");
@@ -65,10 +121,10 @@ if (Header) {
       HeaderUserAccessPage.appendChild(li);
     }
   } else {
-    for (let i = 0; i < NotUserPages.length; i++) {
+    for (let i = 0; i < NotUserLinks.length; i++) {
       let NewHeaderLink = document.createElement("a");
-      NewHeaderLink.href = NotUserLinks[i];
-      NewHeaderLink.innerText = NotUserPages[i];
+      NewHeaderLink.href = NotUserLinks[i].href;
+      NewHeaderLink.innerText = NotUserLinks[i].text;
       NewHeaderLink.style.color = `rgba(var(--${RandomTypeColor}))`;
       HeaderUserContainer.appendChild(NewHeaderLink);
       HeaderUserContainer.style.columnGap = "10px";
@@ -101,21 +157,33 @@ if (Header) {
   });
   /* Create Header navbar */
   headerNavbar.innerHTML = "";
-  for (let i; i < HeaderNavbarPages.length; i++) {
-    console.log(HeaderNavbarPages);
-  }
-  HeaderNavbarPages.forEach((newLink) => {
-    let liNav = document.createElement("li");
-    let aHref = document.createElement("a");
-    headerNavbar.appendChild(liNav);
-    liNav.appendChild(aHref);
-    liNav.id = `header${newLink}`;
-    aHref.href = `${newLink}.html`;
-    aHref.innerText = newLink;
-    if (newLink == "index") {
-      aHref.innerText = "Home";
+  for (let i = 0; i < HeaderNavbarLinks.length; i++) {
+    let NavbarLi = document.createElement("li");
+    if (ThisPage.pathname == `/${HeaderNavbarLinks[i].href}`) {
+      NavbarLi.classList.add("active");
     }
-  });
+    if (HeaderNavbarLinks[i].treeOfLinks != "") {
+      let NavBarLiSpan = document.createElement("span");
+      NavBarLiSpan.innerText = HeaderNavbarLinks[i].text;
+      NavbarLi.appendChild(NavBarLiSpan);
+      NavbarLi.classList.add("nav-list");
+      let NavbarLiUl = document.createElement("ul");
+      NavbarLi.appendChild(NavbarLiUl);
+      for (let ii = 0; ii < HeaderNavbarLinks[i].treeOfLinks.length; ii++) {
+        let NavbarLiUlLink = document.createElement("a");
+        NavbarLiUlLink.innerText = HeaderNavbarLinks[i].treeOfLinks[ii].text;
+        NavbarLiUlLink.href = HeaderNavbarLinks[i].treeOfLinks[ii].href;
+        NavbarLiUl.appendChild(NavbarLiUlLink);
+      }
+    } else {
+      let NavbarLiLink = document.createElement("a");
+      NavbarLiLink.classList.add("navbar-link");
+      NavbarLiLink.href = HeaderNavbarLinks[i].href;
+      NavbarLiLink.innerText = HeaderNavbarLinks[i].text;
+      NavbarLi.appendChild(NavbarLiLink);
+    }
+    headerNavbar.appendChild(NavbarLi);
+  }
 }
 /* Create Footer */
 const footer = document.querySelector("footer");
@@ -160,15 +228,4 @@ if (footer) {
     aHref.href = "#";
   });
   footer.appendChild(ulFooterLinks);
-}
-
-/* Decorate Header by URL Location */
-const selectedPage = new URL(window.location);
-const headerIndex = document.querySelector("header nav #headerindex");
-const headerPokedex = document.querySelector("header nav #headerpokedex");
-if (selectedPage.pathname == "/index.html") {
-  headerIndex.classList.add("active");
-}
-if (selectedPage.pathname == "/pokedex.html") {
-  headerPokedex.classList.add("active");
 }

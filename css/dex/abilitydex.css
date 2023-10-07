@@ -1,11 +1,12 @@
-article#abilitydex {
+article#abilities {
+  display: none;
+  flex-flow: column;
+  gap: 5px;
   width: 100%;
   padding: 0 15px 0;
 }
-article#abilitydex ul {
+article#abilities.active {
   display: flex;
-  flex-flow: column;
-  gap: 5px;
 }
 li.abilityrow {
   display: flex;

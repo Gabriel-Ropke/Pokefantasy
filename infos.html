@@ -7,33 +7,33 @@
     <link rel="stylesheet" href="css/general/reset.css" />
     <link rel="stylesheet" href="css/general/footer.css" />
     <link rel="stylesheet" href="css/general/header.css" />
+    <link rel="stylesheet" href="css/general/onload.css" />
+    <script defer src="js/onload.js"></script>
     <script defer src="js/decoration.js" type="module"></script>
-    <script defer src="js/infos.js" type="module"></script>
+    <script defer src="js/pokedexTables.js" type="module"></script>
     <title>Informações Gerais</title>
   </head>
   <body>
     <header></header>
     <section>
-      <table id="WeaknessTable">
-        <tr>
-          <td class="tabletop">Attack</td>
-          <td class="tableleft">Defense</td>
-        </tr>
-
-        <tr id="WeaknessFirstRow">
-          <th></th>
-        </tr>
-      </table>
-      <table id="NatureTable">
-        <tr>
-          <td class="tabletop">Decreased</td>
-          <td class="tableleft">Increased</td>
-        </tr>
-
-        <tr id="NatureFirstRow">
-          <th></th>
-        </tr>
-      </table>
+      <div class="table-container">
+        <span class="top-table-title" id="weaknessTopTitle">Attack</span>
+        <span class="left-table-title" id="weaknessLeftTitle">Defense</span>
+        <table id="WeaknessTable">
+          <tr id="WeaknessFirstRow">
+            <th></th>
+          </tr>
+        </table>
+      </div>
+      <div class="table-container">
+        <span class="top-table-title" id="natureTopTitle">uncreased</span>
+        <span class="left-table-title" id="natureLeftTitle">increased</span>
+        <table id="NatureTable">
+          <tr id="NatureFirstRow">
+            <th></th>
+          </tr>
+        </table>
+      </div>
     </section>
 
     <footer></footer>

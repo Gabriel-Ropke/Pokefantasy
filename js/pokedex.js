@@ -1,18 +1,17 @@
-import { pokedex } from "./alldex.js";
+import { Pokedex } from "./alldex.js";
 import { allAbilities, allPokemon, allWeakness } from "./database/database.js";
 import {
-  createPokemon,
   switchTextAndColor,
   filtPokemon,
-  createAll,
   filterByName,
   createAlertMessage,
-} from "./functionFilter.js";
+} from "./functions/functionFilter.js";
+import { createPokemon, createAll } from "./functions/functionCreatePokedex.js";
 let PokedexIsShiny = false;
 /* Local Function */
 function resetPokemonFilter() {
-  pokedex.innerHTML = "";
-  createAll(allPokemon, createPokemon, pokedex, true);
+  Pokedex.innerHTML = "";
+  createAll(allPokemon, createPokemon, Pokedex, true);
   PokemonFilterStagesPlaceholder.innerText = "Estágio";
   PokemonFilterStagesPlaceholder.style = "";
   PokemonFilterTypesPlaceholder.innerText = "Tipos";
@@ -25,7 +24,8 @@ function resetPokemonFilter() {
   PokemonFilterStagesContainer.classList.add("closed");
 }
 /* Start Page */
-createAll(allPokemon, createPokemon, pokedex, true);
+if (Pokedex.classList.contains("active"))
+  createAll(allPokemon, createPokemon, Pokedex, true);
 /* Query Filter Pokedéx  */
 const PokemonFilterShinyIcon = document.querySelector("svg.pokemonShiny");
 const PokemonFilterResetButton = document.getElementById("pokeReset");
@@ -52,14 +52,14 @@ if (eval(localStorage.getItem("pokedexIsShiny")) == true) {
 }
 PokemonFilterShinyIcon.onclick = () => {
   PokemonFilterShinyIcon.classList.toggle("active");
-  pokedex.innerHTML = "";
+  Pokedex.innerHTML = "";
   if (PokedexIsShiny == true) {
     PokedexIsShiny = false;
   } else {
     PokedexIsShiny = true;
   }
   localStorage.setItem("pokedexIsShiny", PokedexIsShiny);
-  createAll(allPokemon, createPokemon, pokedex, true);
+  createAll(allPokemon, createPokemon, Pokedex, true);
 };
 function abilityLengthChecker(searchLength, abilities) {
   if (searchLength < 1) {
@@ -82,7 +82,7 @@ PokemonFilterNameInput.addEventListener("click", () => {
 });
 PokemonFilterNameInput.oninput = () => {
   filterByName(
-    pokedex,
+    Pokedex,
     PokemonFilterNameInput,
     allPokemon,
     createPokemon,
@@ -126,7 +126,7 @@ PokemonFilterAbilityInput.oninput = () => {
         PokemonFilterStagesPlaceholder,
         PokemonFilterTypesPlaceholder,
         liAbility,
-        pokedex,
+        Pokedex,
         true
       );
       PokemonFilterResetButton.classList.remove("disabled");
@@ -146,7 +146,7 @@ PokemonFilterAbilityInput.addEventListener("focusout", () => {
     PokemonFilterStagesPlaceholder,
     PokemonFilterTypesPlaceholder,
     PokemonFilterAbilityPlaceholder,
-    pokedex,
+    Pokedex,
     true
   );
 });
@@ -188,7 +188,7 @@ PokemonFilterAllStages.forEach((stages) => {
       stages,
       PokemonFilterTypesPlaceholder,
       PokemonFilterAbilityPlaceholder,
-      pokedex,
+      Pokedex,
       true
     );
     PokemonFilterStagesPlaceholder.style.background = "rgba(var(--grass))";
@@ -209,7 +209,7 @@ allTypes.forEach((types) => {
       PokemonFilterStagesPlaceholder,
       types,
       PokemonFilterAbilityPlaceholder,
-      pokedex,
+      Pokedex,
       true
     );
     PokemonFilterTypesPlaceholder.style.background = `rgba(var(--${types.innerText.toLowerCase()}))`;
